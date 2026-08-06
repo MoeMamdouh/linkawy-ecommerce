@@ -1,67 +1,190 @@
 import { Platform } from 'react-native';
 
+/**
+ * Primitive Color Palette
+ * Centralized raw color values extracted from Figma design system.
+ * Use these primitives to build or extend theme tokens.
+ */
 export const Palette = {
-  purple: '#6D28D9',
-  purpleLight: '#F5F3FF',
-  borderPurple: '#EDE5FA',
-  darkNavy: '#130F2A',
-  mutedText: '#6B6880',
-  placeholderText: '#999999',
-  screenBg: '#F8F8FA',
+  // Purples & Primaries
+  purple700: '#6D28D9',
+  purple600: '#7C3AED',
+  purple500: '#8B5CF6',
+  purple400: '#C4B5FD',
+  purple300: '#DDD6FE',
+  purple100: '#EDE9FE',
+  purple50: '#F5F3FF',
+  purpleDark: '#2D2650',
+  purpleDarker: '#4C1D95',
+  purpleBorderLight: 'rgba(109, 40, 217, 0.12)',
+  purpleBorderDark: 'rgba(139, 92, 246, 0.18)',
+
+  // Backgrounds & Surfaces
+  bgLight: '#F4F2FF',
+  bgDark: '#0F0D1C',
   surfaceLight: '#EDEDF5',
-  surfaceAlt: '#FBFBFF',
+  surfaceDark: '#252238',
+  surfaceAltLight: '#FBFBFF',
+  cardLight: '#FFFFFF',
+  cardDark: '#1C1930',
+
+  // Text & Foregrounds
+  textLight: '#130F2A',
+  textDark: '#F0EEFF',
+  mutedTextLight: '#6B6880',
+  mutedTextDark: '#9B97B2',
+  placeholderLight: '#999999',
+  placeholderDark: '#687076',
+
+  // Accents & Warnings
+  amber500: '#F59E0B',
+  amber900: '#1C1100',
+
+  // Status & Charts
+  red600: '#DC2626',
+  red500: '#EF4444',
+  green500: '#10B981',
+  blue500: '#3B82F6',
+  blue400: '#60A5FA',
+  pink500: '#EC4899',
+  pink400: '#F472B6',
+
+  // Neutrals
   white: '#FFFFFF',
-  danger: '#FB2C36',
-  favoriteInactive: '#99A1AF',
-  skeleton: '#E5E3E1',
+  black: '#000000',
+  favoriteInactiveLight: '#99A1AF',
+  skeletonLight: '#E5E3E1',
+  skeletonDark: '#252238',
 };
 
+/**
+ * Semantic Theme Colors Map (Light & Dark)
+ * Generalized theme tokens mapped directly from Figma for easy global editing.
+ */
 export const Colors = {
   light: {
-    text: Palette.darkNavy,
-    textSecondary: Palette.mutedText,
-    textMuted: Palette.placeholderText,
-    background: Palette.screenBg,
-    cardBackground: Palette.white,
-    cardAlt: Palette.surfaceAlt,
-    border: Palette.borderPurple,
-    tint: Palette.purple,
-    primary: Palette.purple,
-    primaryLight: Palette.purpleLight,
+    // Figma Base Tokens
+    background: Palette.bgLight,
+    foreground: Palette.textLight,
+    card: Palette.cardLight,
+    cardForeground: Palette.textLight,
+    popover: Palette.cardLight,
+    popoverForeground: Palette.textLight,
+    primary: Palette.purple700,
+    primaryForeground: Palette.white,
+    secondary: Palette.purple100,
+    secondaryForeground: Palette.purpleDarker,
+    muted: Palette.surfaceLight,
+    mutedForeground: Palette.mutedTextLight,
+    accent: Palette.amber500,
+    accentForeground: Palette.amber900,
+    destructive: Palette.red600,
+    destructiveForeground: Palette.white,
+    border: Palette.purpleBorderLight,
+    input: 'transparent',
     inputBackground: Palette.surfaceLight,
-    buttonBackground: Palette.surfaceLight,
-    icon: Palette.mutedText,
-    tabIconDefault: Palette.mutedText,
-    tabIconSelected: Palette.purple,
-    danger: Palette.danger,
-    favoriteActive: Palette.danger,
-    favoriteInactive: Palette.favoriteInactive,
-    skeleton: Palette.skeleton,
+    switchBackground: Palette.purple400,
+    ring: Palette.purple600,
+
+    // Charts
+    chart1: Palette.purple600,
+    chart2: Palette.amber500,
+    chart3: Palette.green500,
+    chart4: Palette.blue500,
+    chart5: Palette.pink500,
+
+    // Sidebar
+    sidebar: Palette.purple100,
+    sidebarForeground: Palette.textLight,
+    sidebarPrimary: Palette.purple700,
+    sidebarPrimaryForeground: Palette.white,
+    sidebarAccent: Palette.purple300,
+    sidebarAccentForeground: Palette.purpleDarker,
+    sidebarBorder: Palette.purpleBorderLight,
+    sidebarRing: Palette.purple600,
+
+    // App Navigation & Backward Compatibility Shortcuts
+    text: Palette.textLight,
+    textSecondary: Palette.mutedTextLight,
+    textMuted: Palette.placeholderLight,
+    cardBackground: Palette.cardLight,
+    cardAlt: Palette.surfaceAltLight,
+    tint: Palette.purple700,
+    primaryLight: Palette.purple100,
+    buttonBackground: Palette.purple100,
+    icon: Palette.mutedTextLight,
+    tabIconDefault: Palette.mutedTextLight,
+    tabIconSelected: Palette.purple700,
+    danger: Palette.red600,
+    favoriteActive: Palette.red600,
+    favoriteInactive: Palette.favoriteInactiveLight,
+    skeleton: Palette.skeletonLight,
     white: Palette.white,
   },
   dark: {
-    text: '#ECEDEE',
-    textSecondary: '#9BA1A6',
-    textMuted: '#687076',
-    background: '#151718',
-    cardBackground: '#1E2022',
-    cardAlt: '#25282A',
-    border: '#2E3235',
-    tint: Palette.purple,
-    primary: Palette.purple,
-    primaryLight: '#2E1A47',
-    inputBackground: '#2E3235',
-    buttonBackground: '#2E3235',
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: Palette.purple,
-    danger: Palette.danger,
-    favoriteActive: Palette.danger,
-    favoriteInactive: '#687076',
-    skeleton: '#2E3235',
+    // Figma Base Tokens
+    background: Palette.bgDark,
+    foreground: Palette.textDark,
+    card: Palette.cardDark,
+    cardForeground: Palette.textDark,
+    popover: Palette.cardDark,
+    popoverForeground: Palette.textDark,
+    primary: Palette.purple500,
+    primaryForeground: Palette.white,
+    secondary: Palette.purpleDark,
+    secondaryForeground: Palette.purple400,
+    muted: Palette.surfaceDark,
+    mutedForeground: Palette.mutedTextDark,
+    accent: Palette.amber500,
+    accentForeground: Palette.amber900,
+    destructive: Palette.red500,
+    destructiveForeground: Palette.white,
+    border: Palette.purpleBorderDark,
+    input: Palette.surfaceDark,
+    inputBackground: Palette.surfaceDark,
+    switchBackground: Palette.purpleDarker,
+    ring: Palette.purple500,
+
+    // Charts
+    chart1: Palette.purple500,
+    chart2: Palette.amber500,
+    chart3: Palette.green500,
+    chart4: Palette.blue400,
+    chart5: Palette.pink400,
+
+    // Sidebar
+    sidebar: Palette.cardDark,
+    sidebarForeground: Palette.textDark,
+    sidebarPrimary: Palette.purple500,
+    sidebarPrimaryForeground: Palette.white,
+    sidebarAccent: Palette.purpleDark,
+    sidebarAccentForeground: Palette.purple400,
+    sidebarBorder: Palette.purpleBorderDark,
+    sidebarRing: Palette.purple500,
+
+    // App Navigation & Backward Compatibility Shortcuts
+    text: Palette.textDark,
+    textSecondary: Palette.mutedTextDark,
+    textMuted: Palette.placeholderDark,
+    cardBackground: Palette.cardDark,
+    cardAlt: Palette.cardDark,
+    tint: Palette.purple500,
+    primaryLight: Palette.purpleDark,
+    buttonBackground: Palette.purpleDark,
+    icon: Palette.mutedTextDark,
+    tabIconDefault: Palette.mutedTextDark,
+    tabIconSelected: Palette.purple500,
+    danger: Palette.red500,
+    favoriteActive: Palette.red500,
+    favoriteInactive: Palette.placeholderDark,
+    skeleton: Palette.skeletonDark,
     white: Palette.white,
   },
 };
+
+export type ThemeMode = keyof typeof Colors;
+export type ThemeColors = typeof Colors.light;
+export type ColorToken = keyof ThemeColors;
 
 export const FontFamily = {
   regular: 'Outfit_400Regular',
@@ -91,3 +214,4 @@ export const Fonts = Platform.select({
     mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
   },
 });
+
