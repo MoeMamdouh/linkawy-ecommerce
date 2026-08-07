@@ -3,16 +3,25 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@app/*": ["./app/*"],
-      "@shared/*": ["./src/shared/*"],
-      "@features/*": ["./src/features/*"],
-      "@assets/*": ["./assets/*"],
+      "@app/*": [
+        "./app/*"
+      ],
+      "@shared/*": [
+        "./src/shared/*"
+      ],
+      "@features/*": [
+        "./src/features/*"
+      ],
+      "@assets/*": [
+        "./assets/*"
+      ]
     }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "expo-env.d.ts",
+    "nativewind-env.d.ts"
   ]
 }
