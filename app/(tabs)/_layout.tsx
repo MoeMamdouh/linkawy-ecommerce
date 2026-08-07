@@ -1,54 +1,70 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
+import { Home, ShoppingBag, ShoppingCart, Heart, User } from 'lucide-react-native';
 
 import { HapticTab } from '@shared/components/haptic-tab';
-import { IconSymbol } from '@shared/components/ui/icon-symbol';
-import { Colors } from '@shared/constants/theme';
+import { Colors, FontFamily } from '@shared/constants/theme';
 import { useColorScheme } from '@shared/hooks/use-color-scheme';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const activeColor = Colors[colorScheme ?? 'light'].tabIconSelected;
+  const inactiveColor = Colors[colorScheme ?? 'light'].tabIconDefault;
 
   return (
     <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+      screenOptions={({ route }) => ({
         headerShown: false,
+        tabBarActiveTintColor: activeColor,
+        tabBarInactiveTintColor: inactiveColor,
         tabBarButton: HapticTab,
-      }}>
+        tabBarLabelStyle: {
+          fontFamily: FontFamily.medium,
+          fontSize: 10,
+        },
+        tabBarIcon: ({ color, size }) => {
+          if (route.name === 'index') {
+            return <Home color={color} size={size} />;
+          } else if (route.name === 'shop') {
+            return <ShoppingBag color={color} size={size} />;
+          } else if (route.name === 'cart') {
+            return <ShoppingCart color={color} size={size} />;
+          } else if (route.name === 'wishlist') {
+            return <Heart color={color} size={size} />;
+          } else if (route.name === 'profile') {
+            return <User color={color} size={size} />;
+          }
+          return null;
+        },
+      })}>
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
       <Tabs.Screen
         name="shop"
         options={{
           title: 'Shop',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
-       <Tabs.Screen
+      <Tabs.Screen
         name="cart"
         options={{
           title: 'Cart',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
-       <Tabs.Screen
+      <Tabs.Screen
         name="wishlist"
         options={{
           title: 'Wishlist',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
-       <Tabs.Screen
+      <Tabs.Screen
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
     </Tabs>
