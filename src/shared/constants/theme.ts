@@ -41,8 +41,10 @@ export const Palette = {
   amber900: '#1C1100',
 
   // Status & Charts
+  red50: '#FEF2F2',
   red600: '#DC2626',
   red500: '#EF4444',
+  red900trans20: 'rgba(220, 38, 38, 0.2)',
   green500: '#10B981',
   blue500: '#3B82F6',
   blue400: '#60A5FA',
@@ -79,6 +81,7 @@ export const Colors = {
     accent: Palette.amber500,
     accentForeground: Palette.amber900,
     destructive: Palette.red600,
+    destructiveBackground: Palette.red50,
     destructiveForeground: Palette.white,
     border: Palette.purpleBorderLight,
     input: 'transparent',
@@ -138,6 +141,7 @@ export const Colors = {
     accent: Palette.amber500,
     accentForeground: Palette.amber900,
     destructive: Palette.red500,
+    destructiveBackground: Palette.red900trans20,
     destructiveForeground: Palette.white,
     border: Palette.purpleBorderDark,
     input: Palette.surfaceDark,
