@@ -18,7 +18,7 @@ const buttonVariants = cva(
         link: "bg-transparent border border-transparent",
       },
       size: {
-        default: "h-12 px-5 py-2.5 gap-2",
+        default: "h-12 w-full px-5 py-2.5 gap-2",
         sm: "h-9 rounded-md px-3 gap-1.5",
         lg: "h-14 rounded-lg px-7 gap-3",
         icon: "h-12 w-12 rounded-lg p-0 items-center justify-center",
