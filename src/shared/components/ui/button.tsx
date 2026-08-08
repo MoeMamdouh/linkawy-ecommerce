@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Pressable, Text, View, type PressableProps } from "react-native";
+import { Pressable, Text, View, type PressableProps, type StyleProp, type TextStyle } from "react-native";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@shared/utils/cn";
 import { useColorScheme } from '@shared/hooks/use-color-scheme';
@@ -20,7 +20,7 @@ const buttonVariants = cva(
       size: {
         default: "h-12 w-full px-5 py-2.5 gap-2",
         sm: "h-9 rounded-md px-3 gap-1.5",
-        lg: "h-14 rounded-lg px-7 gap-3",
+        lg: "h-14 rounded-2xl px-7 gap-3",
         icon: "h-12 w-12 rounded-lg p-0 items-center justify-center",
       },
     },
@@ -42,9 +42,10 @@ const buttonTextVariants = cva("font-bold text-center ", {
 
 export interface ButtonProps
   extends PressableProps,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   className?: string;
   textClassName?: string;
+  textStyle?: StyleProp<TextStyle>;
   children?: React.ReactNode;
 }
 
@@ -83,9 +84,11 @@ function getTextColor(variant: ButtonProps["variant"], colors: typeof Colors["li
 }
 
 const Button = React.forwardRef<View, ButtonProps>(
-  ({ className, textClassName, variant, size, children, disabled, style, ...props }, ref) => {
+  ({ className, textClassName, textStyle, variant, size, children, disabled, style, ...props }, ref) => {
     const colorScheme = useColorScheme() ?? "light";
     const colors = Colors[colorScheme];
+
+    const userStyle = typeof style === 'function' ? style({ pressed: false } as any) : style;
 
     return (
       <Pressable
@@ -96,13 +99,13 @@ const Button = React.forwardRef<View, ButtonProps>(
           disabled && "opacity-50 pointer-events-none",
           className
         )}
-        style={[getVariantStyle(variant, colors), style]}
+        style={[getVariantStyle(variant, colors), userStyle]}
         {...props}
       >
         {typeof children === "string" ? (
           <Text
             className={cn(buttonTextVariants({ size }), textClassName)}
-            style={{ color: getTextColor(variant, colors) }}
+            style={[{ color: getTextColor(variant, colors) }, textStyle]}
           >
             {children}
           </Text>

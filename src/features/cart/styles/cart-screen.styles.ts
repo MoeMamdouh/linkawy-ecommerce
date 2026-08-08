@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
   scrollContent: {
     paddingHorizontal: 20,
     paddingTop: 8,
-    paddingBottom: 32,
+    paddingBottom: 24,
   },
   emptyContainer: {
     flex: 1,
@@ -103,6 +103,79 @@ export const styles = StyleSheet.create({
     minWidth: 20,
     textAlign: 'center',
   },
+  // Promo Code Section Styles
+  promoContainer: {
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  promoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  promoInputWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 16,
+    borderWidth: 1,
+    paddingHorizontal: 14,
+    height: 48,
+  },
+  promoTagIcon: {
+    marginRight: 8,
+  },
+  promoTextInput: {
+    flex: 1,
+    fontSize: FontSize.sm,
+    fontFamily: FontFamily.medium,
+    paddingVertical: 0,
+  },
+  applyBtn: {
+    width: 100,
+    height: 48,
+    borderRadius: 16,
+  },
+  appliedPromoBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderRadius: 16,
+    borderWidth: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  appliedPromoContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  promoIconCircle: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  appliedPromoCode: {
+    fontSize: FontSize.sm,
+    fontFamily: FontFamily.bold,
+  },
+  appliedPromoDiscount: {
+    fontSize: FontSize.xs,
+    fontFamily: FontFamily.medium,
+    marginTop: 2,
+  },
+  removePromoButton: {
+    padding: 6,
+  },
+  promoErrorText: {
+    fontSize: FontSize.xs,
+    fontFamily: FontFamily.medium,
+    marginTop: 6,
+    marginLeft: 14,
+  },
+  // Summary Card Styles
   summaryCard: {
     borderRadius: 24,
     padding: 20,
@@ -143,5 +216,10 @@ export const styles = StyleSheet.create({
   totalValue: {
     fontSize: FontSize.xl,
     fontFamily: FontFamily.black,
+  },
+  // Checkout Container Styles
+  checkoutContainer: {
+    marginTop: 16,
+    marginBottom: 16,
   },
 });
