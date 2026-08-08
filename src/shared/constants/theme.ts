@@ -84,7 +84,7 @@ export const Colors = {
     destructiveBackground: Palette.red50,
     destructiveForeground: Palette.white,
     border: Palette.purpleBorderLight,
-    input: 'transparent',
+    input: Palette.surfaceLight,
     inputBackground: Palette.surfaceLight,
     switchBackground: Palette.purple400,
     ring: Palette.purple600,
