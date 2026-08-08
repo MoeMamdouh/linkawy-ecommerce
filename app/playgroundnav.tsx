@@ -1,4 +1,5 @@
-import ButtonsScreen from "@features/playground/buttons";
+import ButtonsScreen from "@features/playground/screens/buttons";
+import InputFieldsScreen from "@features/playground/screens/inputFields";
 import { useLocalSearchParams } from "expo-router";
 
 export default function PlaygroundNav() {
@@ -7,7 +8,9 @@ export default function PlaygroundNav() {
 
   switch (resolvedType) {
     case "buttons":
-      return <ButtonsScreen/>;
+      return <ButtonsScreen />;
+    case "inputFields":
+      return <InputFieldsScreen />;
     default:
       return null;
   }
