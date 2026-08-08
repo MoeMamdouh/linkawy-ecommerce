@@ -18,6 +18,17 @@ export default function Playground() {
       >
         Buttons
       </Button>
+      <Button
+        variant="default"
+        onPress={() =>
+          router.push({
+            pathname: "/playgroundnav",
+            params: { type: "inputFields" },
+          })
+        }
+      >
+        Input Fields
+      </Button>
     </View>
   );
 }
