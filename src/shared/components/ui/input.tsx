@@ -75,7 +75,7 @@ const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
 
         <View
           className={cn(
-            "flex-row items-center rounded-2xl px-4 py-3.5 gap-3 border",
+            "flex-row items-center rounded-2xl px-4 py-2 gap-3",
             className
           )}
           style={{
