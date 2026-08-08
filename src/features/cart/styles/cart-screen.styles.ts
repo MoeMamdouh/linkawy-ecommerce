@@ -110,7 +110,7 @@ export const styles = StyleSheet.create({
   },
   promoRow: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: 12,
   },
   promoInputWrapper: {
@@ -133,7 +133,7 @@ export const styles = StyleSheet.create({
   },
   applyBtn: {
     width: 100,
-    height: 48,
+    height: 44,
     borderRadius: 16,
   },
   appliedPromoBox: {

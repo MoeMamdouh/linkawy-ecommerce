@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, TextInput, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { Tag, Check, X } from 'lucide-react-native';
 import { Colors, Palette, FontFamily, FontSize } from '@shared/constants/theme';
 import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import { Button } from '@shared/components/ui/button';
+import { Input } from '@shared/components/ui/input';
 import { AppliedPromo } from '../hooks/useCart';
 import { styles } from '../styles/cart-screen.styles';
 
@@ -58,37 +59,22 @@ export function CartPromoInput({
         </View>
       ) : (
         <View>
-          {/* Separated Input Field and Apply Button side-by-side */}
           <View style={styles.promoRow}>
-            <View
-              style={[
-                styles.promoInputWrapper,
-                {
-                  backgroundColor: colors.card,
-                  borderColor: promoError ? Palette.red500 : colors.border,
-                },
-              ]}
-            >
-              <Tag size={18} color={colors.mutedForeground} style={styles.promoTagIcon} />
-              <TextInput
-                style={[
-                  styles.promoTextInput,
-                  {
-                    color: colors.foreground,
-                    fontFamily: FontFamily.regular,
-                    fontSize: FontSize.sm,
-                  },
-                ]}
+            <View style={{ flex: 1 }}>
+              <Input
                 placeholder="Promo code"
-                placeholderTextColor={colors.mutedForeground}
+                leftIcon={<Tag size={18} />}
                 value={promoCode}
+                className="h-[44px] py-0"
                 onChangeText={setPromoCode}
                 autoCapitalize="characters"
                 autoCorrect={false}
+                error={promoError || undefined}
               />
             </View>
             <Button
               variant="default"
+              className="py-0"
               textStyle={{
                 fontFamily: FontFamily.bold,
                 fontSize: FontSize.sm,
@@ -99,9 +85,6 @@ export function CartPromoInput({
               Apply
             </Button>
           </View>
-          {promoError ? (
-            <Text style={[styles.promoErrorText, { color: Palette.red500 }]}>{promoError}</Text>
-          ) : null}
         </View>
       )}
     </View>
