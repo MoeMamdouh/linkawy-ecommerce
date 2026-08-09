@@ -3,7 +3,7 @@ import { apolloClient } from '@shared/graphql/client';
 import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { ChevronLeft, Heart, Star } from 'lucide-react-native';
+import { ChevronLeft, Heart } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -20,22 +20,6 @@ import { GET_PRODUCT_DETAILS_QUERY } from '../graphql/productDetailsQueries';
 import { createProductDetailsStyles } from '../styles/productDetails.styles';
 import { ProductDetails } from '../types/productDetails.types';
 
-// Default mock values matching the design exactly if GraphQL data is loading/partial
-const DEFAULT_PRODUCT: ProductDetails = {
-  id: 'default-air-jordan',
-  title: 'Air Jordan 1 Retro High',
-  category: 'Fashion',
-  price: 149,
-  compareAtPrice: 199,
-  discount: 25,
-  image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop',
-  rating: 4.8,
-  reviewCount: 234,
-  description:
-    'The iconic Air Jordan 1 Retro High brings heritage style to modern comfort. Premium leather upper with Air cushioning for all-day support.',
-  sizes: ['XS', 'S', 'M', 'L', 'XL'],
-  colors: ['Black', 'White', 'Navy', 'Gray'],
-};
 
 export default function ProductDetailsScreen() {
   const router = useRouter();
@@ -44,9 +28,9 @@ export default function ProductDetailsScreen() {
   const styles = createProductDetailsStyles(theme);
   const colors = Colors[theme];
 
-  const [product, setProduct] = useState<ProductDetails>(DEFAULT_PRODUCT);
-  const [selectedSize, setSelectedSize] = useState<string>('M');
-  const [selectedColor, setSelectedColor] = useState<string>('Navy');
+  const [product, setProduct] = useState<ProductDetails | null>(null);
+  const [selectedSize, setSelectedSize] = useState<string>('');
+  const [selectedColor, setSelectedColor] = useState<string>('');
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   useEffect(() => {
@@ -63,7 +47,7 @@ export default function ProductDetailsScreen() {
 
         const node = res.data?.product;
         if (node) {
-          const price = parseFloat(node.priceRange?.minVariantPrice?.amount || '149');
+          const price = parseFloat(node.priceRange?.minVariantPrice?.amount || '0');
           const compareAt = node.compareAtPriceRange?.maxVariantPrice?.amount
             ? parseFloat(node.compareAtPriceRange.maxVariantPrice.amount)
             : undefined;
@@ -71,22 +55,8 @@ export default function ProductDetailsScreen() {
           const calculatedDiscount =
             compareAt && compareAt > price
               ? Math.round(((compareAt - price) / compareAt) * 100)
-              : 25;
+              : undefined;
 
-          // setProduct({
-          //   id: node.id,
-          //   title: node.title || DEFAULT_PRODUCT.title,
-          //   category: node.productType || DEFAULT_PRODUCT.category,
-          //   price: price > 0 ? price : DEFAULT_PRODUCT.price,
-          //   compareAtPrice: compareAt && compareAt > 0 ? compareAt : DEFAULT_PRODUCT.compareAtPrice,
-          //   discount: calculatedDiscount,
-          //   image: node.featuredImage?.url || DEFAULT_PRODUCT.image,
-          //   rating: DEFAULT_PRODUCT.rating,
-          //   reviewCount: DEFAULT_PRODUCT.reviewCount,
-          //   description: node.description || DEFAULT_PRODUCT.description,
-          //   sizes: DEFAULT_PRODUCT.sizes,
-          //   colors: DEFAULT_PRODUCT.colors,
-          // });
           const sizeOption = node.options?.find((opt: any) => opt.name.toLowerCase() === 'size');
           const colorOption = node.options?.find((opt: any) => opt.name.toLowerCase() === 'color');
 
@@ -96,21 +66,21 @@ export default function ProductDetailsScreen() {
           setProduct({
             id: node.id,
             title: node.title || 'Untitled',
-            category: node.productType || 'general',
+            category: node.productType || undefined,
             price: price,
             compareAtPrice: compareAt && compareAt > price ? compareAt : undefined,
-            discount: calculatedDiscount > 0 ? calculatedDiscount : 0,
+            discount: calculatedDiscount,
             image: node.featuredImage?.url || '',
-            rating: 0,
-            reviewCount: 0,
-            description: node.description || 'There is no product description.'
-            ,
+            description: node.description || undefined,
             sizes: availableSizes,
             colors: availableColors,
           });
+
+          if (availableSizes.length > 0) setSelectedSize(availableSizes[0]);
+          if (availableColors.length > 0) setSelectedColor(availableColors[0]);
         }
       } catch (err) {
-        console.warn('Failed to load GraphQL product details, using default:', err);
+        console.warn('Failed to load GraphQL product details:', err);
       } finally {
         setIsLoading(false);
       }
@@ -119,23 +89,9 @@ export default function ProductDetailsScreen() {
     fetchDetails();
   }, [params?.id]);
 
-  const renderStars = () => {
-    const fullStars = Math.floor(product.rating);
-    const stars = [];
-    for (let i = 0; i < 5; i++) {
-      stars.push(
-        <Star
-          key={i}
-          size={16}
-          color={i < fullStars ? Palette.amber500 : colors.mutedForeground}
-          fill={i < fullStars ? Palette.amber500 : 'none'}
-        />
-      );
-    }
-    return stars;
-  };
 
-  if (isLoading) {
+
+  if (isLoading || !product) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={colors.primary} />
@@ -178,7 +134,7 @@ export default function ProductDetailsScreen() {
             >
               <Heart
                 size={20}
-                color={colors.destructive}
+                color={isFavorite ? colors.destructive : colors.mutedForeground}
                 fill={isFavorite ? colors.destructive : 'none'}
               />
             </TouchableOpacity>
@@ -195,17 +151,14 @@ export default function ProductDetailsScreen() {
         {/* Product Info Section */}
         <View style={styles.contentContainer}>
           {/* Category */}
-          <Text style={styles.categoryText}>{product.category}</Text>
+          {product.category ? (
+            <Text style={styles.categoryText}>{product.category}</Text>
+          ) : null}
 
           {/* Title */}
           <Text style={styles.titleText}>{product.title}</Text>
 
-          {/* Rating */}
-          <View style={styles.ratingRow}>
-            <View style={styles.starsGroup}>{renderStars()}</View>
-            <Text style={styles.ratingNumber}>{product.rating}</Text>
-            <Text style={styles.reviewCountText}>({product.reviewCount} reviews)</Text>
-          </View>
+
 
           {/* Price */}
           <View style={styles.priceRow}>
@@ -216,22 +169,30 @@ export default function ProductDetailsScreen() {
           </View>
 
           {/* Size Selector */}
-          <SizeSelector
-            sizes={product.sizes}
-            selectedSize={selectedSize}
-            onSelectSize={setSelectedSize}
-          />
+          {product.sizes && product.sizes.length > 0 ? (
+            <SizeSelector
+              sizes={product.sizes}
+              selectedSize={selectedSize}
+              onSelectSize={setSelectedSize}
+            />
+          ) : null}
 
           {/* Color Selector */}
-          <ColorSelector
-            colors={product.colors}
-            selectedColor={selectedColor}
-            onSelectColor={setSelectedColor}
-          />
+          {product.colors && product.colors.length > 0 ? (
+            <ColorSelector
+              colors={product.colors}
+              selectedColor={selectedColor}
+              onSelectColor={setSelectedColor}
+            />
+          ) : null}
 
           {/* Description */}
-          <Text style={styles.sectionTitle}>Description</Text>
-          <Text style={styles.descriptionText}>{product.description}</Text>
+          {product.description ? (
+            <>
+              <Text style={styles.sectionTitle}>Description</Text>
+              <Text style={styles.descriptionText}>{product.description}</Text>
+            </>
+          ) : null}
 
           {/* Write a Review Button */}
           <TouchableOpacity style={styles.reviewButton} activeOpacity={0.8}>

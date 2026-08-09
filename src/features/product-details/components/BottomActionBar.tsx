@@ -20,7 +20,7 @@ export const BottomActionBar: React.FC<BottomActionBarProps> = ({
     <View style={styles.bottomBarContainer}>
       {/* Wishlist Heart Button */}
       <TouchableOpacity
-        style={styles.wishlistButton}
+        style={[styles.wishlistButton, { borderColor: isFavorite ? colors.destructive : colors.border }]}
         onPress={onToggleFavorite}
         activeOpacity={0.8}
       >

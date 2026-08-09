@@ -238,7 +238,6 @@ export const createProductDetailsStyles = (theme: keyof typeof Colors) => {
       height: 52,
       borderRadius: 16,
       borderWidth: 1.5,
-      borderColor: colors.destructive,
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: colors.card,

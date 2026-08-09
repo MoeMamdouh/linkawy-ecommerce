@@ -5,16 +5,14 @@
 export interface ProductDetails {
   id: string;
   title: string;
-  description: string;
-  category: string;
+  description?: string;
+  category?: string;
   price: number;
   compareAtPrice?: number;
   discount?: number;
   image: string;
-  rating: number;
-  reviewCount: number;
-  sizes: string[];
-  colors: string[];
+  sizes?: string[];
+  colors?: string[];
 }
 
 export interface SizeSelectorProps {

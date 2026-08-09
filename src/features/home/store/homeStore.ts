@@ -10,7 +10,6 @@ import { Category, HomeActions, HomeState, Product } from '../types/home.types';
 
 type HomeStore = HomeState & HomeActions;
 
-// Map Shopify product edges to Product type
 const mapShopifyProduct = (edge: any, index: number): Product => {
   const node = edge?.node || {};
   const price = parseFloat(node.priceRange?.minVariantPrice?.amount || '0');
@@ -30,8 +29,6 @@ const mapShopifyProduct = (edge: any, index: number): Product => {
     compareAtPrice: compareAt,
     image: node.featuredImage?.url || '',
     category: node.productType || 'General',
-    rating: parseFloat((4.0 + (index % 10) * 0.1).toFixed(1)),
-    reviewCount: 50 + index * 17,
     discount,
   };
 };

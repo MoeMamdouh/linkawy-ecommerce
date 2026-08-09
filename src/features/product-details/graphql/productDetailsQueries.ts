@@ -27,6 +27,10 @@ export const GET_PRODUCT_DETAILS_QUERY = gql`
           currencyCode
         }
       }
+      options {
+        name
+        values
+      }
     }
   }
 `;
