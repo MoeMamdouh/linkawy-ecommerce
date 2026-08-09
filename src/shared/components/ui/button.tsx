@@ -28,7 +28,7 @@ const buttonVariants = cva(
   }
 );
 
-const buttonTextVariants = cva("font-bold text-center ", {
+const buttonTextVariants = cva("text-center ", {
   variants: {
     size: {
       default: "text-base",
