@@ -24,13 +24,6 @@ export const createHeaderStyles = (theme: keyof typeof Colors) => {
       alignItems: 'center',
       gap: 12,
     },
-    avatar: {
-      width: 44,
-      height: 44,
-      borderRadius: 22,
-      borderWidth: 2,
-      borderColor: colors.primary,
-    },
     greetingContainer: {
       gap: 1,
     },
@@ -42,7 +35,7 @@ export const createHeaderStyles = (theme: keyof typeof Colors) => {
       letterSpacing: 0.5,
     },
     nameText: {
-      fontFamily: FontFamily.bold,
+      fontFamily: FontFamily.black,
       fontSize: 18,
       color: colors.foreground,
     },
