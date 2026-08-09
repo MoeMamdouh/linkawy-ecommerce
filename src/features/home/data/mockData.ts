@@ -1,0 +1,157 @@
+// import { BannerSlide, Category, Product } from '../types/home.types';
+
+// export const mockBannerSlides: BannerSlide[] = [
+//   {
+//     id: '1',
+//     tag: 'LIMITED OFFER',
+//     title: 'Beauty Essentials',
+//     subtitle: 'Premium brands',
+//     image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&h=300&fit=crop',
+//     backgroundColor: '#F3E8FF',
+//   },
+//   {
+//     id: '2',
+//     tag: 'NEW SEASON',      
+//     title: 'Summer Collection',
+//     subtitle: 'Up to 40% off',
+//     image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop',
+//     backgroundColor: '#DBEAFE',
+//   },
+//   {
+//     id: '3',
+//     tag: 'TRENDING NOW',
+//     title: 'Tech Gadgets',
+//     subtitle: 'Latest releases',
+//     image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop',
+//     backgroundColor: '#D1FAE5',
+//   },
+// ];
+
+// export const mockCategories: Category[] = [
+//   { id: '1', name: 'Fashion', icon: 'Shirt' },
+//   { id: '2', name: 'Electronics', icon: 'Smartphone' },
+//   { id: '3', name: 'Beauty', icon: 'Sparkles' },
+//   { id: '4', name: 'Home', icon: 'Sofa' },
+//   { id: '5', name: 'Sports', icon: 'Dumbbell' },
+// ];
+
+// export const mockFlashSaleProducts: Product[] = [
+//   {
+//     id: 'fs-1',
+//     title: 'Air Jordan 1 Retro',
+//     price: 149,
+//     compareAtPrice: 249,
+//     image: 'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=300&h=300&fit=crop',
+//     category: 'Fashion',
+//     rating: 4.8,
+//     reviewCount: 224,
+//     discount: 25,
+//   },
+//   {
+//     id: 'fs-2',
+//     title: 'Luxury Face Cream',
+//     price: 89,
+//     compareAtPrice: 120,
+//     image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=300&h=300&fit=crop',
+//     category: 'Beauty',
+//     rating: 4.6,
+//     reviewCount: 180,
+//     discount: 15,
+//   },
+//   {
+//     id: 'fs-3',
+//     title: 'Pro Running Shoes',
+//     price: 129,
+//     compareAtPrice: 179,
+//     image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop',
+//     category: 'Sports',
+//     rating: 4.7,
+//     reviewCount: 312,
+//     discount: 20,
+//   },
+// ];
+
+// export const mockFeaturedProducts: Product[] = [
+//   {
+//     id: 'fp-1',
+//     title: 'Air Jordan 1 Retro High',
+//     price: 149,
+//     compareAtPrice: 249,
+//     image: 'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=300&h=300&fit=crop',
+//     category: 'Fashion',
+//     rating: 4.8,
+//     reviewCount: 224,
+//     discount: 25,
+//   },
+//   {
+//     id: 'fp-2',
+//     title: 'Premium Smart Watch',
+//     price: 299,
+//     image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=300&fit=crop',
+//     category: 'Electronics',
+//     rating: 4.5,
+//     reviewCount: 156,
+//   },
+//   {
+//     id: 'fp-3',
+//     title: 'Luxury Face Cream',
+//     price: 89,
+//     compareAtPrice: 120,
+//     image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=300&h=300&fit=crop',
+//     category: 'Beauty',
+//     rating: 4.6,
+//     reviewCount: 180,
+//     discount: 25,
+//   },
+//   {
+//     id: 'fp-4',
+//     title: 'Modern Velvet Sofa',
+//     price: 1299,
+//     image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&h=300&fit=crop',
+//     category: 'Home',
+//     rating: 4.9,
+//     reviewCount: 89,
+//   },
+// ];
+
+// export const mockNewArrivals: Product[] = [
+//   {
+//     id: 'na-1',
+//     title: 'Pro Running Shoes',
+//     price: 129,
+//     compareAtPrice: 179,
+//     image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop',
+//     category: 'Sports',
+//     rating: 4.7,
+//     reviewCount: 312,
+//     discount: 15,
+//   },
+//   {
+//     id: 'na-2',
+//     title: 'Noise-Cancelling Headphones',
+//     price: 249,
+//     image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop',
+//     category: 'Electronics',
+//     rating: 4.8,
+//     reviewCount: 420,
+//   },
+//   {
+//     id: 'na-3',
+//     title: 'Floral Summer Dress',
+//     price: 79,
+//     compareAtPrice: 130,
+//     image: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=300&h=300&fit=crop',
+//     category: 'Fashion',
+//     rating: 4.4,
+//     reviewCount: 98,
+//   },
+//   {
+//     id: 'na-4',
+//     title: 'Yoga Mat Premium',
+//     price: 59,
+//     image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=300&h=300&fit=crop',
+//     category: 'Sports',
+//     rating: 4.6,
+//     reviewCount: 145,
+//   },
+// ];
