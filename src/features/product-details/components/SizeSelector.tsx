@@ -1,10 +1,7 @@
-// ──────────────────────────────────────────────
-// SizeSelector Component
-// ──────────────────────────────────────────────
 
+import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import { createProductDetailsStyles } from '../styles/productDetails.styles';
 import { SizeSelectorProps } from '../types/productDetails.types';
 

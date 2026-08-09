@@ -1,9 +1,5 @@
-// ──────────────────────────────────────────────
-// Product Details Feature — Styles
-// ──────────────────────────────────────────────
-
-import { StyleSheet, Dimensions } from 'react-native';
 import { Colors, FontFamily, FontSize, Palette } from '@shared/constants/theme';
+import { Dimensions, StyleSheet } from 'react-native';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const IMAGE_HEIGHT = SCREEN_WIDTH * 0.95;

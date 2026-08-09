@@ -1,7 +1,3 @@
-// ──────────────────────────────────────────────
-// Product Details Feature — Main Screen
-// ──────────────────────────────────────────────
-
 import { Colors, Palette } from '@shared/constants/theme';
 import { apolloClient } from '@shared/graphql/client';
 import { useColorScheme } from '@shared/hooks/use-color-scheme';
@@ -53,58 +49,8 @@ export default function ProductDetailsScreen() {
   const [selectedColor, setSelectedColor] = useState<string>('Navy');
   const [isFavorite, setIsFavorite] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //   if (!params?.id) return;
-
-  //   const fetchDetails = async () => {
-  //     setIsLoading(true);
-  //     try {
-  //       const res = await apolloClient.query<any>({
-  //         query: GET_PRODUCT_DETAILS_QUERY,
-  //         variables: { id: params.id },
-  //       });
-
-  //       const node = res.data?.product;
-  //       if (node) {
-  //         const price = parseFloat(node.priceRange?.minVariantPrice?.amount || '149');
-  //         const compareAt = node.compareAtPriceRange?.maxVariantPrice?.amount
-  //           ? parseFloat(node.compareAtPriceRange.maxVariantPrice.amount)
-  //           : undefined;
-
-  //         const calculatedDiscount =
-  //           compareAt && compareAt > price
-  //             ? Math.round(((compareAt - price) / compareAt) * 100)
-  //             : 25;
-
-  //         setProduct({
-  //           id: node.id,
-  //           title: node.title || DEFAULT_PRODUCT.title,
-  //           category: node.productType || DEFAULT_PRODUCT.category,
-  //           price: price > 0 ? price : DEFAULT_PRODUCT.price,
-  //           compareAtPrice: compareAt && compareAt > 0 ? compareAt : DEFAULT_PRODUCT.compareAtPrice,
-  //           discount: calculatedDiscount,
-  //           image: node.featuredImage?.url || DEFAULT_PRODUCT.image,
-  //           rating: DEFAULT_PRODUCT.rating,
-  //           reviewCount: DEFAULT_PRODUCT.reviewCount,
-  //           description: node.description || DEFAULT_PRODUCT.description,
-  //           sizes: DEFAULT_PRODUCT.sizes,
-  //           colors: DEFAULT_PRODUCT.colors,
-  //         });
-  //       }
-  //     } catch (err) {
-  //       console.warn('Failed to load GraphQL product details, using default:', err);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   fetchDetails();
-  // }, [params?.id]);
   useEffect(() => {
     if (!params?.id) return;
-
-    // 1. فك تشفير الـ ID الممرر عبر الرابط ليرجع للصيغة الأصلية gid://shopify/Product/...
     const productId = decodeURIComponent(params.id);
 
     const fetchDetails = async () => {
@@ -112,7 +58,7 @@ export default function ProductDetailsScreen() {
       try {
         const res = await apolloClient.query<any>({
           query: GET_PRODUCT_DETAILS_QUERY,
-          variables: { id: productId }, // 👈 استخدام productId بعد الفك
+          variables: { id: productId },
         });
 
         const node = res.data?.product;

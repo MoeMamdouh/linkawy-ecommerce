@@ -1,12 +1,9 @@
-// ──────────────────────────────────────────────
-// BottomActionBar Component
-// ──────────────────────────────────────────────
 
-import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import { Heart, ShoppingCart } from 'lucide-react-native';
 import { Colors, Palette } from '@shared/constants/theme';
 import { useColorScheme } from '@shared/hooks/use-color-scheme';
+import { Heart, ShoppingCart } from 'lucide-react-native';
+import React from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { createProductDetailsStyles } from '../styles/productDetails.styles';
 import { BottomActionBarProps } from '../types/productDetails.types';
 
