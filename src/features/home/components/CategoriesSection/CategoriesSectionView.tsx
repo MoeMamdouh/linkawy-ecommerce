@@ -39,7 +39,7 @@ const CategoriesSectionView: React.FC<CategoriesSectionViewProps> = ({
 
   const renderCategory = useCallback(
     ({ item }: { item: Category }) => {
-      const IconComponent = iconMap[item.icon];
+      const IconComponent = iconMap[item.icon] || Shirt;
       return (
         <TouchableOpacity
           style={styles.categoryItem}

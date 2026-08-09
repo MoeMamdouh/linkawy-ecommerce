@@ -1,31 +1,31 @@
-// import { BannerSlide, Category, Product } from '../types/home.types';
+import { BannerSlide } from '../types/home.types';
 
-// export const mockBannerSlides: BannerSlide[] = [
-//   {
-//     id: '1',
-//     tag: 'LIMITED OFFER',
-//     title: 'Beauty Essentials',
-//     subtitle: 'Premium brands',
-//     image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&h=300&fit=crop',
-//     backgroundColor: '#F3E8FF',
-//   },
-//   {
-//     id: '2',
-//     tag: 'NEW SEASON',      
-//     title: 'Summer Collection',
-//     subtitle: 'Up to 40% off',
-//     image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop',
-//     backgroundColor: '#DBEAFE',
-//   },
-//   {
-//     id: '3',
-//     tag: 'TRENDING NOW',
-//     title: 'Tech Gadgets',
-//     subtitle: 'Latest releases',
-//     image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop',
-//     backgroundColor: '#D1FAE5',
-//   },
-// ];
+export const mockBannerSlides: BannerSlide[] = [
+    {
+        id: '1',
+        tag: 'LIMITED OFFER',
+        title: 'Beauty Essentials',
+        subtitle: 'Premium brands',
+        image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&h=300&fit=crop',
+        backgroundColor: '#F3E8FF',
+    },
+    {
+        id: '2',
+        tag: 'NEW SEASON',
+        title: 'Summer Collection',
+        subtitle: 'Up to 40% off',
+        image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop',
+        backgroundColor: '#DBEAFE',
+    },
+    {
+        id: '3',
+        tag: 'TRENDING NOW',
+        title: 'Tech Gadgets',
+        subtitle: 'Latest releases',
+        image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop',
+        backgroundColor: '#D1FAE5',
+    },
+];
 
 // export const mockCategories: Category[] = [
 //   { id: '1', name: 'Fashion', icon: 'Shirt' },

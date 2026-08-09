@@ -12,8 +12,9 @@ export const createSearchBarStyles = (theme: keyof typeof Colors) => {
     container: {
       paddingHorizontal: 20,
       paddingVertical: 8,
-      backgroundColor: Palette.cardLight,
+      backgroundColor: colors.background,
     },
+
     inputContainer: {
       flexDirection: 'row',
       alignItems: 'center',

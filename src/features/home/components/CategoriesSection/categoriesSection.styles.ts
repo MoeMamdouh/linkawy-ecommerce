@@ -8,8 +8,9 @@ export const createCategoriesSectionStyles = (theme: keyof typeof Colors) => {
     listContainer: {
       paddingHorizontal: 20,
       gap: 16,
-      backgroundColor: Palette.cardLight,
+      backgroundColor: colors.background,
     },
+
     categoryItem: {
       alignItems: 'center',
       gap: 8,

@@ -16,7 +16,9 @@ export const createHomeScreenStyles = (theme: keyof typeof Colors) => {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: Palette.purple300,
+      backgroundColor: colors.background,
     },
+
+
   });
 };

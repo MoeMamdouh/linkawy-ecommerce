@@ -16,7 +16,7 @@ export const createHeaderStyles = (theme: keyof typeof Colors) => {
       paddingHorizontal: 20,
       paddingTop: 8,
       paddingBottom: 12,
-      backgroundColor: Palette.cardLight,
+      backgroundColor: colors.background,
       zIndex: 10,
     },
     leftSection: {
@@ -55,9 +55,10 @@ export const createHeaderStyles = (theme: keyof typeof Colors) => {
       width: 40,
       height: 40,
       borderRadius: 20,
-      backgroundColor: Palette.surfaceLight,
+      backgroundColor: colors.muted,
       justifyContent: 'center',
       alignItems: 'center',
+
       shadowColor: Palette.black,
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.08,
