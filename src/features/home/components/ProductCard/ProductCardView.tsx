@@ -5,7 +5,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
-import { Heart, Plus, Star } from 'lucide-react-native';
+import { Heart, Plus } from 'lucide-react-native';
 import { Colors, Palette } from '@shared/constants/theme';
 import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import { Product } from '../../types/home.types';
@@ -30,22 +30,7 @@ const ProductCardView: React.FC<ProductCardViewProps> = ({
   const styles = createProductCardStyles(theme);
   const colors = Colors[theme];
 
-  // Render star rating
-  const renderStars = () => {
-    const fullStars = Math.floor(product.rating);
-    const stars = [];
-    for (let i = 0; i < 5; i++) {
-      stars.push(
-        <Star
-          key={i}
-          size={11}
-          color={i < fullStars ? Palette.amber500 : colors.mutedForeground}
-          fill={i < fullStars ? Palette.amber500 : 'none'}
-        />
-      );
-    }
-    return stars;
-  };
+
 
   return (
     <TouchableOpacity
@@ -86,11 +71,7 @@ const ProductCardView: React.FC<ProductCardViewProps> = ({
           {product.title}
         </Text>
 
-        {/* Rating */}
-        <View style={styles.ratingRow}>
-          <View style={styles.starsContainer}>{renderStars()}</View>
-          <Text style={styles.ratingText}>({product.reviewCount})</Text>
-        </View>
+
 
         {/* Price + Add Button */}
         <View style={styles.priceRow}>

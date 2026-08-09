@@ -9,8 +9,6 @@ export interface Product {
   compareAtPrice?: number;
   image: string;
   category: string;
-  rating: number;
-  reviewCount: number;
   discount?: number; // percentage e.g. 25 means -25%
 }
 

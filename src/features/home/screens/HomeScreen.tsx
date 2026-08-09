@@ -12,6 +12,7 @@ import { NewArrivalsSectionView } from '../components/NewArrivalsSection';
 import { PromoSliderView } from '../components/PromoSlider';
 import { SearchBarView } from '../components/SearchBar';
 import { useHomeData } from '../hooks/useHomeData';
+import { Product } from '../types/home.types';
 import { createHomeScreenStyles } from './homeScreen.styles';
 
 export default function HomeScreen() {
@@ -34,6 +35,13 @@ export default function HomeScreen() {
 
   const scrollViewRef = useRef<ScrollView>(null);
   const searchInputRef = useRef<TextInput>(null);
+
+  const handleProductPress = useCallback((product: Product) => {
+    router.push({
+      pathname: '/(tabs)/product/[id]',
+      params: { id: encodeURIComponent(product.id) },
+    });
+  }, [router]);
 
   const handleSearchPress = useCallback(() => {
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
@@ -86,14 +94,17 @@ export default function HomeScreen() {
         <FlashSaleSectionView
           products={flashSaleProducts}
           endTime={flashSaleEndTime}
+          onProductPress={handleProductPress}
         />
         <FeaturedSectionView
           products={featuredProducts}
           onAddToCart={handleAddToCart}
+          onProductPress={handleProductPress}
         />
         <NewArrivalsSectionView
           products={newArrivals}
           onAddToCart={handleAddToCart}
+          onProductPress={handleProductPress}
         />
       </ScrollView>
     </SafeAreaView>

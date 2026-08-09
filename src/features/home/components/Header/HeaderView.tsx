@@ -35,14 +35,8 @@ const HeaderView: React.FC<HeaderViewProps> = ({
 
   return (
     <View style={styles.container}>
-      {/* Left: Avatar + Greeting */}
+      {/* Left: Greeting */}
       <View style={styles.leftSection}>
-        <Image
-          source={{ uri: avatarUrl }}
-          style={styles.avatar}
-          contentFit="cover"
-          transition={200}
-        />
         <View style={styles.greetingContainer}>
           <Text style={styles.welcomeText}>WELCOME BACK,</Text>
           <Text style={styles.nameText}>{userName} 👋</Text>
@@ -52,8 +46,8 @@ const HeaderView: React.FC<HeaderViewProps> = ({
       {/* Right: Search (if scrolling) + Notification + Cart */}
       <View style={styles.rightSection}>
         {showSearchIcon && (
-          <TouchableOpacity 
-            style={styles.iconButton} 
+          <TouchableOpacity
+            style={styles.iconButton}
             activeOpacity={0.7}
             onPress={onSearchPress}
           >
@@ -68,8 +62,8 @@ const HeaderView: React.FC<HeaderViewProps> = ({
             </View>
           )}
         </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.iconButton} 
+        <TouchableOpacity
+          style={styles.iconButton}
           activeOpacity={0.7}
           onPress={() => router.push('/cart')}
         >
