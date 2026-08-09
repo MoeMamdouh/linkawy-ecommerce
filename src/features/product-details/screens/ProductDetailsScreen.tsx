@@ -47,7 +47,7 @@ export default function ProductDetailsScreen() {
   const [product, setProduct] = useState<ProductDetails>(DEFAULT_PRODUCT);
   const [selectedSize, setSelectedSize] = useState<string>('M');
   const [selectedColor, setSelectedColor] = useState<string>('Navy');
-  const [isFavorite, setIsFavorite] = useState<boolean>(true);
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   useEffect(() => {
     if (!params?.id) return;
@@ -73,19 +73,40 @@ export default function ProductDetailsScreen() {
               ? Math.round(((compareAt - price) / compareAt) * 100)
               : 25;
 
+          // setProduct({
+          //   id: node.id,
+          //   title: node.title || DEFAULT_PRODUCT.title,
+          //   category: node.productType || DEFAULT_PRODUCT.category,
+          //   price: price > 0 ? price : DEFAULT_PRODUCT.price,
+          //   compareAtPrice: compareAt && compareAt > 0 ? compareAt : DEFAULT_PRODUCT.compareAtPrice,
+          //   discount: calculatedDiscount,
+          //   image: node.featuredImage?.url || DEFAULT_PRODUCT.image,
+          //   rating: DEFAULT_PRODUCT.rating,
+          //   reviewCount: DEFAULT_PRODUCT.reviewCount,
+          //   description: node.description || DEFAULT_PRODUCT.description,
+          //   sizes: DEFAULT_PRODUCT.sizes,
+          //   colors: DEFAULT_PRODUCT.colors,
+          // });
+          const sizeOption = node.options?.find((opt: any) => opt.name.toLowerCase() === 'size');
+          const colorOption = node.options?.find((opt: any) => opt.name.toLowerCase() === 'color');
+
+          const availableSizes = sizeOption ? sizeOption.values : [];
+          const availableColors = colorOption ? colorOption.values : [];
+
           setProduct({
             id: node.id,
-            title: node.title || DEFAULT_PRODUCT.title,
-            category: node.productType || DEFAULT_PRODUCT.category,
-            price: price > 0 ? price : DEFAULT_PRODUCT.price,
-            compareAtPrice: compareAt && compareAt > 0 ? compareAt : DEFAULT_PRODUCT.compareAtPrice,
-            discount: calculatedDiscount,
-            image: node.featuredImage?.url || DEFAULT_PRODUCT.image,
-            rating: DEFAULT_PRODUCT.rating,
-            reviewCount: DEFAULT_PRODUCT.reviewCount,
-            description: node.description || DEFAULT_PRODUCT.description,
-            sizes: DEFAULT_PRODUCT.sizes,
-            colors: DEFAULT_PRODUCT.colors,
+            title: node.title || 'Untitled',
+            category: node.productType || 'general',
+            price: price,
+            compareAtPrice: compareAt && compareAt > price ? compareAt : undefined,
+            discount: calculatedDiscount > 0 ? calculatedDiscount : 0,
+            image: node.featuredImage?.url || '',
+            rating: 0,
+            reviewCount: 0,
+            description: node.description || 'There is no product description.'
+            ,
+            sizes: availableSizes,
+            colors: availableColors,
           });
         }
       } catch (err) {

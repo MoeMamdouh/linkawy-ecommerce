@@ -26,8 +26,8 @@ export const BottomActionBar: React.FC<BottomActionBarProps> = ({
       >
         <Heart
           size={22}
-          color={isFavorite ? colors.destructive : colors.destructive}
-          fill={isFavorite ? colors.destructive : colors.destructive}
+          color={isFavorite ? colors.destructive : colors.mutedForeground}
+          fill={isFavorite ? colors.destructive : 'none'}
         />
       </TouchableOpacity>
 
