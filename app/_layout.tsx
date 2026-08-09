@@ -18,9 +18,15 @@ import { ApolloProvider } from '@apollo/client/react';
 import apolloClient from '@shared/graphql/client';
 import { Colors } from '@shared/constants/theme';
 import { useColorScheme } from '@shared/hooks/use-color-scheme';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from '@shared/query/client';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
+
+// Dev-only: kept as a guarded require so Reactotron never reaches a release bundle.
+if (__DEV__) {
+  require('../ReactotronConfig');
+}
 
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
@@ -30,15 +36,6 @@ configureReanimatedLogger({
 export const unstable_settings = {
   anchor: '(tabs)',
 };
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 1000 * 60 * 5, // Data remains fresh for 5 minutes
-      gcTime: 1000 * 60 * 24,   // Cache retained for 24 hours
-    },
-  },
-});
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
