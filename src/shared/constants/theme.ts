@@ -198,6 +198,18 @@ export const FontFamily = {
   black: 'Outfit_900Black',
 };
 
+export const FontSize = {
+  xs: 12,    // Extra small (captions, tags, sub-labels)
+  sm: 14,    // Small (subtitles, summary labels, card product names)
+  md: 16,    // Medium / Default body text & prices
+  lg: 18,    // Large subheaders
+  xl: 20,    // Extra large (headers, total prices)
+  xxl: 24,   // Screen titles
+  title: 32, // Primary splash / hero titles
+} as const;
+
+export type FontSizeToken = keyof typeof FontSize;
+
 export const Fonts = Platform.select({
   ios: {
     sans: FontFamily.regular,

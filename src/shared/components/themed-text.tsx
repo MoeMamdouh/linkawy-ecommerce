@@ -1,6 +1,6 @@
 import { StyleSheet, Text, type TextProps } from 'react-native';
 
-import { FontFamily } from '@shared/constants/theme';
+import { FontFamily, FontSize } from '@shared/constants/theme';
 import { useThemeColor } from '@shared/hooks/use-theme-color';
 
 export type ThemedTextProps = TextProps & {
@@ -40,26 +40,26 @@ export function ThemedText({
 const styles = StyleSheet.create({
   default: {
     fontFamily: FontFamily.regular,
-    fontSize: 16,
+    fontSize: FontSize.md,
     lineHeight: 24,
   },
   defaultSemiBold: {
     fontFamily: FontFamily.semiBold,
-    fontSize: 16,
+    fontSize: FontSize.md,
     lineHeight: 24,
   },
   title: {
     fontFamily: FontFamily.black,
-    fontSize: 32,
+    fontSize: FontSize.title,
     lineHeight: 32,
   },
   subtitle: {
     fontFamily: FontFamily.bold,
-    fontSize: 20,
+    fontSize: FontSize.xl,
   },
   link: {
     fontFamily: FontFamily.medium,
     lineHeight: 30,
-    fontSize: 16,
+    fontSize: FontSize.md,
   },
 });
