@@ -135,7 +135,7 @@
 // Home Feature — Zustand Store (Shopify Direct)
 // ──────────────────────────────────────────────
 
-import { apolloClient } from '@shared/graphql/apolloClient';
+import { apolloClient } from '@shared/graphql/client';
 import { create } from 'zustand';
 import { COLLECTIONS_QUERY, PRODUCTS_QUERY } from '../graphql/homeQueries';
 import { BannerSlide, Category, HomeActions, HomeState, Product } from '../types/home.types';
