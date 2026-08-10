@@ -1,15 +1,26 @@
 import { Tabs } from 'expo-router';
 import { Heart, Home, ShoppingBag, ShoppingCart, User } from 'lucide-react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { HapticTab } from '@shared/components/haptic-tab';
 import { Colors, FontFamily } from '@shared/constants/theme';
 import { useColorScheme } from '@shared/hooks/use-color-scheme';
+import { useCartStore } from '@features/cart/store/cartStore';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const activeColor = Colors[colorScheme ?? 'light'].tabIconSelected;
-  const inactiveColor = Colors[colorScheme ?? 'light'].tabIconDefault;
+  const theme = colorScheme ?? 'light';
+  const activeColor = Colors[theme].tabIconSelected;
+  const inactiveColor = Colors[theme].tabIconDefault;
+
+  const cart = useCartStore((state) => state.cart);
+  const initializeCart = useCartStore((state) => state.initializeCart);
+
+  useEffect(() => {
+    initializeCart();
+  }, [initializeCart]);
+
+  const totalCartItems = cart?.lines.reduce((acc, line) => acc + line.quantity, 0) || 0;
 
   return (
     <Tabs
@@ -53,6 +64,20 @@ export default function TabLayout() {
         name="cart"
         options={{
           title: 'Cart',
+          tabBarBadge: totalCartItems > 0 ? totalCartItems : undefined,
+          tabBarBadgeStyle: {
+            backgroundColor: Colors[theme].danger,
+            color: Colors[theme].white,
+            fontFamily: FontFamily.bold,
+            fontSize: 10,
+            minWidth: 16,
+            height: 16,
+            borderRadius: 8,
+            lineHeight: 15,
+            textAlign: 'center',
+            textAlignVertical: 'center',
+            padding: 0,
+          },
         }}
       />
       <Tabs.Screen
