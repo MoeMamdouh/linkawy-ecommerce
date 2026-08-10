@@ -7,7 +7,7 @@ import {
   GET_CART_QUERY,
   REMOVE_FROM_CART_MUTATION,
   UPDATE_CART_MUTATION,
-} from '../graphql/cartQueries';
+} from '../graphql';
 
 const CART_ID_STORAGE_KEY = '@linkawy_cart_id';
 
