@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
+import { Heart, Home, ShoppingBag, ShoppingCart, User } from 'lucide-react-native';
 import React from 'react';
-import { Home, ShoppingBag, ShoppingCart, Heart, User } from 'lucide-react-native';
 
 import { HapticTab } from '@shared/components/haptic-tab';
 import { Colors, FontFamily } from '@shared/constants/theme';
@@ -65,6 +65,12 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: 'Profile',
+        }}
+      />
+      <Tabs.Screen
+        name="product/[id]"
+        options={{
+          href: null,
         }}
       />
     </Tabs>
