@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { FontFamily, FontSize } from '@shared/constants/theme';
+import { FontFamily, FontSize, Palette } from '@shared/constants/theme';
 
 export const styles = StyleSheet.create({
   container: {
@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
     width: 90,
     height: 90,
     borderRadius: 18,
-    backgroundColor: '#EDE9FE',
+    backgroundColor: Palette.purple100,
   },
   detailsContainer: {
     flex: 1,
@@ -181,7 +181,8 @@ export const styles = StyleSheet.create({
     padding: 20,
     borderWidth: 1,
     marginTop: 8,
-    shadowColor: '#000',
+    shadowColor: Palette.black,
+
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.03,
     shadowRadius: 8,
