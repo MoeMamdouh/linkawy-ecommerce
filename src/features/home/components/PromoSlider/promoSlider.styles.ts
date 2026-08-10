@@ -5,9 +5,7 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 export const SLIDER_WIDTH = SCREEN_WIDTH - 40; // 20px padding each side
 export const SLIDER_HEIGHT = 160;
 
-export const createPromoSliderStyles = (theme: keyof typeof Colors) => {
-  const colors = Colors[theme];
-
+export const createPromoSliderStyles = (colors: typeof Colors.light | typeof Colors.dark) => {
   return StyleSheet.create({
     container: {
       paddingHorizontal: 20,

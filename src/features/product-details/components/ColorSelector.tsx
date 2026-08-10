@@ -1,17 +1,16 @@
 
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { createProductDetailsStyles } from '../styles/productDetails.styles';
 import { ColorSelectorProps } from '../types/productDetails.types';
+import { useTheme } from '@shared/hooks/use-theme';
 
 export const ColorSelector: React.FC<ColorSelectorProps> = ({
   colors,
   selectedColor,
   onSelectColor,
 }) => {
-  const theme = useColorScheme() ?? 'light';
-  const styles = createProductDetailsStyles(theme);
+  const styles = createProductDetailsStyles(useTheme().colors);
 
   return (
     <View>

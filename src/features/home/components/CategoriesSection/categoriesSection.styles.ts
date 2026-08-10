@@ -1,9 +1,8 @@
 import { Colors, FontFamily, Palette } from '@shared/constants/theme';
 import { StyleSheet } from 'react-native';
 
-export const createCategoriesSectionStyles = (theme: keyof typeof Colors) => {
-  const colors = Colors[theme];
-
+export const createCategoriesSectionStyles = (colors: typeof Colors.light | typeof Colors.dark) => {
+  
   return StyleSheet.create({
     listContainer: {
       paddingHorizontal: 20,

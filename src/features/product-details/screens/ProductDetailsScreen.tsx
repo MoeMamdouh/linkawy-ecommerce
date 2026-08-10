@@ -1,6 +1,5 @@
-import { Colors, Palette } from '@shared/constants/theme';
+import { Palette } from '@shared/constants/theme';
 import { apolloClient } from '@shared/graphql/client';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ChevronLeft, Heart } from 'lucide-react-native';
@@ -19,14 +18,14 @@ import { SizeSelector } from '../components/SizeSelector';
 import { GET_PRODUCT_DETAILS_QUERY } from '../graphql/productDetailsQueries';
 import { createProductDetailsStyles } from '../styles/productDetails.styles';
 import { ProductDetails } from '../types/productDetails.types';
+import { useTheme } from '@shared/hooks/use-theme';
 
 
 export default function ProductDetailsScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ id?: string }>();
-  const theme = useColorScheme() ?? 'light';
-  const styles = createProductDetailsStyles(theme);
-  const colors = Colors[theme];
+  const { colors } = useTheme();
+  const styles = createProductDetailsStyles(colors);
 
   const [product, setProduct] = useState<ProductDetails | null>(null);
   const [selectedSize, setSelectedSize] = useState<string>('');
