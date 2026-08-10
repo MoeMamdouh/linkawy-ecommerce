@@ -1,26 +1,27 @@
-import "../global.css"
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
-import { View, ActivityIndicator } from 'react-native';
-import 'react-native-reanimated';
 import {
-  useFonts,
   Outfit_400Regular,
   Outfit_500Medium,
   Outfit_600SemiBold,
   Outfit_700Bold,
   Outfit_900Black,
+  useFonts,
 } from '@expo-google-fonts/outfit';
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { LanguageProvider } from "@shared/context/LanguageContext";
+import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import React, { useEffect } from 'react';
+import { ActivityIndicator, View } from 'react-native';
+import 'react-native-reanimated';
+import "../global.css";
 
 import { ApolloProvider } from '@apollo/client/react';
-import apolloClient from '@shared/graphql/client';
 import { Colors } from '@shared/constants/theme';
+import apolloClient from '@shared/graphql/client';
 import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
@@ -69,12 +70,14 @@ export default function RootLayout() {
     <ApolloProvider client={apolloClient}>
       <QueryClientProvider client={queryClient}>
         <SafeAreaProvider>
+          <LanguageProvider>
           <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             </Stack>
             <StatusBar style="auto" />
           </ThemeProvider>
+          </LanguageProvider>
         </SafeAreaProvider>
       </QueryClientProvider>
     </ApolloProvider>
