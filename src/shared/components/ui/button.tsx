@@ -86,7 +86,7 @@ function getTextColor(variant: ButtonProps["variant"], colors: typeof Colors["li
 const Button = React.forwardRef<View, ButtonProps>(
   ({ className, textClassName, textStyle, variant, size, children, disabled, style, ...props }, ref) => {
     const colorScheme = useColorScheme() ?? "light";
-    const colors = Colors[colorScheme];
+    const colors = colorScheme === "dark" ? Colors.dark : Colors.light;
 
     const userStyle = typeof style === 'function' ? style({ pressed: false } as any) : style;
 

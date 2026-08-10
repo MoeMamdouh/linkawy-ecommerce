@@ -12,8 +12,9 @@ import { CartPriceCard } from '../components/CartPriceCard';
 import { CartPromoInput } from '../components/CartPromoInput';
 
 export default function CartScreen() {
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = Colors[colorScheme];
+  const colorScheme = useColorScheme();
+  const theme = Colors[colorScheme === "dark" ? "dark" : "light"];
+
 
   const {
     cartItems,
@@ -32,16 +33,16 @@ export default function CartScreen() {
   } = useCart();
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
       <CartHeader totalItemCount={totalItemCount} />
 
       {cartItems.length === 0 ? (
         <View style={styles.emptyContainer}>
-          <View style={[styles.emptyIconCircle, { backgroundColor: colors.muted }]}>
-            <ShoppingCart size={40} color={colors.mutedForeground} />
+          <View style={[styles.emptyIconCircle, { backgroundColor: theme.muted }]}>
+            <ShoppingCart size={40} color={theme.mutedForeground} />
           </View>
-          <Text style={[styles.emptyText, { color: colors.mutedForeground }]}>
+          <Text style={[styles.emptyText, { color: theme.mutedForeground }]}>
             Your cart is empty
           </Text>
         </View>
