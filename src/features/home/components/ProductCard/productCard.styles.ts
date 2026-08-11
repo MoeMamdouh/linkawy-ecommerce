@@ -8,9 +8,7 @@ import { Colors, FontFamily, Palette } from '@shared/constants/theme';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 export const CARD_WIDTH = (SCREEN_WIDTH - 52) / 2; // 20px padding + 12px gap
 
-export const createProductCardStyles = (theme: keyof typeof Colors) => {
-  const colors = Colors[theme];
-
+export const createProductCardStyles = (colors: typeof Colors.light | typeof Colors.dark) => {
   return StyleSheet.create({
     card: {
       width: CARD_WIDTH,

@@ -1,9 +1,7 @@
-import { Colors, Palette } from '@shared/constants/theme';
+import { Colors } from '@shared/constants/theme';
 import { StyleSheet } from 'react-native';
 
-export const createHomeScreenStyles = (theme: keyof typeof Colors) => {
-  const colors = Colors[theme];
-
+export const createHomeScreenStyles = (colors: typeof Colors.light | typeof Colors.dark) => {
   return StyleSheet.create({
     safeArea: {
       flex: 1,
