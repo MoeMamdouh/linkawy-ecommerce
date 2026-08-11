@@ -6,6 +6,10 @@ export const CREATE_CART_MUTATION = gql`
       cart {
         id
         checkoutUrl
+        discountCodes {
+          code
+          applicable
+        }
         cost {
           totalAmount {
             amount
@@ -55,6 +59,10 @@ export const ADD_TO_CART_MUTATION = gql`
     cartLinesAdd(cartId: $cartId, lines: $lines) {
       cart {
         id
+        discountCodes {
+          code
+          applicable
+        }
         cost {
           totalAmount {
             amount
@@ -104,6 +112,10 @@ export const UPDATE_CART_MUTATION = gql`
     cartLinesUpdate(cartId: $cartId, lines: $lines) {
       cart {
         id
+        discountCodes {
+          code
+          applicable
+        }
         cost {
           totalAmount {
             amount
@@ -153,6 +165,10 @@ export const REMOVE_FROM_CART_MUTATION = gql`
     cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
       cart {
         id
+        discountCodes {
+          code
+          applicable
+        }
         cost {
           totalAmount {
             amount
@@ -192,6 +208,63 @@ export const REMOVE_FROM_CART_MUTATION = gql`
             }
           }
         }
+      }
+    }
+  }
+`;
+
+export const UPDATE_DISCOUNT_CODES_MUTATION = gql`
+  mutation CartDiscountCodesUpdate($cartId: ID!, $discountCodes: [String!]!) {
+    cartDiscountCodesUpdate(cartId: $cartId, discountCodes: $discountCodes) {
+      cart {
+        id
+        discountCodes {
+          code
+          applicable
+        }
+        cost {
+          totalAmount {
+            amount
+            currencyCode
+          }
+          subtotalAmount {
+            amount
+            currencyCode
+          }
+        }
+        lines(first: 100) {
+          edges {
+            node {
+              id
+              quantity
+              merchandise {
+                ... on ProductVariant {
+                  id
+                  title
+                  price {
+                    amount
+                    currencyCode
+                  }
+                  product {
+                    id
+                    title
+                    featuredImage {
+                      url
+                    }
+                  }
+                  selectedOptions {
+                    name
+                    value
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      userErrors {
+        field
+        message
       }
     }
   }

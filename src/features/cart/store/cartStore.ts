@@ -7,6 +7,7 @@ import {
   GET_CART_QUERY,
   REMOVE_FROM_CART_MUTATION,
   UPDATE_CART_MUTATION,
+  UPDATE_DISCOUNT_CODES_MUTATION,
 } from '../graphql';
 
 const CART_ID_STORAGE_KEY = '@linkawy_cart_id';
@@ -28,6 +29,7 @@ export interface FormattedCart {
   subtotal: number;
   total: number;
   lines: CartItem[];
+  discountCodes?: { code: string; applicable: boolean }[];
 }
 
 interface CartState {
@@ -43,22 +45,23 @@ interface CartActions {
   updateQuantity: (lineId: string, quantity: number) => Promise<void>;
   removeFromCart: (lineId: string) => Promise<void>;
   clearCart: () => Promise<void>;
+  updateDiscountCodes: (codes: string[]) => Promise<FormattedCart | null>;
 }
 
 export type CartStore = CartState & CartActions;
 
 const mapShopifyCart = (shopifyCart: any): FormattedCart | null => {
   if (!shopifyCart) return null;
-  
+
   const lines = (shopifyCart.lines?.edges || []).map((edge: any) => {
     const node = edge.node || {};
     const merch = node.merchandise || {};
     const prod = merch.product || {};
-    
+
     const sizeOpt = merch.selectedOptions?.find(
       (opt: any) => opt.name.toLowerCase() === 'size'
     )?.value || '';
-    
+
     const colorOpt = merch.selectedOptions?.find(
       (opt: any) => opt.name.toLowerCase() === 'color'
     )?.value || '';
@@ -75,12 +78,18 @@ const mapShopifyCart = (shopifyCart: any): FormattedCart | null => {
     };
   });
 
+  const discountCodes = (shopifyCart.discountCodes || []).map((dc: any) => ({
+    code: dc.code,
+    applicable: dc.applicable,
+  }));
+
   return {
     id: shopifyCart.id,
     checkoutUrl: shopifyCart.checkoutUrl || '',
     subtotal: parseFloat(shopifyCart.cost?.subtotalAmount?.amount || '0'),
     total: parseFloat(shopifyCart.cost?.totalAmount?.amount || '0'),
     lines,
+    discountCodes,
   };
 };
 
@@ -101,7 +110,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
           variables: { id: savedId },
           fetchPolicy: 'no-cache',
         });
-        
+
         const shopifyCart = res.data?.cart;
         if (shopifyCart) {
           set({
@@ -138,7 +147,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
             },
           },
         });
-        
+
         const newCart = res.data?.cartCreate?.cart;
         if (newCart) {
           await AsyncStorage.setItem(CART_ID_STORAGE_KEY, newCart.id);
@@ -235,6 +244,44 @@ export const useCartStore = create<CartStore>((set, get) => ({
     } catch (err: any) {
       console.error('Failed to remove item:', err);
       set({ error: err.message || 'Failed to remove item', isLoading: false });
+    }
+  },
+
+  updateDiscountCodes: async (codes: string[]) => {
+    const { cartId } = get();
+    if (!cartId) return null;
+
+    set({ isLoading: true, error: null });
+    try {
+      const res = await apolloClient.mutate<any>({
+        mutation: UPDATE_DISCOUNT_CODES_MUTATION,
+        variables: {
+          cartId,
+          discountCodes: codes,
+        },
+      });
+
+      const updatedCart = res.data?.cartDiscountCodesUpdate?.cart;
+      const userErrors = res.data?.cartDiscountCodesUpdate?.userErrors || [];
+
+      if (userErrors.length > 0) {
+        throw new Error(userErrors[0].message);
+      }
+
+      if (updatedCart) {
+        const formatted = mapShopifyCart(updatedCart);
+        set({
+          cart: formatted,
+          isLoading: false,
+        });
+        return formatted;
+      }
+      set({ isLoading: false });
+      return null;
+    } catch (err: any) {
+      console.error('Failed to update discount codes:', err);
+      set({ error: err.message || 'Failed to update discount codes', isLoading: false });
+      throw err;
     }
   },
 

@@ -5,6 +5,10 @@ export const GET_CART_QUERY = gql`
     cart(id: $id) {
       id
       checkoutUrl
+      discountCodes {
+        code
+        applicable
+      }
       cost {
         totalAmount {
           amount

@@ -92,7 +92,7 @@ const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
             editable={editable}
             secureTextEntry={shouldHideText}
             placeholderTextColor={colors.textMuted}
-            style={{ color: colors.foreground }}
+            style={[{ color: colors.foreground }, props.style]}
             className={cn("flex-1 text-sm outline-none", inputClassName)}
             {...props}
           />
