@@ -1,0 +1,14 @@
+{
+  "profile": {
+    "orders": "طلبات",
+    "wishlist": "مفضلة",
+    "reviews": "تقييمات",
+    "myOrders": "طلباتي",
+    "editProfile": "تعديل الملف",
+    "appearance": "المظهر",
+    "language": "اللغة",
+    "lightMode": "الوضع الفاتح",
+    "english": "العربية",
+    "logout": "تسجيل الخروج"
+  }
+}

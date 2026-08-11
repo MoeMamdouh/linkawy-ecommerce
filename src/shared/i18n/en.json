@@ -1,0 +1,14 @@
+{
+  "profile": {
+    "orders": "Orders",
+    "wishlist": "Wishlist",
+    "reviews": "Reviews",
+    "myOrders": "My Orders",
+    "editProfile": "Edit Profile",
+    "appearance": "Appearance",
+    "language": "Language",
+    "lightMode": "Light Mode",
+    "english": "English",
+    "logout": "Logout"
+  }
+}

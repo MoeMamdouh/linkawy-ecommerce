@@ -1,9 +1,9 @@
 import { ThemedText } from "@shared/components/themed-text";
 import { Button } from "@shared/components/ui/button";
 import { Colors, FontFamily, FontSize } from "@shared/constants/theme";
-import { useLanguage } from "@shared/context/LanguageContext";
 import { useColorScheme } from "@shared/hooks/use-color-scheme";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 import {
   Globe,
@@ -16,53 +16,33 @@ import { ScrollView, View } from "react-native";
 
 
 
-const translations = {
-  en: {
-    orders: "Orders",
-    wishlist: "Wishlist",
-    reviews: "Reviews",
-    myOrders: "My Orders",
-    editProfile: "Edit Profile",
-    appearance: "Appearance",
-    language: "Language",
-    lightMode: "Light Mode",
-    english: "English",
-    logout: "Logout",
-  },
 
-  ar: {
-    orders: "طلبات",
-    wishlist: "مفضلة",
-    reviews: "تقييمات",
-    myOrders: "طلباتي",
-    editProfile: "تعديل الملف ",
-    appearance: "المظهر",
-    language: "اللغة",
-    lightMode: "الوضع الفاتح",
-    english: "العربية",
-    logout: "تسجيل الخروج",
-  },
-};
 
 export default function ProfileScreen() {
   const router = useRouter();
   const colorScheme = useColorScheme() ?? "light";
   const colors = Colors[colorScheme];
-  const { lang, setLang } = useLanguage();
-  const t = translations[lang];
+  const { t, i18n } = useTranslation();
   const stats = [
-    { label: t.orders, value: "3" },
-    { label: t.wishlist, value: "2" },
-    { label: t.reviews, value: "12" },
-  ];
+  { label: t("profile.orders"), value: "3" },
+  { label: t("profile.wishlist"), value: "2" },
+  { label: t("profile.reviews"), value: "12" },
+];
 
   const menuItems = [
-    { label: t.myOrders, value: "",Icon: Package },
-    { label: t.editProfile, value: "", Icon: Pencil },
-
-    { label: t.appearance, value: t.lightMode, Icon: Moon },
-    { label: t.language, value: t.english, Icon: Globe  },
-  ];
+  { label: t("profile.myOrders"), value: "", Icon: Package },
+  { label: t("profile.editProfile"), value: "", Icon: Pencil },
+  {
+    label: t("profile.appearance"),
+    value: t("profile.lightMode"),
+    Icon: Moon,
+  },
+  {
+    label: t("profile.language"),
+    value: t("profile.english"),
+    Icon: Globe,
+  },
+];
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: colors.background }}
@@ -197,10 +177,11 @@ export default function ProfileScreen() {
             key={item.label}
             variant="transparent"
             onPress={() => {
-      if (item.label === t.language) {
-        setLang(lang === "en" ? "ar" : "en");
-      }
-       if (item.label === t.editProfile) {
+      if (item.label === t("profile.language")) {
+  i18n.changeLanguage(i18n.language === "en" ? "ar" : "en");
+}
+       if (item.label === t("profile.editProfile")) {
+      
       router.push("/edit-profile");
     }
     }}
@@ -294,7 +275,7 @@ export default function ProfileScreen() {
               fontFamily: FontFamily.black,
             }}
           >
-            Logout
+            {t("profile.logout")}
           </ThemedText>
         </Button>
       </View>
