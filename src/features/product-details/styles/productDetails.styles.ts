@@ -4,9 +4,7 @@ import { Dimensions, StyleSheet } from 'react-native';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const IMAGE_HEIGHT = SCREEN_WIDTH * 0.95;
 
-export const createProductDetailsStyles = (theme: keyof typeof Colors) => {
-  const colors = Colors[theme];
-
+export const createProductDetailsStyles = (colors: typeof Colors.light | typeof Colors.dark) => {
   return StyleSheet.create({
     container: {
       flex: 1,

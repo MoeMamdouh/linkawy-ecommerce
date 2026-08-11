@@ -1,8 +1,7 @@
 import { Colors, FontFamily, Palette } from '@shared/constants/theme';
 import { StyleSheet } from 'react-native';
 
-export const createFlashSaleSectionStyles = (theme: keyof typeof Colors) => {
-  const colors = Colors[theme];
+export const createFlashSaleSectionStyles = (colors: typeof Colors.light | typeof Colors.dark) => {
 
   return StyleSheet.create({
     // Timer badge

@@ -1,17 +1,14 @@
-import React from 'react';
 import { View, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Colors } from '@shared/constants/theme';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import { styles } from '../styles/cart-screen.styles';
+import { useTheme } from '@shared/hooks/use-theme';
 
 interface CartHeaderProps {
   totalItemCount: number;
 }
 
 export function CartHeader({ totalItemCount }: CartHeaderProps) {
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = Colors[colorScheme];
+  const { colors } = useTheme();
   const insets = useSafeAreaInsets();
 
   return (

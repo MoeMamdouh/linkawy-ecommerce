@@ -6,10 +6,10 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 import { Heart, Plus } from 'lucide-react-native';
-import { Colors, Palette } from '@shared/constants/theme';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
+import { Palette } from '@shared/constants/theme';
 import { Product } from '../../types/home.types';
 import { createProductCardStyles } from './productCard.styles';
+import { useTheme } from '@shared/hooks/use-theme';
 
 interface ProductCardViewProps {
   product: Product;
@@ -26,9 +26,8 @@ const ProductCardView: React.FC<ProductCardViewProps> = ({
   onToggleFavorite,
   onAddToCart,
 }) => {
-  const theme = useColorScheme() ?? 'light';
-  const styles = createProductCardStyles(theme);
-  const colors = Colors[theme];
+  const { colors } = useTheme();
+  const styles = createProductCardStyles(colors);
 
 
 

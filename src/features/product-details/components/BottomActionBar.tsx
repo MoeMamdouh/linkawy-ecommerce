@@ -1,20 +1,19 @@
 
-import { Colors, Palette } from '@shared/constants/theme';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
+import { Palette } from '@shared/constants/theme';
 import { Heart, ShoppingCart } from 'lucide-react-native';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { createProductDetailsStyles } from '../styles/productDetails.styles';
 import { BottomActionBarProps } from '../types/productDetails.types';
+import { useTheme } from '@shared/hooks/use-theme';
 
 export const BottomActionBar: React.FC<BottomActionBarProps> = ({
   isFavorite,
   onToggleFavorite,
   onAddToCart,
 }) => {
-  const theme = useColorScheme() ?? 'light';
-  const styles = createProductDetailsStyles(theme);
-  const colors = Colors[theme];
+  const { colors } = useTheme();
+  const styles = createProductDetailsStyles(colors);
 
   return (
     <View style={styles.bottomBarContainer}>

@@ -8,7 +8,7 @@ import { Colors } from '@shared/constants/theme';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const CARD_WIDTH = (SCREEN_WIDTH - 52) / 2;
 
-export const createNewArrivalsSectionStyles = (_theme: keyof typeof Colors) => {
+export const createNewArrivalsSectionStyles = (colors: typeof Colors.light | typeof Colors.dark) => {
   return StyleSheet.create({
     gridContainer: {
       paddingHorizontal: 20,

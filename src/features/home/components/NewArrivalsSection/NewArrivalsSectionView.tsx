@@ -4,11 +4,11 @@
 
 import React from 'react';
 import { View } from 'react-native';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import { Product } from '../../types/home.types';
 import { SectionHeaderView } from '../SectionHeader';
 import { ProductCardView } from '../ProductCard';
 import { createNewArrivalsSectionStyles } from './newArrivalsSection.styles';
+import { useTheme } from '@shared/hooks/use-theme';
 
 interface NewArrivalsSectionViewProps {
   products: Product[];
@@ -23,8 +23,8 @@ const NewArrivalsSectionView: React.FC<NewArrivalsSectionViewProps> = ({
   onSeeAll,
   onAddToCart,
 }) => {
-  const theme = useColorScheme() ?? 'light';
-  const styles = createNewArrivalsSectionStyles(theme);
+  const { colors } = useTheme();
+  const styles = createNewArrivalsSectionStyles(colors);
 
   // Build pairs for 2-column grid (avoids VirtualizedList-inside-ScrollView warning)
   const rows: Product[][] = [];

@@ -1,17 +1,17 @@
 
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { createProductDetailsStyles } from '../styles/productDetails.styles';
 import { SizeSelectorProps } from '../types/productDetails.types';
+import { useTheme } from '@shared/hooks/use-theme';
 
 export const SizeSelector: React.FC<SizeSelectorProps> = ({
   sizes,
   selectedSize,
   onSelectSize,
 }) => {
-  const theme = useColorScheme() ?? 'light';
-  const styles = createProductDetailsStyles(theme);
+  const { colors } = useTheme();
+  const styles = createProductDetailsStyles(colors);
 
   return (
     <View>

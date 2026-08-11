@@ -6,6 +6,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import { createSectionHeaderStyles } from './sectionHeader.styles';
+import { useTheme } from '@shared/hooks/use-theme';
 
 interface SectionHeaderViewProps {
   title: string;
@@ -18,8 +19,8 @@ const SectionHeaderView: React.FC<SectionHeaderViewProps> = ({
   onSeeAll,
   rightElement,
 }) => {
-  const theme = useColorScheme() ?? 'light';
-  const styles = createSectionHeaderStyles(theme);
+  const { colors } = useTheme();
+  const styles = createSectionHeaderStyles(colors);
 
   return (
     <View style={styles.container}>

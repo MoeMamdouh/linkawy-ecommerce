@@ -7,9 +7,8 @@ import {
   type TextInputProps,
 } from "react-native";
 import { cn } from "@shared/utils/cn";
-import { useColorScheme } from "@shared/hooks/use-color-scheme";
-import { Colors } from "@shared/constants/theme";
 import { Eye, EyeOff } from "lucide-react-native";
+import { useTheme } from "@shared/hooks/use-theme";
 
 export interface InputProps extends TextInputProps {
   label?: string;
@@ -42,8 +41,7 @@ const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
     },
     ref
   ) => {
-    const colorScheme = useColorScheme() ?? "light";
-    const colors = Colors[colorScheme];
+    const { colors } = useTheme();
 
     const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
     const isPasswordType = type === "password" || secureTextEntry;

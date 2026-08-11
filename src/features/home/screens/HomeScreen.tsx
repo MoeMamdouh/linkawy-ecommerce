@@ -1,5 +1,3 @@
-import { Colors } from '@shared/constants/theme';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useRef, useState } from 'react';
 import { ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent, ScrollView, TextInput, View, Text } from 'react-native';
@@ -14,13 +12,13 @@ import { SearchBarView } from '../components/SearchBar';
 import { useHomeData } from '../hooks/useHomeData';
 import { Product } from '../types/home.types';
 import { createHomeScreenStyles } from './homeScreen.styles';
+import { useTheme } from '@shared/hooks/use-theme';
 
 import { useCartStore } from '../../cart/store/cartStore';
 
 export default function HomeScreen() {
-  const theme = useColorScheme() ?? 'light';
-  const styles = createHomeScreenStyles(theme);
-  const colors = Colors[theme];
+  const { colors } = useTheme();
+  const styles = createHomeScreenStyles(colors);
   const router = useRouter();
   const addToCart = useCartStore((state) => state.addToCart);
 
@@ -43,7 +41,7 @@ export default function HomeScreen() {
   const handleProductPress = useCallback((product: Product) => {
     router.push({
       pathname: '/(tabs)/product/[id]',
-      params: { id: encodeURIComponent(product.id) },
+      params: { id: product.id },
     });
   }, [router]);
 

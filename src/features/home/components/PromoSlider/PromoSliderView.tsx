@@ -1,10 +1,9 @@
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
-
 import { Image } from 'expo-image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FlatList, NativeScrollEvent, NativeSyntheticEvent, Text, View } from 'react-native';
 import { BannerSlide } from '../../types/home.types';
 import { createPromoSliderStyles, SLIDER_WIDTH } from './promoSlider.styles';
+import { useTheme } from '@shared/hooks/use-theme';
 
 interface PromoSliderViewProps {
   slides?: BannerSlide[]; // جعل الخاصية اختيارية
@@ -15,8 +14,8 @@ export const PromoSliderView: React.FC<PromoSliderViewProps> = ({
   slides = [], // قيمة افتراضية مصفوفة فارغة
   autoScrollInterval = 4000,
 }) => {
-  const theme = useColorScheme() ?? 'light';
-  const styles = createPromoSliderStyles(theme);
+  const { colors } = useTheme();
+  const styles = createPromoSliderStyles(colors);
   const [activeIndex, setActiveIndex] = useState(0);
   const flatListRef = useRef<FlatList<BannerSlide>>(null);
   const autoScrollTimer = useRef<ReturnType<typeof setInterval> | null>(null);
