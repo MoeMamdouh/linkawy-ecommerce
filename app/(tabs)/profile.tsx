@@ -22,7 +22,6 @@ export default function ProfileScreen() {
     if (isAuthenticated && !loading && error) {
       void logout();
     }
-    console.log("Customer profile data:", profileData);
   }, [error, isAuthenticated, loading, logout, profileData]);
 
   const handleLogout = async () => {
