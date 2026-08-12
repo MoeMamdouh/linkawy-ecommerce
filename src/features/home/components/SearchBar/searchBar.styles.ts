@@ -2,8 +2,8 @@
 // SearchBar — Styles
 // ──────────────────────────────────────────────
 
-import { StyleSheet } from 'react-native';
 import { Colors, FontFamily } from '@shared/constants/theme';
+import { StyleSheet } from 'react-native';
 
 export const createSearchBarStyles = (colors: typeof Colors.light | typeof Colors.dark) => {
 
@@ -17,7 +17,7 @@ export const createSearchBarStyles = (colors: typeof Colors.light | typeof Color
     inputContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: colors.inputBackground,
+      backgroundColor: colors.input,
       borderRadius: 14,
       paddingHorizontal: 16,
       paddingVertical: 12,

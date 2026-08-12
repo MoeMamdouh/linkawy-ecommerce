@@ -2,8 +2,8 @@
 // ProductCard — Styles
 // ──────────────────────────────────────────────
 
-import { StyleSheet, Dimensions } from 'react-native';
 import { Colors, FontFamily, Palette } from '@shared/constants/theme';
+import { Dimensions, StyleSheet } from 'react-native';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 export const CARD_WIDTH = (SCREEN_WIDTH - 52) / 2; // 20px padding + 12px gap
@@ -100,7 +100,7 @@ export const createProductCardStyles = (colors: typeof Colors.light | typeof Col
     currentPrice: {
       fontFamily: FontFamily.bold,
       fontSize: 15,
-      color: colors.foreground,
+      color: colors.primary,
     },
     comparePrice: {
       fontFamily: FontFamily.regular,

@@ -2,11 +2,11 @@
 // SearchBar — View
 // ──────────────────────────────────────────────
 
-import React, { forwardRef } from 'react';
-import { View, TextInput } from 'react-native';
-import { Search } from 'lucide-react-native';
-import { createSearchBarStyles } from './searchBar.styles';
 import { useTheme } from '@shared/hooks/use-theme';
+import { Search } from 'lucide-react-native';
+import React, { forwardRef } from 'react';
+import { TextInput, View } from 'react-native';
+import { createSearchBarStyles } from './searchBar.styles';
 
 interface SearchBarViewProps {
   placeholder?: string;
