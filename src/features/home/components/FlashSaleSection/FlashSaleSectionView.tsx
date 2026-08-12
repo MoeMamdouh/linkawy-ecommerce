@@ -5,11 +5,11 @@
 import React, { useCallback } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import { Product } from '../../types/home.types';
 import { SectionHeaderView } from '../SectionHeader';
 import { useFlashSaleTimer } from './useFlashSaleTimer';
 import { createFlashSaleSectionStyles } from './flashSaleSection.styles';
+import { useTheme } from '@shared/hooks/use-theme';
 
 interface FlashSaleSectionViewProps {
   products: Product[];
@@ -24,8 +24,8 @@ const FlashSaleSectionView: React.FC<FlashSaleSectionViewProps> = ({
   onProductPress,
   onSeeAll,
 }) => {
-  const theme = useColorScheme() ?? 'light';
-  const styles = createFlashSaleSectionStyles(theme);
+  const { colors } = useTheme();
+  const styles = createFlashSaleSectionStyles(colors);
   const timer = useFlashSaleTimer(endTime);
 
   const TimerBadge = (

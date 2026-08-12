@@ -1,5 +1,3 @@
-import { Colors } from '@shared/constants/theme';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import {
   Dumbbell,
   Shirt,
@@ -12,6 +10,7 @@ import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { Category } from '../../types/home.types';
 import { SectionHeaderView } from '../SectionHeader';
 import { createCategoriesSectionStyles } from './categoriesSection.styles';
+import { useTheme } from '@shared/hooks/use-theme';
 
 interface CategoriesSectionViewProps {
   categories: Category[];
@@ -33,9 +32,8 @@ const CategoriesSectionView: React.FC<CategoriesSectionViewProps> = ({
   onCategoryPress,
   onSeeAll,
 }) => {
-  const theme = useColorScheme() ?? 'light';
-  const styles = createCategoriesSectionStyles(theme);
-  const colors = Colors[theme];
+  const { colors } = useTheme();
+  const styles = createCategoriesSectionStyles(colors);
 
   const renderCategory = useCallback(
     ({ item }: { item: Category }) => {

@@ -5,9 +5,8 @@
 import React, { forwardRef } from 'react';
 import { View, TextInput } from 'react-native';
 import { Search } from 'lucide-react-native';
-import { Colors } from '@shared/constants/theme';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import { createSearchBarStyles } from './searchBar.styles';
+import { useTheme } from '@shared/hooks/use-theme';
 
 interface SearchBarViewProps {
   placeholder?: string;
@@ -20,9 +19,9 @@ const SearchBarView = forwardRef<TextInput, SearchBarViewProps>(({
   onChangeText,
   value,
 }, ref) => {
-  const theme = useColorScheme() ?? 'light';
-  const styles = createSearchBarStyles(theme);
-  const colors = Colors[theme];
+
+  const { colors } = useTheme();
+  const styles = createSearchBarStyles(colors);
 
   return (
     <View style={styles.container}>
@@ -40,5 +39,8 @@ const SearchBarView = forwardRef<TextInput, SearchBarViewProps>(({
     </View>
   );
 });
+
+// Add display name for better debugging and React DevTools
+SearchBarView.displayName = 'SearchBarView';
 
 export default SearchBarView;

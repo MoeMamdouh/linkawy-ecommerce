@@ -1,10 +1,10 @@
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import React from 'react';
 import { View } from 'react-native';
 import { Product } from '../../types/home.types';
 import { ProductCardView } from '../ProductCard';
 import { SectionHeaderView } from '../SectionHeader';
 import { createFeaturedSectionStyles } from './featuredSection.styles';
+import { useTheme } from '@shared/hooks/use-theme';
 
 interface FeaturedSectionViewProps {
   products: Product[];
@@ -19,8 +19,8 @@ const FeaturedSectionView: React.FC<FeaturedSectionViewProps> = ({
   onSeeAll,
   onAddToCart,
 }) => {
-  const theme = useColorScheme() ?? 'light';
-  const styles = createFeaturedSectionStyles(theme);
+  const { colors }  = useTheme();
+  const styles = createFeaturedSectionStyles(colors);
 
   // Build pairs for 2-column grid (avoids VirtualizedList-inside-ScrollView warning)
   const rows: Product[][] = [];

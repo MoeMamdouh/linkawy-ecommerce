@@ -1,9 +1,8 @@
-import React from 'react';
 import { View, Text } from 'react-native';
-import { Colors, Palette } from '@shared/constants/theme';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
+import { Palette } from '@shared/constants/theme';
 import { AppliedPromo } from '../hooks/useCart';
 import { styles } from '../styles/cart-screen.styles';
+import { useTheme } from '@shared/hooks/use-theme';
 
 interface CartPriceCardProps {
   subtotal: number;
@@ -18,8 +17,7 @@ export function CartPriceCard({
   appliedPromo,
   total,
 }: CartPriceCardProps) {
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = Colors[colorScheme];
+  const { colors } = useTheme();
 
   return (
     <View

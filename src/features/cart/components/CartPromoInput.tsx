@@ -1,12 +1,11 @@
-import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { Tag, Check, X } from 'lucide-react-native';
-import { Colors, Palette, FontFamily, FontSize } from '@shared/constants/theme';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
+import { Palette, FontFamily, FontSize } from '@shared/constants/theme';
 import { Button } from '@shared/components/ui/button';
 import { Input } from '@shared/components/ui/input';
 import { AppliedPromo } from '../hooks/useCart';
 import { styles } from '../styles/cart-screen.styles';
+import { useTheme } from '@shared/hooks/use-theme';
 
 interface CartPromoInputProps {
   promoCode: string;
@@ -25,8 +24,8 @@ export function CartPromoInput({
   onApply,
   onRemove,
 }: CartPromoInputProps) {
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = Colors[colorScheme];
+
+  const { colors } = useTheme();
 
   return (
     <View style={styles.promoContainer}>
@@ -42,7 +41,7 @@ export function CartPromoInput({
         >
           <View style={styles.appliedPromoContent}>
             <View style={[styles.promoIconCircle, { backgroundColor: colors.primary }]}>
-              <Check size={14} color={Palette.white} />
+              <Check size={14} color={colors.white} />
             </View>
             <View>
               <Text style={[styles.appliedPromoCode, { color: colors.foreground }]}>
