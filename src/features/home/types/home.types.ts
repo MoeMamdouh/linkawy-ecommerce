@@ -10,6 +10,7 @@ export interface Product {
   image: string;
   category: string;
   discount?: number; // percentage e.g. 25 means -25%
+  firstVariantId?: string;
 }
 
 export interface Category {

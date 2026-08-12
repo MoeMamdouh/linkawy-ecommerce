@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import React, { useCallback, useRef, useState } from 'react';
-import { ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent, ScrollView, TextInput, View } from 'react-native';
+import { ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent, ScrollView, TextInput, View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { CategoriesSectionView } from '../components/CategoriesSection';
 import { FeaturedSectionView } from '../components/FeaturedSection';
@@ -14,10 +14,13 @@ import { Product } from '../types/home.types';
 import { createHomeScreenStyles } from './homeScreen.styles';
 import { useTheme } from '@shared/hooks/use-theme';
 
+import { useCartStore } from '../../cart/store/cartStore';
+
 export default function HomeScreen() {
   const { colors } = useTheme();
   const styles = createHomeScreenStyles(colors);
   const router = useRouter();
+  const addToCart = useCartStore((state) => state.addToCart);
 
   const {
     bannerSlides,
@@ -27,6 +30,7 @@ export default function HomeScreen() {
     newArrivals,
     flashSaleEndTime,
     isLoading,
+    error,
   } = useHomeData();
 
   const [showSearchInHeader, setShowSearchInHeader] = useState(false);
@@ -48,10 +52,13 @@ export default function HomeScreen() {
     }, 200);
   }, []);
 
-  const handleAddToCart = useCallback(() => {
-    console.log('Added to cart!');
-    // TODO: Add logic to update the cart store here
-  }, []);
+  const handleAddToCart = useCallback((product: Product) => {
+    if (product.firstVariantId) {
+      addToCart(product.firstVariantId, 1);
+    } else {
+      console.warn('Product has no variants, cannot add to cart:', product.id);
+    }
+  }, [addToCart]);
 
   const handleScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
@@ -70,6 +77,17 @@ export default function HomeScreen() {
       </View>
     );
   }
+
+  if (error) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={{ color: colors.destructive, fontFamily: 'Outfit_600SemiBold', fontSize: 16, textAlign: 'center', padding: 20 }}>
+          Error: {error}
+        </Text>
+      </View>
+    );
+  }
+
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>

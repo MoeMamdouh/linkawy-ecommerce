@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { ShoppingCart } from 'lucide-react-native';
-import { Colors, FontFamily, FontSize } from '@shared/constants/theme';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
+import { FontFamily, FontSize } from '@shared/constants/theme';
 import { Button } from '@shared/components/ui/button';
 import { useCart } from '../hooks/useCart';
 import { styles } from '../styles/cart-screen.styles';
@@ -10,10 +9,10 @@ import { CartHeader } from '../components/CartHeader';
 import { CartItemCard } from '../components/CartItemCard';
 import { CartPriceCard } from '../components/CartPriceCard';
 import { CartPromoInput } from '../components/CartPromoInput';
+import { useTheme } from '@shared/hooks/use-theme';
 
 export default function CartScreen() {
-  const colorScheme = useColorScheme();
-  const theme = Colors[colorScheme === "dark" ? "dark" : "light"];
+  const { colors } = useTheme();
 
 
   const {
@@ -33,16 +32,16 @@ export default function CartScreen() {
   } = useCart();
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       {/* Header */}
       <CartHeader totalItemCount={totalItemCount} />
 
       {cartItems.length === 0 ? (
         <View style={styles.emptyContainer}>
-          <View style={[styles.emptyIconCircle, { backgroundColor: theme.muted }]}>
-            <ShoppingCart size={40} color={theme.mutedForeground} />
+          <View style={[styles.emptyIconCircle, { backgroundColor: colors.muted }]}>
+            <ShoppingCart size={40} color={colors.mutedForeground} />
           </View>
-          <Text style={[styles.emptyText, { color: theme.mutedForeground }]}>
+          <Text style={[styles.emptyText, { color: colors.mutedForeground }]}>
             Your cart is empty
           </Text>
         </View>

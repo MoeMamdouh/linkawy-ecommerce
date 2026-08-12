@@ -15,7 +15,7 @@ interface NewArrivalsSectionViewProps {
   products: Product[];
   onProductPress?: (product: Product) => void;
   onSeeAll?: () => void;
-  onAddToCart?: () => void;
+  onAddToCart?: (product: Product) => void;
 }
 
 const NewArrivalsSectionView: React.FC<NewArrivalsSectionViewProps> = ({
@@ -44,7 +44,7 @@ const { t } = useTranslation();
                 key={item.id}
                 product={item}
                 onPress={() => onProductPress?.(item)}
-                onAddToCart={onAddToCart}
+                onAddToCart={() => onAddToCart?.(item)}
               />
             ))}
             {row.length === 1 && <View style={styles.emptyCard} />}
