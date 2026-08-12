@@ -15,47 +15,97 @@ interface AuthState {
   token: string | null;
   isAuthenticated: boolean;
   isHydrated: boolean;
+  isLoading: boolean;
+  error: string | null;
+}
+
+interface AuthActions {
   hydrateAuth: () => Promise<void>;
   loginSession: (session: CustomerSession) => Promise<void>;
   logout: () => Promise<void>;
 }
 
-export const useAuthStore = create<AuthState>((set, get) => ({
+export type AuthStore = AuthState & AuthActions;
+
+export const useAuthStore = create<AuthStore>((set, get) => ({
   token: null,
   isAuthenticated: false,
   isHydrated: false,
+  isLoading: false,
+  error: null,
 
   loginSession: async (session: CustomerSession) => {
-    await saveSession(session);
-    set({ token: session.accessToken, isAuthenticated: true });
+    set({ isLoading: true, error: null });
+
+    try {
+      await saveSession(session);
+      set({
+        token: session.accessToken,
+        isAuthenticated: true,
+        isHydrated: true,
+        isLoading: false,
+        error: null,
+      });
+    } catch (error: any) {
+      console.error("Failed to save session:", error);
+      set({
+        error: error?.message || "Failed to save session",
+        isLoading: false,
+      });
+      throw error;
+    }
   },
 
   logout: async () => {
     const currentToken = get().token;
+
+    set({ isLoading: true, error: null });
 
     if (currentToken) {
       try {
         await shopifyApi(
           CUSTOMER_DELETE_TOKEN_MUTATION,
           { customerAccessToken: currentToken },
-          { requiresAuth: true, customerAccessToken: currentToken }
+          { requiresAuth: true, customerAccessToken: currentToken },
         );
-      } catch (e) {
-        console.warn("Failed to delete access token on server:", e);
+      } catch (error) {
+        console.warn("Failed to delete access token on server:", error);
       }
     }
 
-    // Always clear local storage & state regardless of server response
-    await clearSession();
-    set({ token: null, isAuthenticated: false });
+    try {
+      await clearSession();
+      set({
+        token: null,
+        isAuthenticated: false,
+        isHydrated: true,
+        isLoading: false,
+        error: null,
+      });
+    } catch (error: any) {
+      console.error("Failed to clear session:", error);
+      set({
+        error: error?.message || "Failed to clear session",
+        isLoading: false,
+      });
+      throw error;
+    }
   },
 
   hydrateAuth: async () => {
+    set({ isLoading: true, error: null });
+
     try {
       const session = await getSession();
 
       if (!session) {
-        set({ token: null, isAuthenticated: false, isHydrated: true });
+        set({
+          token: null,
+          isAuthenticated: false,
+          isHydrated: true,
+          isLoading: false,
+          error: null,
+        });
         return;
       }
 
@@ -63,24 +113,25 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const expiresAt = new Date(session.expiresAt).getTime();
       const threeDaysInMs = 3 * 24 * 60 * 60 * 1000;
 
-      // 1. Token is valid -> Keep existing token
       if (expiresAt - now > threeDaysInMs) {
         set({
           token: session.accessToken,
           isAuthenticated: true,
           isHydrated: true,
+          isLoading: false,
+          error: null,
         });
         return;
       }
 
-      // 2. Token is close to expiring -> Perform Silent Renewal
       const data = await shopifyApi<any>(
         RENEW_TOKEN_MUTATION,
         { customerAccessToken: session.accessToken },
-        { requiresAuth: true, customerAccessToken: session.accessToken }
+        { requiresAuth: true, customerAccessToken: session.accessToken },
       );
 
       const newToken = data?.customerAccessTokenRenew?.customerAccessToken;
+
       if (newToken?.accessToken) {
         await saveSession({
           accessToken: newToken.accessToken,
@@ -90,15 +141,30 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           token: newToken.accessToken,
           isAuthenticated: true,
           isHydrated: true,
+          isLoading: false,
+          error: null,
         });
-      } else {
-        // Token was rejected/invalidated -> Force local logout
-        await clearSession();
-        set({ token: null, isAuthenticated: false, isHydrated: true });
+        return;
       }
-    } catch {
+
       await clearSession();
-      set({ token: null, isAuthenticated: false, isHydrated: true });
+      set({
+        token: null,
+        isAuthenticated: false,
+        isHydrated: true,
+        isLoading: false,
+        error: null,
+      });
+    } catch (error: any) {
+      console.error("Failed to hydrate auth:", error);
+      await clearSession();
+      set({
+        token: null,
+        isAuthenticated: false,
+        isHydrated: true,
+        isLoading: false,
+        error: error?.message || "Failed to hydrate auth",
+      });
     }
   },
 }));

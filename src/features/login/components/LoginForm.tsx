@@ -23,21 +23,17 @@ export default function LoginForm() {
   const handleLogin = async () => {
     setEmailError(undefined);
     setPasswordError(undefined);
-    if (apiError) resetError();
-
-    let hasError = false;
+    resetError();
 
     if (!email.trim()) {
       setEmailError("Email is required");
-      hasError = true;
+      return;
     }
 
     if (!password) {
       setPasswordError("Password is required");
-      hasError = true;
+      return;
     }
-
-    if (hasError) return;
 
     try {
       await login({ email, password });
@@ -53,14 +49,14 @@ export default function LoginForm() {
 
   const handleEmailChange = (text: string) => {
     setEmail(text);
-    if (emailError) setEmailError(undefined);
-    if (apiError) resetError();
+    setEmailError(undefined);
+    resetError();
   };
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
-    if (passwordError) setPasswordError(undefined);
-    if (apiError) resetError();
+    setPasswordError(undefined);
+    resetError();
   };
 
   return (
