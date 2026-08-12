@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { DocumentNode, gql } from "@apollo/client";
 import { apolloClient } from "./client"; // Adjust path to your Apollo file
 
 interface RequestOptions {
@@ -10,7 +10,7 @@ export async function shopifyApi<
   TData,
   TVariables extends Record<string, any> = Record<string, any>,
 >(
-  queryString: string,
+  query: DocumentNode,
   variables: TVariables = {} as TVariables,
   options: RequestOptions = {},
 ): Promise<TData> {
@@ -28,20 +28,18 @@ export async function shopifyApi<
     finalVariables.customerAccessToken = token;
   }
 
-  // Convert string query to Apollo GraphQL Document
-  const parsedQuery = gql(queryString);
-  const isMutation = queryString.trim().startsWith("mutation");
+  const isMutation = query.toString().trim().startsWith("mutation");
 
   // Execute via Apollo Client
   if (isMutation) {
     const response = await apolloClient.mutate<TData>({
-      mutation: parsedQuery,
+      mutation: query,
       variables: finalVariables,
     });
     return response.data as TData;
   } else {
     const response = await apolloClient.query<TData>({
-      query: parsedQuery,
+      query: query,
       variables: finalVariables,
       fetchPolicy: "network-only", // Ensures fresh data from Shopify
     });

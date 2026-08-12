@@ -1,16 +1,10 @@
-import { gql } from "@apollo/client";
-import { useApolloClient, useQuery } from "@apollo/client/react";
+import { useApolloClient } from "@apollo/client/react";
 import { shopifyApi } from "@shared/graphql/shopifyApi";
 import { useState } from "react";
 import {
   CUSTOMER_LOGIN_MUTATION,
-  GET_CUSTOMER_QUERY,
-} from "../api/customerQueries";
+} from "../graphql";
 import { useAuthStore } from "../store/useAuthStore";
-
-// Parse query strings for Apollo
-const GET_CUSTOMER = gql(GET_CUSTOMER_QUERY);
-// const REGISTER_MUTATION = gql(CUSTOMER_CREATE_MUTATION);
 
 type CustomerAccessToken = {
   accessToken: string;
@@ -30,31 +24,6 @@ type CustomerLoginMutationData = {
   } | null;
 };
 
-type CustomerProfile = {
-  id?: string | null;
-  firstName?: string | null;
-  lastName?: string | null;
-  email?: string | null;
-  phone?: string | null;
-};
-
-type CustomerQueryData = {
-  customer?: CustomerProfile | null;
-};
-
-// 1. Fetch Logged-in Customer Profile
-export const useCustomerProfile = () => {
-  const token = useAuthStore((state) => state.token);
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-
-  return useQuery<CustomerQueryData>(GET_CUSTOMER, {
-    variables: { customerAccessToken: token ?? "" },
-    skip: !isAuthenticated || !token,
-    fetchPolicy: "network-only",
-  });
-};
-
-// 2. Login Hook
 export const useLogin = () => {
   const loginSession = useAuthStore((state) => state.loginSession);
   // const cartId = useCartStore((state) => state.cartId);
@@ -130,7 +99,6 @@ export const useLogin = () => {
   };
 };
 
-// 3. Logout Hook
 export const useLogout = () => {
   const logoutStore = useAuthStore((state) => state.logout);
   const client = useApolloClient();

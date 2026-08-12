@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
 import { router } from "expo-router";
 
-import { useAuthStore } from "@features/customer/store/useAuthStore";
-import { useCustomerProfile, useLogout } from "@features/customer/hooks/useCustomerAuth";
+import { useAuthStore } from "@features/auth/store/useAuthStore";
+import { useCustomerProfile } from "@features/customer/hooks/useCustomer";
+import { useLogout } from "@features/auth/hooks/useAuth";
 import { LogIn, LogOut } from "lucide-react-native";
 import { Button } from "@shared/components/ui/button";
 

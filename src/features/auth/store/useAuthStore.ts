@@ -9,7 +9,7 @@ import { create } from "zustand";
 import {
   CUSTOMER_DELETE_TOKEN_MUTATION,
   RENEW_TOKEN_MUTATION,
-} from "../api/customerQueries";
+} from "../graphql";
 
 interface AuthState {
   token: string | null;

@@ -1,4 +1,6 @@
-export const CUSTOMER_LOGIN_MUTATION = `
+import { gql } from "@apollo/client";
+
+export const CUSTOMER_LOGIN_MUTATION = gql`
   mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
     customerAccessTokenCreate(input: $input) {
       customerAccessToken {
@@ -14,7 +16,7 @@ export const CUSTOMER_LOGIN_MUTATION = `
   }
 `;
 
-export const RENEW_TOKEN_MUTATION = `
+export const RENEW_TOKEN_MUTATION = gql`
   mutation customerAccessTokenRenew($customerAccessToken: String!) {
     customerAccessTokenRenew(customerAccessToken: $customerAccessToken) {
       customerAccessToken {
@@ -29,19 +31,7 @@ export const RENEW_TOKEN_MUTATION = `
   }
 `;
 
-export const GET_CUSTOMER_QUERY = `
-  query getCustomer($customerAccessToken: String!) {
-    customer(customerAccessToken: $customerAccessToken) {
-      id
-      firstName
-      lastName
-      email
-      phone
-    }
-  }
-`;
-
-export const CUSTOMER_DELETE_TOKEN_MUTATION = `
+export const CUSTOMER_DELETE_TOKEN_MUTATION = gql`
   mutation customerAccessTokenDelete($customerAccessToken: String!) {
     customerAccessTokenDelete(customerAccessToken: $customerAccessToken) {
       deletedAccessToken

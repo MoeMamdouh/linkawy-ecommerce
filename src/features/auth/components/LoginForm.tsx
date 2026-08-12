@@ -3,7 +3,7 @@ import { Lock, Mail } from "lucide-react-native";
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
-import { useLogin } from "@features/customer/hooks/useCustomerAuth";
+import { useLogin } from "@features/auth/hooks/useAuth";
 import { Button } from "@shared/components/ui/button";
 import { Input } from "@shared/components/ui/input";
 import { FontFamily, FontSize } from "@shared/constants/theme";
