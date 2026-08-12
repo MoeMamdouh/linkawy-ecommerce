@@ -52,7 +52,7 @@ export default function ProfileScreen() {
         style={{
           backgroundColor: colors.primary,
           paddingHorizontal: 20,
-          paddingTop: 40,
+          paddingTop: 60,
           paddingBottom: 24,
         }}
       >
@@ -177,9 +177,10 @@ export default function ProfileScreen() {
             key={item.label}
             variant="transparent"
             onPress={() => {
-      if (item.label === t("profile.language")) {
-  i18n.changeLanguage(i18n.language === "en" ? "ar" : "en");
-}
+     if (item.label === t("profile.language")) {
+    router.push("/language");
+  }
+
        if (item.label === t("profile.editProfile")) {
       
       router.push("/edit-profile");

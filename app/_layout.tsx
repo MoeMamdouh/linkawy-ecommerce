@@ -7,7 +7,6 @@ import {
   Outfit_900Black,
   useFonts,
 } from '@expo-google-fonts/outfit';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Colors } from '@shared/constants/theme';
 
 import apolloClient from '@shared/graphql/client';
@@ -71,12 +70,12 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <SafeAreaProvider>
          
-          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+         
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             </Stack>
             <StatusBar style="auto" />
-          </ThemeProvider>
+         
          
         </SafeAreaProvider>
       </QueryClientProvider>

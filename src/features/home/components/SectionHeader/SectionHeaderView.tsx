@@ -2,11 +2,12 @@
 // SectionHeader — View
 // ──────────────────────────────────────────────
 
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
-import { createSectionHeaderStyles } from './sectionHeader.styles';
 import { useTheme } from '@shared/hooks/use-theme';
+import React from 'react';
+import { useTranslation } from "react-i18next";
+import { Text, TouchableOpacity, View } from 'react-native';
+import { createSectionHeaderStyles } from './sectionHeader.styles';
+const { t } = useTranslation();
 
 interface SectionHeaderViewProps {
   title: string;
@@ -30,11 +31,12 @@ const SectionHeaderView: React.FC<SectionHeaderViewProps> = ({
       </View>
       {onSeeAll && (
         <TouchableOpacity onPress={onSeeAll} activeOpacity={0.7}>
-          <Text style={styles.seeAllText}>See All</Text>
+          <Text style={styles.seeAllText}>{t("sectionHeader.seeAll")}</Text>
         </TouchableOpacity>
       )}
     </View>
   );
-};
+}
+    
 
 export default SectionHeaderView;

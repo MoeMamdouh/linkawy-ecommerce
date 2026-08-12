@@ -1,10 +1,11 @@
+import { useTheme } from '@shared/hooks/use-theme';
 import React from 'react';
+import { useTranslation } from "react-i18next";
 import { View } from 'react-native';
 import { Product } from '../../types/home.types';
 import { ProductCardView } from '../ProductCard';
 import { SectionHeaderView } from '../SectionHeader';
 import { createFeaturedSectionStyles } from './featuredSection.styles';
-import { useTheme } from '@shared/hooks/use-theme';
 
 interface FeaturedSectionViewProps {
   products: Product[];
@@ -27,10 +28,11 @@ const FeaturedSectionView: React.FC<FeaturedSectionViewProps> = ({
   for (let i = 0; i < products.length; i += 2) {
     rows.push(products.slice(i, i + 2));
   }
-
+  const { t } = useTranslation();
   return (
     <View>
-      <SectionHeaderView title="Featured Products" onSeeAll={onSeeAll} />
+      <SectionHeaderView
+  title={t("featured.title")} onSeeAll={onSeeAll}/>
       <View style={styles.gridContainer}>
         {rows.map((row, rowIndex) => (
           <View key={rowIndex} style={styles.columnWrapper}>

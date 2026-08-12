@@ -1,3 +1,4 @@
+import { useTheme } from '@shared/hooks/use-theme';
 import {
   Dumbbell,
   Shirt,
@@ -6,18 +7,17 @@ import {
   Sparkles,
 } from 'lucide-react-native';
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { Category } from '../../types/home.types';
 import { SectionHeaderView } from '../SectionHeader';
 import { createCategoriesSectionStyles } from './categoriesSection.styles';
-import { useTheme } from '@shared/hooks/use-theme';
-
 interface CategoriesSectionViewProps {
   categories: Category[];
   onCategoryPress?: (category: Category) => void;
   onSeeAll?: () => void;
 }
-
+const { t } = useTranslation();
 // Map icon string names to actual lucide components
 const iconMap: Record<string, React.FC<{ size: number; color: string }>> = {
   Shirt,
@@ -50,17 +50,21 @@ const CategoriesSectionView: React.FC<CategoriesSectionViewProps> = ({
             )}
           </View>
           <Text style={styles.categoryName} numberOfLines={1}>
-            {item.name}
+            {t(`categories.${item.handle}`,
+             {
+              defaultValue: item.name,
+})}
           </Text>
         </TouchableOpacity>
       );
     },
     [styles, colors, onCategoryPress]
   );
-
+const { t } = useTranslation();
   return (
     <View>
-      <SectionHeaderView title="Categories" onSeeAll={onSeeAll} />
+      <SectionHeaderView title={t("categories.title")} onSeeAll={onSeeAll}
+/>
       <FlatList
         data={categories}
         renderItem={renderCategory}

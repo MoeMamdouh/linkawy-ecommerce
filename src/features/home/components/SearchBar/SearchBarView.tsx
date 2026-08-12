@@ -2,12 +2,12 @@
 // SearchBar — View
 // ──────────────────────────────────────────────
 
-import React, { forwardRef } from 'react';
-import { View, TextInput } from 'react-native';
-import { Search } from 'lucide-react-native';
-import { createSearchBarStyles } from './searchBar.styles';
 import { useTheme } from '@shared/hooks/use-theme';
-
+import { Search } from 'lucide-react-native';
+import React, { forwardRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { TextInput, View } from 'react-native';
+import { createSearchBarStyles } from './searchBar.styles';
 interface SearchBarViewProps {
   placeholder?: string;
   onChangeText?: (text: string) => void;
@@ -15,14 +15,14 @@ interface SearchBarViewProps {
 }
 
 const SearchBarView = forwardRef<TextInput, SearchBarViewProps>(({
-  placeholder = 'Search products...',
+  placeholder ,
   onChangeText,
   value,
 }, ref) => {
 
   const { colors } = useTheme();
   const styles = createSearchBarStyles(colors);
-
+const { t } = useTranslation();
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
@@ -30,7 +30,7 @@ const SearchBarView = forwardRef<TextInput, SearchBarViewProps>(({
         <TextInput
           ref={ref}
           style={styles.input}
-          placeholder={placeholder}
+          placeholder={placeholder || t("search.placeholder")}
           placeholderTextColor={colors.textMuted}
           value={value}
           onChangeText={onChangeText}

@@ -9,6 +9,49 @@
     "language": "Language",
     "lightMode": "Light Mode",
     "english": "English",
+    "arabic": "Arabic",
     "logout": "Logout"
-  }
+    },
+
+
+  "header": {
+  "welcome": "WELCOME BACK"
+  },
+
+  "search": {
+  "placeholder": "Search products..."
+},
+
+"categories": {
+  "title": "Categories",
+  "fashion": "Fashion",
+  "electronics": "Electronics",
+  "beauty": "Beauty",
+  "home": "Home",
+  "sports": "Sports"
+},
+"featured": {
+  "title": "Featured Products"
+},
+
+  "sectionHeader": {
+    "seeAll": "See All"
+  },
+  "flashSale": {
+    "title": "Flash Sale"
+  },
+    "newArrivals": {
+        "title": "New Arrivals"
+    },
+    "promo": {
+  "limitedOffer": "LIMITED OFFER",
+  "beautyEssentials": "Beauty Essentials",
+  "premiumBrands": "Premium brands",
+  "newSeason": "NEW SEASON",
+  "summerCollection": "Summer Collection",
+  "upTo40Off": "Up to 40% off",
+  "trendingNow": "TRENDING NOW",
+  "techGadgets": "Tech Gadgets",
+  "latestReleases": "Latest releases"
+}
 }
