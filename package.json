@@ -8,7 +8,8 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "reactotron:android": "adb reverse tcp:9090 tcp:9090"
   },
   "dependencies": {
     "@apollo/client": "^4.2.10",
@@ -54,6 +55,9 @@
     "@types/react": "~19.2.4",
     "babel-preset-expo": "~57.0.0",
     "eslint": "^9.25.0",
+    "reactotron-plugin-zustand": "^2.0.9",
+    "reactotron-react-native": "^5.2.0",
+    "reactotron-react-query": "^2.0.2",
     "eslint-config-expo": "~57.0.1",
     "tailwindcss": "^3.4.19",
     "typescript": "~6.0.3"

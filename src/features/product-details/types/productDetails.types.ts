@@ -13,6 +13,15 @@ export interface ProductDetails {
   image: string;
   sizes?: string[];
   colors?: string[];
+  variants?: ProductVariant[];
+}
+
+export interface ProductVariant {
+  id: string;
+  title: string;
+  price: number;
+  compareAtPrice?: number;
+  selectedOptions: { name: string; value: string }[];
 }
 
 export interface SizeSelectorProps {

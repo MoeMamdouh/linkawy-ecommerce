@@ -1,3 +1,5 @@
+import "../ReactotronConfig";
+
 import {
   Outfit_400Regular,
   Outfit_500Medium,
@@ -15,18 +17,15 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
-import {
-  configureReanimatedLogger,
-  ReanimatedLogLevel,
-} from "react-native-reanimated";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-
-import { ApolloProvider } from "@apollo/client/react";
 import { useAuthStore } from "@features/customer/store/useAuthStore";
-import { apolloClient } from "@shared/graphql/client";
-import { useTheme } from "@shared/hooks/use-theme";
-
 import "../global.css";
+import { ApolloProvider } from '@apollo/client/react';
+import { apolloClient } from '@shared/graphql/client';
+import { queryClient } from '@shared/query/client';
+import { useTheme } from '@shared/hooks/use-theme';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
 
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
@@ -61,7 +60,6 @@ export default function RootLayout() {
     }
   }, [fontError]);
 
-  // Wait until fonts AND SecureStore auth state are fully loaded
   if ((!fontsLoaded && !fontError) || !isHydrated) {
     return (
       <View
@@ -79,33 +77,28 @@ export default function RootLayout() {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <SafeAreaProvider>
-        <ThemeProvider value={isDark ? DarkTheme : DefaultTheme}>
-          <Stack>
-            {/* Main Tab Bar */}
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-
-            {/* Auth Group as Modal Popup */}
-            <Stack.Screen
-              name="(auth)"
-              options={{ headerShown: false, presentation: "modal" }}
-            />
-
-            {/* Fullscreen Product Details Route */}
-            <Stack.Screen
-              name="product/[id]"
-              options={{ headerShown: false }}
-            />
-
-            {/* Playground Route */}
-            <Stack.Screen
-              name="playgroundnav"
-              options={{ title: "Playground" }}
-            />
-          </Stack>
-          <StatusBar style="auto" />
-        </ThemeProvider>
-      </SafeAreaProvider>
+      <QueryClientProvider client={queryClient}>
+        <SafeAreaProvider>
+          <ThemeProvider value={isDark ? DarkTheme : DefaultTheme}>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="(auth)"
+                options={{ headerShown: false, presentation: "modal" }}
+              />
+              <Stack.Screen
+                name="product/[id]"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="playgroundnav"
+                options={{ title: "Playground" }}
+              />
+            </Stack>
+            <StatusBar style="auto" />
+          </ThemeProvider>
+        </SafeAreaProvider>
+      </QueryClientProvider>
     </ApolloProvider>
   );
 }

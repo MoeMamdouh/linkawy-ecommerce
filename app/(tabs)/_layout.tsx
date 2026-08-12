@@ -10,9 +10,20 @@ import {
 import { HapticTab } from "@shared/components/haptic-tab";
 import { FontFamily } from "@shared/constants/theme";
 import { useTheme } from "@shared/hooks/use-theme";
+import { useCartStore } from "@features/cart/store/cartStore";
+import React, { useEffect } from "react";
 
 export default function TabLayout() {
   const { colors } = useTheme();
+
+  const cart = useCartStore((state) => state.cart);
+  const initializeCart = useCartStore((state) => state.initializeCart);
+
+  useEffect(() => {
+    initializeCart();
+  }, [initializeCart]);
+
+  const totalCartItems = cart?.lines.reduce((acc, line) => acc + line.quantity, 0) || 0;
 
   return (
     <Tabs
@@ -57,6 +68,20 @@ export default function TabLayout() {
         name="cart"
         options={{
           title: "Cart",
+          tabBarBadge: totalCartItems > 0 ? totalCartItems : undefined,
+          tabBarBadgeStyle: {
+            backgroundColor: colors.destructive,
+            color: colors.white,
+            fontFamily: FontFamily.bold,
+            fontSize: 10,
+            minWidth: 16,
+            height: 16,
+            borderRadius: 8,
+            lineHeight: 15,
+            textAlign: 'center',
+            textAlignVertical: 'center',
+            padding: 0,
+          },
         }}
       />
       <Tabs.Screen

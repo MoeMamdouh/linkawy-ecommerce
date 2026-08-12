@@ -25,6 +25,21 @@ export const PRODUCTS_QUERY = gql`
               currencyCode
             }
           }
+          options {
+            name
+            values
+          }
+          variants(first: 100) {
+            edges {
+              node {
+                id
+                selectedOptions {
+                  name
+                  value
+                }
+              }
+            }
+          }
         }
       }
     }

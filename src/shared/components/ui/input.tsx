@@ -9,6 +9,7 @@ import {
 import { cn } from "@shared/utils/cn";
 import { Eye, EyeOff } from "lucide-react-native";
 import { useTheme } from "@shared/hooks/use-theme";
+import { FontFamily } from "@shared/constants/theme";
 
 export interface InputProps extends TextInputProps {
   label?: string;
@@ -65,7 +66,7 @@ const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
               "text-[11px] font-bold uppercase tracking-widest mb-1.5",
               labelClassName
             )}
-            style={{ color: colors.textMuted }}
+            style={{ color: colors.textMuted, fontFamily: FontFamily.bold }}
           >
             {label}
           </Text>
@@ -92,7 +93,7 @@ const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
             editable={editable}
             secureTextEntry={shouldHideText}
             placeholderTextColor={colors.textMuted}
-            style={{ color: colors.foreground }}
+            style={[{ color: colors.foreground, fontFamily: FontFamily.regular }, props.style]}
             className={cn("flex-1 text-sm outline-none", inputClassName)}
             {...props}
           />
@@ -118,7 +119,7 @@ const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
 
         {error && (
           <Text
-            style={{ color: colors.danger }}
+            style={{ color: colors.danger, fontFamily: FontFamily.medium }}
             className={cn("text-xs mt-1 font-medium", errorClassName)}
           >
             {error}
