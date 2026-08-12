@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { ShoppingCart } from 'lucide-react-native';
-import { Colors, FontFamily, FontSize } from '@shared/constants/theme';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
+import { FontFamily, FontSize } from '@shared/constants/theme';
 import { Button } from '@shared/components/ui/button';
 import { useCart } from '../hooks/useCart';
 import { styles } from '../styles/cart-screen.styles';
@@ -10,10 +9,11 @@ import { CartHeader } from '../components/CartHeader';
 import { CartItemCard } from '../components/CartItemCard';
 import { CartPriceCard } from '../components/CartPriceCard';
 import { CartPromoInput } from '../components/CartPromoInput';
+import { useTheme } from '@shared/hooks/use-theme';
 
 export default function CartScreen() {
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = Colors[colorScheme];
+  const { colors } = useTheme();
+
 
   const {
     cartItems,

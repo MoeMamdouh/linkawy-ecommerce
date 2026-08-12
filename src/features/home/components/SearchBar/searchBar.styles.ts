@@ -3,10 +3,9 @@
 // ──────────────────────────────────────────────
 
 import { StyleSheet } from 'react-native';
-import { Colors, FontFamily, Palette } from '@shared/constants/theme';
+import { Colors, FontFamily } from '@shared/constants/theme';
 
-export const createSearchBarStyles = (theme: keyof typeof Colors) => {
-  const colors = Colors[theme];
+export const createSearchBarStyles = (colors: typeof Colors.light | typeof Colors.dark) => {
 
   return StyleSheet.create({
     container: {

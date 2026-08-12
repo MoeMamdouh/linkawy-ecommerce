@@ -1,16 +1,16 @@
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import React from 'react';
 import { View } from 'react-native';
 import { Product } from '../../types/home.types';
 import { ProductCardView } from '../ProductCard';
 import { SectionHeaderView } from '../SectionHeader';
 import { createFeaturedSectionStyles } from './featuredSection.styles';
+import { useTheme } from '@shared/hooks/use-theme';
 
 interface FeaturedSectionViewProps {
   products: Product[];
   onProductPress?: (product: Product) => void;
   onSeeAll?: () => void;
-  onAddToCart?: () => void;
+  onAddToCart?: (product: Product) => void;
 }
 
 const FeaturedSectionView: React.FC<FeaturedSectionViewProps> = ({
@@ -19,8 +19,8 @@ const FeaturedSectionView: React.FC<FeaturedSectionViewProps> = ({
   onSeeAll,
   onAddToCart,
 }) => {
-  const theme = useColorScheme() ?? 'light';
-  const styles = createFeaturedSectionStyles(theme);
+  const { colors }  = useTheme();
+  const styles = createFeaturedSectionStyles(colors);
 
   // Build pairs for 2-column grid (avoids VirtualizedList-inside-ScrollView warning)
   const rows: Product[][] = [];
@@ -39,7 +39,7 @@ const FeaturedSectionView: React.FC<FeaturedSectionViewProps> = ({
                 key={item.id}
                 product={item}
                 onPress={() => onProductPress?.(item)}
-                onAddToCart={onAddToCart}
+                onAddToCart={() => onAddToCart?.(item)}
               />
             ))}
             {/* Add empty spacer if odd number of items in last row */}

@@ -1,6 +1,5 @@
-import { Colors, Palette } from '@shared/constants/theme';
+import { Palette } from '@shared/constants/theme';
 import { apolloClient } from '@shared/graphql/client';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ChevronLeft, Heart } from 'lucide-react-native';
@@ -19,20 +18,22 @@ import { SizeSelector } from '../components/SizeSelector';
 import { GET_PRODUCT_DETAILS_QUERY } from '../graphql/productDetailsQueries';
 import { createProductDetailsStyles } from '../styles/productDetails.styles';
 import { ProductDetails } from '../types/productDetails.types';
+import { useCartStore } from '../../cart/store/cartStore';
+import { useTheme } from '@shared/hooks/use-theme';
 
 
 export default function ProductDetailsScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ id?: string }>();
-  const theme = useColorScheme() ?? 'light';
-  const styles = createProductDetailsStyles(theme);
-  const colors = Colors[theme];
+  const { colors } = useTheme();
+  const styles = createProductDetailsStyles(colors);
 
   const [product, setProduct] = useState<ProductDetails | null>(null);
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [selectedColor, setSelectedColor] = useState<string>('');
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const addToCart = useCartStore((state) => state.addToCart);
   useEffect(() => {
     if (!params?.id) return;
     const productId = decodeURIComponent(params.id);
@@ -63,6 +64,17 @@ export default function ProductDetailsScreen() {
           const availableSizes = sizeOption ? sizeOption.values : [];
           const availableColors = colorOption ? colorOption.values : [];
 
+          const parsedVariants = (node.variants?.edges || []).map((edge: any) => {
+            const vNode = edge.node || {};
+            return {
+              id: vNode.id,
+              title: vNode.title,
+              price: parseFloat(vNode.price?.amount || '0'),
+              compareAtPrice: vNode.compareAtPrice?.amount ? parseFloat(vNode.compareAtPrice.amount) : undefined,
+              selectedOptions: vNode.selectedOptions || [],
+            };
+          });
+
           setProduct({
             id: node.id,
             title: node.title || 'Untitled',
@@ -74,6 +86,7 @@ export default function ProductDetailsScreen() {
             description: node.description || undefined,
             sizes: availableSizes,
             colors: availableColors,
+            variants: parsedVariants,
           });
 
           if (availableSizes.length > 0) setSelectedSize(availableSizes[0]);
@@ -205,7 +218,25 @@ export default function ProductDetailsScreen() {
       <BottomActionBar
         isFavorite={isFavorite}
         onToggleFavorite={() => setIsFavorite(!isFavorite)}
-        onAddToCart={() => console.log('Add to cart clicked')}
+        onAddToCart={() => {
+          if (!product || !product.variants || product.variants.length === 0) return;
+
+          // Find variant matching selected size and color
+          const matchingVariant = product.variants.find((v) => {
+            const sizeMatch = !selectedSize || v.selectedOptions.some(
+              (opt) => opt.name.toLowerCase() === 'size' && opt.value === selectedSize
+            );
+            const colorMatch = !selectedColor || v.selectedOptions.some(
+              (opt) => opt.name.toLowerCase() === 'color' && opt.value === selectedColor
+            );
+            return sizeMatch && colorMatch;
+          });
+
+          const variantToUse = matchingVariant || product.variants[0];
+          if (variantToUse) {
+            addToCart(variantToUse.id, 1);
+          }
+        }}
       />
     </View>
   );

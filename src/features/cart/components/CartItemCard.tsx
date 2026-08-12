@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   View,
   Text,
@@ -6,10 +5,9 @@ import {
   Image,
 } from 'react-native';
 import { Minus, Plus, X } from 'lucide-react-native';
-import { Colors } from '@shared/constants/theme';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
 import { CartItem } from '../hooks/useCart';
 import { styles } from '../styles/cart-screen.styles';
+import { useTheme } from '@shared/hooks/use-theme';
 
 interface CartItemCardProps {
   item: CartItem;
@@ -22,8 +20,7 @@ export function CartItemCard({
   onUpdateQuantity,
   onRemoveItem,
 }: CartItemCardProps) {
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = Colors[colorScheme];
+  const { colors } = useTheme();
 
   return (
     <View

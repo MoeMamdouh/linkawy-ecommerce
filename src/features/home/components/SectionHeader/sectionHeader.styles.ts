@@ -5,8 +5,7 @@
 import { StyleSheet } from 'react-native';
 import { Colors, FontFamily } from '@shared/constants/theme';
 
-export const createSectionHeaderStyles = (theme: keyof typeof Colors) => {
-  const colors = Colors[theme];
+export const createSectionHeaderStyles = (colors: typeof Colors.light | typeof Colors.dark) => {
 
   return StyleSheet.create({
     container: {

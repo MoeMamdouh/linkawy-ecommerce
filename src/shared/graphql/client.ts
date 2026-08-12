@@ -1,17 +1,19 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 
-const domain =
-  process.env.EXPO_PUBLIC_SHOPIFY_DOMAIN ||
-  process.env.SHOPIFY_STORE_DOMAIN ||
-  'linkawy-3c3pluxk.myshopify.com';
+const domain = process.env.EXPO_PUBLIC_SHOPIFY_DOMAIN || '';
+const publicAccessToken = process.env.EXPO_PUBLIC_SHOPIFY_STOREFRONT_TOKEN || '';
 
-const publicAccessToken =
-  process.env.EXPO_PUBLIC_SHOPIFY_STOREFRONT_TOKEN ||
-  process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN ||
-  '1ee90a470dc1bfa3b8c69f27cda48e5c';
+if (__DEV__) {
+  if (!domain) {
+    console.warn('Warning: EXPO_PUBLIC_SHOPIFY_DOMAIN is not defined.');
+  }
+  if (!publicAccessToken) {
+    console.warn('Warning: EXPO_PUBLIC_SHOPIFY_STOREFRONT_TOKEN is not defined.');
+  }
+}
 
-const shopDomain = domain ? domain.replace(/^https?:\/\//, '').replace(/\/$/, '') : '';
-const graphqlUri = `https://${shopDomain}/api/2024-07/graphql`;
+const shopDomain = domain.replace(/^https?:\/\//, '').replace(/\/$/, '');
+const graphqlUri = `https://${shopDomain}/api/2026-07/graphql`;
 
 const httpLink = new HttpLink({
   uri: graphqlUri,
@@ -23,7 +25,19 @@ const httpLink = new HttpLink({
 
 export const apolloClient = new ApolloClient({
   link: httpLink,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Cart: {
+        fields: {
+          discountCodes: {
+            merge(existing, incoming) {
+              return incoming;
+            },
+          },
+        },
+      },
+    },
+  }),
   defaultOptions: {
     watchQuery: {
       fetchPolicy: 'no-cache',
@@ -33,6 +47,5 @@ export const apolloClient = new ApolloClient({
     },
   },
 });
-
 
 export default apolloClient;

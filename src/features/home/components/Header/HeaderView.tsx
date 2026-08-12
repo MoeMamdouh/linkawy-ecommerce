@@ -5,10 +5,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Image } from 'expo-image';
 import { Bell, ShoppingCart, Search } from 'lucide-react-native';
-import { Colors } from '@shared/constants/theme';
-import { useColorScheme } from '@shared/hooks/use-color-scheme';
+import { useTheme } from '@shared/hooks/use-theme';
 import { createHeaderStyles } from './header.styles';
 
 interface HeaderViewProps {
@@ -28,9 +26,8 @@ const HeaderView: React.FC<HeaderViewProps> = ({
   showSearchIcon = false,
   onSearchPress,
 }) => {
-  const theme = useColorScheme() ?? 'light';
-  const styles = createHeaderStyles(theme);
-  const colors = Colors[theme];
+  const { colors } = useTheme();
+  const styles = createHeaderStyles(colors);
   const router = useRouter();
 
   return (
