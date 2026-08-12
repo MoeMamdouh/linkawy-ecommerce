@@ -69,6 +69,7 @@ export function CartPromoInput({
                 autoCapitalize="characters"
                 autoCorrect={false}
                 error={promoError || undefined}
+                style={{ fontFamily: FontFamily.regular }}
               />
             </View>
             <Button

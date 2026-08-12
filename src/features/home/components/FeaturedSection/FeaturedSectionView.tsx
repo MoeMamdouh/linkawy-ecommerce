@@ -10,7 +10,7 @@ interface FeaturedSectionViewProps {
   products: Product[];
   onProductPress?: (product: Product) => void;
   onSeeAll?: () => void;
-  onAddToCart?: () => void;
+  onAddToCart?: (product: Product) => void;
 }
 
 const FeaturedSectionView: React.FC<FeaturedSectionViewProps> = ({
@@ -39,7 +39,7 @@ const FeaturedSectionView: React.FC<FeaturedSectionViewProps> = ({
                 key={item.id}
                 product={item}
                 onPress={() => onProductPress?.(item)}
-                onAddToCart={onAddToCart}
+                onAddToCart={() => onAddToCart?.(item)}
               />
             ))}
             {/* Add empty spacer if odd number of items in last row */}

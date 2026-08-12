@@ -10,6 +10,28 @@ import { Category, HomeActions, HomeState, Product } from '../types/home.types';
 
 type HomeStore = HomeState & HomeActions;
 
+const getDefaultVariantId = (node: any) => {
+  if (!node.variants?.edges?.length) return undefined;
+  if (!node.options?.length) return node.variants.edges[0]?.node?.id;
+
+  const defaultOptions = node.options.map((opt: any) => ({
+    name: opt.name,
+    value: opt.values?.[0] || '',
+  }));
+
+  const matchingEdge = node.variants.edges.find((edge: any) => {
+    const vNode = edge.node || {};
+    return defaultOptions.every((defOpt: any) => {
+      const selected = vNode.selectedOptions?.find(
+        (sel: any) => sel.name.toLowerCase() === defOpt.name.toLowerCase()
+      );
+      return selected && selected.value === defOpt.value;
+    });
+  });
+
+  return matchingEdge?.node?.id || node.variants.edges[0]?.node?.id;
+};
+
 const mapShopifyProduct = (edge: any, index: number): Product => {
   const node = edge?.node || {};
   const price = parseFloat(node.priceRange?.minVariantPrice?.amount || '0');
@@ -22,6 +44,8 @@ const mapShopifyProduct = (edge: any, index: number): Product => {
       ? Math.round(((compareAt - price) / compareAt) * 100)
       : undefined;
 
+  const firstVariantId = getDefaultVariantId(node);
+
   return {
     id: node.id || `prod-${index}`,
     title: node.title || 'Product',
@@ -30,6 +54,7 @@ const mapShopifyProduct = (edge: any, index: number): Product => {
     image: node.featuredImage?.url || '',
     category: node.productType || 'General',
     discount,
+    firstVariantId,
   };
 };
 
@@ -140,6 +165,21 @@ export const useHomeStore = create<HomeStore>((set) => ({
                         featuredImage { url altText }
                         priceRange { minVariantPrice { amount currencyCode } }
                         compareAtPriceRange { maxVariantPrice { amount currencyCode } }
+                        options {
+                          name
+                          values
+                        }
+                        variants(first: 100) {
+                          edges {
+                            node {
+                              id
+                              selectedOptions {
+                                name
+                                value
+                              }
+                            }
+                          }
+                        }
                       }
                     }
                   }

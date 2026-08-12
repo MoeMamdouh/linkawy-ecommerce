@@ -31,6 +31,26 @@ export const GET_PRODUCT_DETAILS_QUERY = gql`
         name
         values
       }
+      variants(first: 100) {
+        edges {
+          node {
+            id
+            title
+            price {
+              amount
+              currencyCode
+            }
+            compareAtPrice {
+              amount
+              currencyCode
+            }
+            selectedOptions {
+              name
+              value
+            }
+          }
+        }
+      }
     }
   }
 `;
