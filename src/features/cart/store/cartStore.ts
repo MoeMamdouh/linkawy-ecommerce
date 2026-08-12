@@ -8,6 +8,7 @@ import {
   REMOVE_FROM_CART_MUTATION,
   UPDATE_CART_MUTATION,
   UPDATE_DISCOUNT_CODES_MUTATION,
+  CART_BUYER_IDENTITY_UPDATE_MUTATION,
 } from '../graphql';
 
 const CART_ID_STORAGE_KEY = '@linkawy_cart_id';
@@ -32,6 +33,18 @@ export interface FormattedCart {
   discountCodes?: { code: string; applicable: boolean }[];
 }
 
+export interface MailingAddressInput {
+  address1: string;
+  address2?: string;
+  city: string;
+  province?: string;
+  country: string;
+  zip: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+}
+
 interface CartState {
   cartId: string | null;
   cart: FormattedCart | null;
@@ -46,6 +59,7 @@ interface CartActions {
   removeFromCart: (lineId: string) => Promise<void>;
   clearCart: () => Promise<void>;
   updateDiscountCodes: (codes: string[]) => Promise<FormattedCart | null>;
+  updateBuyerIdentity: (customerAccessToken: string, email?: string, address?: MailingAddressInput) => Promise<void>;
 }
 
 export type CartStore = CartState & CartActions;
@@ -288,5 +302,56 @@ export const useCartStore = create<CartStore>((set, get) => ({
   clearCart: async () => {
     await AsyncStorage.removeItem(CART_ID_STORAGE_KEY);
     set({ cartId: null, cart: null, error: null });
+  },
+
+  updateBuyerIdentity: async (customerAccessToken: string, email?: string, address?: MailingAddressInput) => {
+    const { cartId } = get();
+    if (!cartId) return;
+
+    set({ isLoading: true, error: null });
+    try {
+      const buyerIdentityInput: any = {
+        customerAccessToken,
+        email,
+      };
+
+      if (address) {
+        buyerIdentityInput.deliveryAddressPreferences = [
+          {
+            deliveryAddress: address,
+          },
+        ];
+      }
+
+      const res = await apolloClient.mutate<any>({
+        mutation: CART_BUYER_IDENTITY_UPDATE_MUTATION,
+        variables: {
+          cartId,
+          buyerIdentity: buyerIdentityInput,
+        },
+      });
+
+      const userErrors = res.data?.cartBuyerIdentityUpdate?.userErrors || [];
+      if (userErrors.length > 0) {
+        throw new Error(userErrors[0].message);
+      }
+
+      const updatedCart = res.data?.cartBuyerIdentityUpdate?.cart;
+      if (updatedCart) {
+        set({
+          cart: {
+            ...get().cart!,
+            checkoutUrl: updatedCart.checkoutUrl,
+          },
+          isLoading: false,
+        });
+      } else {
+        set({ isLoading: false });
+      }
+    } catch (err: any) {
+      console.error('Failed to update buyer identity:', err);
+      set({ error: err.message || 'Failed to update buyer identity', isLoading: false });
+      throw err;
+    }
   },
 }));

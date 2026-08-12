@@ -91,6 +91,10 @@ export default function RootLayout() {
                 options={{ headerShown: false }}
               />
               <Stack.Screen
+                name="checkout"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
                 name="playgroundnav"
                 options={{ title: "Playground" }}
               />

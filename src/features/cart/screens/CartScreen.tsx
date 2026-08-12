@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
+import { useRouter } from 'expo-router';
 import { ShoppingCart } from 'lucide-react-native';
 import { FontFamily, FontSize } from '@shared/constants/theme';
 import { Button } from '@shared/components/ui/button';
@@ -13,6 +14,7 @@ import { useTheme } from '@shared/hooks/use-theme';
 
 export default function CartScreen() {
   const { colors } = useTheme();
+  const router = useRouter();
 
 
   const {
@@ -85,6 +87,7 @@ export default function CartScreen() {
               <Button
                 variant="default"
                 size="lg"
+                onPress={() => router.push('/checkout')}
                 textStyle={{
                   fontFamily: FontFamily.black,
                   fontSize: FontSize.md,

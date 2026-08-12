@@ -269,3 +269,18 @@ export const UPDATE_DISCOUNT_CODES_MUTATION = gql`
     }
   }
 `;
+
+export const CART_BUYER_IDENTITY_UPDATE_MUTATION = gql`
+  mutation CartBuyerIdentityUpdate($cartId: ID!, $buyerIdentity: CartBuyerIdentityInput!) {
+    cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {
+      cart {
+        id
+        checkoutUrl
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
