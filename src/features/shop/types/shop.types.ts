@@ -18,6 +18,7 @@ export interface ShopState {
   favoriteIds: string[];
   isLoading: boolean;
   error: string | null;
+  focusSearchOnOpen: boolean;
 }
 
 export interface ShopActions {
@@ -26,6 +27,8 @@ export interface ShopActions {
   toggleFavorite: (productId: string) => void;
   loadCategories: () => Promise<void>;
   fetchProducts: () => Promise<void>;
+  openShop: (options?: { searchQuery?: string; categoryId?: string; focusSearch?: boolean }) => void;
+  consumeFocusSearch: () => boolean;
 }
 
 export type ShopStore = ShopState & ShopActions;

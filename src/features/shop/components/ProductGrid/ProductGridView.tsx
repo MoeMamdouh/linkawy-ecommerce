@@ -4,10 +4,10 @@
 
 import { ProductCardView } from '@features/home/components/ProductCard';
 import { Product } from '@features/home/types/home.types';
+import { useTheme } from '@shared/hooks/use-theme';
 import React, { useCallback } from 'react';
 import { FlatList, Text, View } from 'react-native';
 import { createProductGridStyles } from './productGrid.styles';
-import { useTheme } from '@shared/hooks/use-theme';
 
 interface ProductGridViewProps {
   products: Product[];
@@ -16,6 +16,7 @@ interface ProductGridViewProps {
   onToggleFavorite: (productId: string) => void;
   onAddToCart: (product: Product) => void;
   ListHeaderComponent?: React.ReactElement;
+  showRating?: boolean;
 }
 
 const ProductGridView: React.FC<ProductGridViewProps> = ({
@@ -25,6 +26,7 @@ const ProductGridView: React.FC<ProductGridViewProps> = ({
   onToggleFavorite,
   onAddToCart,
   ListHeaderComponent,
+  showRating = false,
 }) => {
   const { colors } = useTheme();
   const styles = createProductGridStyles(colors);
@@ -37,9 +39,10 @@ const ProductGridView: React.FC<ProductGridViewProps> = ({
         onPress={() => onProductPress(item)}
         onToggleFavorite={() => onToggleFavorite(item.id)}
         onAddToCart={() => onAddToCart(item)}
+        showRating={showRating}
       />
     ),
-    [favoriteIds, onProductPress, onToggleFavorite, onAddToCart]
+    [favoriteIds, onProductPress, onToggleFavorite, onAddToCart, showRating]
   );
 
   const renderEmpty = () => (
@@ -50,6 +53,7 @@ const ProductGridView: React.FC<ProductGridViewProps> = ({
 
   return (
     <FlatList
+      style={styles.list}
       data={products}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}

@@ -1,266 +1,56 @@
 import { gql } from '@apollo/client';
+import { CART_FRAGMENT } from '@shared/graphql/fragments';
 
 export const CREATE_CART_MUTATION = gql`
+  ${CART_FRAGMENT}
   mutation CartCreate($input: CartInput) {
     cartCreate(input: $input) {
       cart {
-        id
-        checkoutUrl
-        discountCodes {
-          code
-          applicable
-        }
-        cost {
-          totalAmount {
-            amount
-            currencyCode
-          }
-          subtotalAmount {
-            amount
-            currencyCode
-          }
-        }
-        lines(first: 100) {
-          edges {
-            node {
-              id
-              quantity
-              merchandise {
-                ... on ProductVariant {
-                  id
-                  title
-                  price {
-                    amount
-                    currencyCode
-                  }
-                  product {
-                    id
-                    title
-                    featuredImage {
-                      url
-                    }
-                  }
-                  selectedOptions {
-                    name
-                    value
-                  }
-                }
-              }
-            }
-          }
-        }
+        ...CartFields
       }
     }
   }
 `;
 
 export const ADD_TO_CART_MUTATION = gql`
+  ${CART_FRAGMENT}
   mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
     cartLinesAdd(cartId: $cartId, lines: $lines) {
       cart {
-        id
-        discountCodes {
-          code
-          applicable
-        }
-        cost {
-          totalAmount {
-            amount
-            currencyCode
-          }
-          subtotalAmount {
-            amount
-            currencyCode
-          }
-        }
-        lines(first: 100) {
-          edges {
-            node {
-              id
-              quantity
-              merchandise {
-                ... on ProductVariant {
-                  id
-                  title
-                  price {
-                    amount
-                    currencyCode
-                  }
-                  product {
-                    id
-                    title
-                    featuredImage {
-                      url
-                    }
-                  }
-                  selectedOptions {
-                    name
-                    value
-                  }
-                }
-              }
-            }
-          }
-        }
+        ...CartFields
       }
     }
   }
 `;
 
 export const UPDATE_CART_MUTATION = gql`
+  ${CART_FRAGMENT}
   mutation CartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
     cartLinesUpdate(cartId: $cartId, lines: $lines) {
       cart {
-        id
-        discountCodes {
-          code
-          applicable
-        }
-        cost {
-          totalAmount {
-            amount
-            currencyCode
-          }
-          subtotalAmount {
-            amount
-            currencyCode
-          }
-        }
-        lines(first: 100) {
-          edges {
-            node {
-              id
-              quantity
-              merchandise {
-                ... on ProductVariant {
-                  id
-                  title
-                  price {
-                    amount
-                    currencyCode
-                  }
-                  product {
-                    id
-                    title
-                    featuredImage {
-                      url
-                    }
-                  }
-                  selectedOptions {
-                    name
-                    value
-                  }
-                }
-              }
-            }
-          }
-        }
+        ...CartFields
       }
     }
   }
 `;
 
 export const REMOVE_FROM_CART_MUTATION = gql`
+  ${CART_FRAGMENT}
   mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
     cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
       cart {
-        id
-        discountCodes {
-          code
-          applicable
-        }
-        cost {
-          totalAmount {
-            amount
-            currencyCode
-          }
-          subtotalAmount {
-            amount
-            currencyCode
-          }
-        }
-        lines(first: 100) {
-          edges {
-            node {
-              id
-              quantity
-              merchandise {
-                ... on ProductVariant {
-                  id
-                  title
-                  price {
-                    amount
-                    currencyCode
-                  }
-                  product {
-                    id
-                    title
-                    featuredImage {
-                      url
-                    }
-                  }
-                  selectedOptions {
-                    name
-                    value
-                  }
-                }
-              }
-            }
-          }
-        }
+        ...CartFields
       }
     }
   }
 `;
 
 export const UPDATE_DISCOUNT_CODES_MUTATION = gql`
+  ${CART_FRAGMENT}
   mutation CartDiscountCodesUpdate($cartId: ID!, $discountCodes: [String!]!) {
     cartDiscountCodesUpdate(cartId: $cartId, discountCodes: $discountCodes) {
       cart {
-        id
-        discountCodes {
-          code
-          applicable
-        }
-        cost {
-          totalAmount {
-            amount
-            currencyCode
-          }
-          subtotalAmount {
-            amount
-            currencyCode
-          }
-        }
-        lines(first: 100) {
-          edges {
-            node {
-              id
-              quantity
-              merchandise {
-                ... on ProductVariant {
-                  id
-                  title
-                  price {
-                    amount
-                    currencyCode
-                  }
-                  product {
-                    id
-                    title
-                    featuredImage {
-                      url
-                    }
-                  }
-                  selectedOptions {
-                    name
-                    value
-                  }
-                }
-              }
-            }
-          }
-        }
+        ...CartFields
       }
       userErrors {
         field

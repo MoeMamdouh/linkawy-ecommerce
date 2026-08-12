@@ -18,15 +18,19 @@ interface CategoryFiltersViewProps {
   categories: ShopCategory[];
   selectedCategoryId: string;
   onSelectCategory: (categoryId: string) => void;
+  sectionBackground?: string;
+  embedded?: boolean;
 }
 
 const CategoryFiltersView: React.FC<CategoryFiltersViewProps> = ({
   categories,
   selectedCategoryId,
   onSelectCategory,
+  sectionBackground,
+  embedded = false,
 }) => {
   const { colors } = useTheme();
-  const styles = createCategoryFiltersStyles(colors);
+  const styles = createCategoryFiltersStyles(colors, sectionBackground, embedded);
 
   const filterItems: CategoryFilterItem[] = [
     { id: ALL_CATEGORY_ID, name: 'All' },

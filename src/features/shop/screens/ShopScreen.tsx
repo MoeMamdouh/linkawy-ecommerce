@@ -2,20 +2,24 @@ import { SearchBarView } from '@features/home/components/SearchBar';
 import { Product } from '@features/home/types/home.types';
 import { useCartStore } from '@features/cart/store/cartStore';
 import { useTheme } from '@shared/hooks/use-theme';
-import { useRouter } from 'expo-router';
-import React, { useCallback, useMemo } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { useRouter, useFocusEffect } from 'expo-router';
+import React, { useCallback, useMemo, useRef } from 'react';
+import { ActivityIndicator, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { CategoryFiltersView } from '../components/CategoryFilters';
 import { ProductGridView } from '../components/ProductGrid';
 import { useShopData } from '../hooks/useShopData';
+import { useShopStore } from '../store/shopStore';
 import { createShopScreenStyles } from './shopScreen.styles';
 
 export default function ShopScreen() {
-  const { colors } = useTheme();
-  const styles = createShopScreenStyles(colors);
+  const { colors, isDark } = useTheme();
+  const headerBackground = isDark ? colors.background : colors.card;
+  const styles = createShopScreenStyles(colors, isDark);
   const router = useRouter();
   const addToCart = useCartStore((state) => state.addToCart);
+  const consumeFocusSearch = useShopStore((state) => state.consumeFocusSearch);
+  const searchInputRef = useRef<TextInput>(null);
 
   const {
     searchQuery,
@@ -29,6 +33,14 @@ export default function ShopScreen() {
     setSelectedCategory,
     toggleFavorite,
   } = useShopData();
+
+  useFocusEffect(
+    useCallback(() => {
+      if (consumeFocusSearch()) {
+        setTimeout(() => searchInputRef.current?.focus(), 150);
+      }
+    }, [consumeFocusSearch])
+  );
 
   const handleProductPress = useCallback(
     (product: Product) => {
@@ -49,36 +61,13 @@ export default function ShopScreen() {
     [addToCart]
   );
 
-  const listHeader = useMemo(
+  const resultsHeader = useMemo(
     () => (
-      <View>
-        <View style={styles.header}>
-          <Text style={styles.title}>Shop</Text>
-        </View>
-        <SearchBarView
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          placeholder="Search products..."
-        />
-        <CategoryFiltersView
-          categories={categories}
-          selectedCategoryId={selectedCategoryId}
-          onSelectCategory={setSelectedCategory}
-        />
-        <Text style={styles.resultsCount}>
-          {products.length} {products.length === 1 ? 'product' : 'products'} found
-        </Text>
-      </View>
+      <Text style={styles.resultsCount}>
+        {products.length} {products.length === 1 ? 'product' : 'products'} found
+      </Text>
     ),
-    [
-      styles,
-      searchQuery,
-      setSearchQuery,
-      categories,
-      selectedCategoryId,
-      setSelectedCategory,
-      products.length,
-    ]
+    [styles.resultsCount, products.length]
   );
 
   if (isLoading && products.length === 0 && categories.length === 0) {
@@ -99,13 +88,35 @@ export default function ShopScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <View style={styles.headerSection}>
+        <View style={styles.headerContent}>
+          <Text style={styles.title}>Shop</Text>
+          <SearchBarView
+            ref={searchInputRef}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            placeholder="Search products..."
+            containerBackground={headerBackground}
+            embedded
+          />
+          <CategoryFiltersView
+            categories={categories}
+            selectedCategoryId={selectedCategoryId}
+            onSelectCategory={setSelectedCategory}
+            sectionBackground={headerBackground}
+            embedded
+          />
+        </View>
+      </View>
+
       <ProductGridView
         products={products}
         favoriteIds={favoriteIds}
         onProductPress={handleProductPress}
         onToggleFavorite={toggleFavorite}
         onAddToCart={handleAddToCart}
-        ListHeaderComponent={listHeader}
+        ListHeaderComponent={resultsHeader}
+        showRating
       />
     </SafeAreaView>
   );

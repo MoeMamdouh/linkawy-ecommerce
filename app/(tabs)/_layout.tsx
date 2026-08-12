@@ -14,7 +14,7 @@ import { useCartStore } from "@features/cart/store/cartStore";
 import React, { useEffect } from "react";
 
 export default function TabLayout() {
-  const { colors } = useTheme();
+  const { colors, isDark } = useTheme();
 
   const cart = useCartStore((state) => state.cart);
   const initializeCart = useCartStore((state) => state.initializeCart);
@@ -31,6 +31,13 @@ export default function TabLayout() {
         headerShown: false,
         tabBarActiveTintColor: colors.tabIconSelected,
         tabBarInactiveTintColor: colors.tabIconDefault,
+        tabBarStyle: {
+          backgroundColor: isDark ? colors.background : colors.card,
+          borderTopColor: colors.border,
+          borderTopWidth: isDark ? 0 : 1,
+          elevation: isDark ? 0 : 8,
+          shadowOpacity: isDark ? 0 : 0.06,
+        },
         tabBarButton: (props: any) => <HapticTab {...props} />,
         tabBarLabelStyle: {
           fontFamily: FontFamily.medium,

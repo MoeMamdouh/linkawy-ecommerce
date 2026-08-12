@@ -94,10 +94,27 @@ export const useShopStore = create<ShopStore>((set, get) => ({
   favoriteIds: [],
   isLoading: false,
   error: null,
+  focusSearchOnOpen: false,
 
   setSearchQuery: (query) => set({ searchQuery: query }),
 
   setSelectedCategory: (categoryId) => set({ selectedCategoryId: categoryId }),
+
+  openShop: (options) => {
+    set({
+      searchQuery: options?.searchQuery ?? '',
+      selectedCategoryId: options?.categoryId ?? ALL_CATEGORY_ID,
+      focusSearchOnOpen: options?.focusSearch ?? false,
+    });
+  },
+
+  consumeFocusSearch: () => {
+    const shouldFocus = get().focusSearchOnOpen;
+    if (shouldFocus) {
+      set({ focusSearchOnOpen: false });
+    }
+    return shouldFocus;
+  },
 
   toggleFavorite: (productId) =>
     set((state) => ({

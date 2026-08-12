@@ -1,68 +1,29 @@
 import { gql } from '@apollo/client';
+import {
+  COLLECTION_FULL_FRAGMENT,
+  PRODUCT_CARD_FRAGMENT,
+} from '@shared/graphql/fragments';
+
 export const PRODUCTS_QUERY = gql`
+  ${PRODUCT_CARD_FRAGMENT}
   query HomeProducts($first: Int!) {
     products(first: $first, sortKey: CREATED_AT, reverse: true) {
       edges {
         node {
-          id
-          title
-          handle
-          productType
-          tags
-          featuredImage {
-            url
-            altText
-          }
-          priceRange {
-            minVariantPrice {
-              amount
-              currencyCode
-            }
-          }
-          compareAtPriceRange {
-            maxVariantPrice {
-              amount
-              currencyCode
-            }
-          }
-          options {
-            name
-            values
-          }
-          variants(first: 100) {
-            edges {
-              node {
-                id
-                selectedOptions {
-                  name
-                  value
-                }
-              }
-            }
-          }
+          ...ProductCardFields
         }
       }
     }
   }
 `;
 
-/**
- * Fetch collections for categories and banner slides.
- * Includes description and image for full Shopify dynamic banners.
- */
 export const COLLECTIONS_QUERY = gql`
+  ${COLLECTION_FULL_FRAGMENT}
   query GetCollections($first: Int!) {
     collections(first: $first) {
       edges {
         node {
-          id
-          title
-          handle
-          description
-          image {
-            url
-            altText
-          }
+          ...CollectionFullFields
         }
       }
     }

@@ -1,30 +1,38 @@
 import { Colors, FontFamily, FontSize } from '@shared/constants/theme';
 import { StyleSheet } from 'react-native';
 
-export const createShopScreenStyles = (colors: typeof Colors.light | typeof Colors.dark) =>
+export const createShopScreenStyles = (
+  colors: typeof Colors.light | typeof Colors.dark,
+  isDark: boolean
+) =>
   StyleSheet.create({
     safeArea: {
       flex: 1,
       backgroundColor: colors.background,
     },
-    header: {
+    headerSection: {
+      width: '100%',
+      backgroundColor: isDark ? colors.background : colors.card,
+      paddingBottom: isDark ? 0 : 4,
+    },
+    headerContent: {
       paddingHorizontal: 20,
-      paddingTop: 8,
-      paddingBottom: 0,
-      backgroundColor: colors.background,
+      paddingTop: 4,
+      paddingBottom: 10,
     },
     title: {
       fontFamily: FontFamily.bold,
       fontSize: FontSize.xxl,
       color: colors.foreground,
-      marginBottom: 12,
+      marginBottom: 10,
     },
     resultsCount: {
       fontFamily: FontFamily.regular,
       fontSize: FontSize.sm,
       color: colors.mutedForeground,
       paddingHorizontal: 20,
-      paddingBottom: 8,
+      paddingTop: 8,
+      paddingBottom: 10,
     },
     loadingContainer: {
       flex: 1,

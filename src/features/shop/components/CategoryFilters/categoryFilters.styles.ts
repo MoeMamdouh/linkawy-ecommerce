@@ -5,17 +5,23 @@
 import { Colors, FontFamily } from '@shared/constants/theme';
 import { StyleSheet } from 'react-native';
 
-export const createCategoryFiltersStyles = (colors: typeof Colors.light | typeof Colors.dark) =>
+export const createCategoryFiltersStyles = (
+  colors: typeof Colors.light | typeof Colors.dark,
+  sectionBackground?: string,
+  embedded = false
+) =>
   StyleSheet.create({
     listContainer: {
-      paddingHorizontal: 20,
-      paddingVertical: 12,
+      paddingHorizontal: embedded ? 0 : 20,
+      paddingTop: embedded ? 8 : 4,
+      paddingBottom: embedded ? 0 : 12,
       gap: 8,
+      backgroundColor: sectionBackground ?? colors.background,
     },
     pill: {
       paddingHorizontal: 18,
       paddingVertical: 10,
-      borderRadius: 20,
+      borderRadius: 999,
       backgroundColor: colors.input,
       marginRight: 8,
     },
@@ -29,5 +35,6 @@ export const createCategoryFiltersStyles = (colors: typeof Colors.light | typeof
     },
     pillTextActive: {
       color: colors.primaryForeground,
+      fontFamily: FontFamily.semiBold,
     },
   });

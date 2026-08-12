@@ -1,13 +1,16 @@
 import { gql } from '@apollo/client';
+import {
+  COLLECTION_BASIC_FRAGMENT,
+  PRODUCT_CARD_FRAGMENT,
+} from '@shared/graphql/fragments';
 
 export const SHOP_COLLECTIONS_QUERY = gql`
+  ${COLLECTION_BASIC_FRAGMENT}
   query ShopCollections($first: Int!) {
     collections(first: $first) {
       edges {
         node {
-          id
-          title
-          handle
+          ...CollectionBasicFields
         }
       }
     }
@@ -15,46 +18,12 @@ export const SHOP_COLLECTIONS_QUERY = gql`
 `;
 
 export const SHOP_PRODUCTS_QUERY = gql`
+  ${PRODUCT_CARD_FRAGMENT}
   query ShopProducts($first: Int!, $query: String) {
     products(first: $first, query: $query, sortKey: BEST_SELLING) {
       edges {
         node {
-          id
-          title
-          handle
-          productType
-          tags
-          featuredImage {
-            url
-            altText
-          }
-          priceRange {
-            minVariantPrice {
-              amount
-              currencyCode
-            }
-          }
-          compareAtPriceRange {
-            maxVariantPrice {
-              amount
-              currencyCode
-            }
-          }
-          options {
-            name
-            values
-          }
-          variants(first: 100) {
-            edges {
-              node {
-                id
-                selectedOptions {
-                  name
-                  value
-                }
-              }
-            }
-          }
+          ...ProductCardFields
         }
       }
     }
@@ -62,6 +31,7 @@ export const SHOP_PRODUCTS_QUERY = gql`
 `;
 
 export const SHOP_COLLECTION_PRODUCTS_QUERY = gql`
+  ${PRODUCT_CARD_FRAGMENT}
   query ShopCollectionProducts($handle: String!, $first: Int!) {
     collectionByHandle(handle: $handle) {
       id
@@ -69,42 +39,7 @@ export const SHOP_COLLECTION_PRODUCTS_QUERY = gql`
       products(first: $first, sortKey: BEST_SELLING) {
         edges {
           node {
-            id
-            title
-            handle
-            productType
-            tags
-            featuredImage {
-              url
-              altText
-            }
-            priceRange {
-              minVariantPrice {
-                amount
-                currencyCode
-              }
-            }
-            compareAtPriceRange {
-              maxVariantPrice {
-                amount
-                currencyCode
-              }
-            }
-            options {
-              name
-              values
-            }
-            variants(first: 100) {
-              edges {
-                node {
-                  id
-                  selectedOptions {
-                    name
-                    value
-                  }
-                }
-              }
-            }
+            ...ProductCardFields
           }
         }
       }

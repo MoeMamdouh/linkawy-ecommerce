@@ -1,7 +1,8 @@
 import { useRouter } from 'expo-router';
 import React, { useCallback, useRef, useState } from 'react';
-import { ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent, ScrollView, TextInput, View, Text } from 'react-native';
+import { ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent, ScrollView, View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useShopStore } from '@features/shop/store/shopStore';
 import { CategoriesSectionView } from '../components/CategoriesSection';
 import { FeaturedSectionView } from '../components/FeaturedSection';
 import { FlashSaleSectionView } from '../components/FlashSaleSection';
@@ -21,6 +22,7 @@ export default function HomeScreen() {
   const styles = createHomeScreenStyles(colors);
   const router = useRouter();
   const addToCart = useCartStore((state) => state.addToCart);
+  const openShop = useShopStore((state) => state.openShop);
 
   const {
     bannerSlides,
@@ -36,7 +38,11 @@ export default function HomeScreen() {
   const [showSearchInHeader, setShowSearchInHeader] = useState(false);
 
   const scrollViewRef = useRef<ScrollView>(null);
-  const searchInputRef = useRef<TextInput>(null);
+
+  const navigateToShop = useCallback(() => {
+    openShop({ focusSearch: true });
+    router.push('/(tabs)/shop');
+  }, [openShop, router]);
 
   const handleProductPress = useCallback((product: Product) => {
     router.push({
@@ -44,13 +50,6 @@ export default function HomeScreen() {
       params: { id: product.id },
     });
   }, [router]);
-
-  const handleSearchPress = useCallback(() => {
-    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
-    setTimeout(() => {
-      searchInputRef.current?.focus();
-    }, 200);
-  }, []);
 
   const handleAddToCart = useCallback((product: Product) => {
     if (product.firstVariantId) {
@@ -101,9 +100,9 @@ export default function HomeScreen() {
       >
         <HeaderView
           showSearchIcon={showSearchInHeader}
-          onSearchPress={handleSearchPress}
+          onSearchPress={navigateToShop}
         />
-        <SearchBarView ref={searchInputRef} />
+        <SearchBarView editable={false} onPress={navigateToShop} />
         {/* <PromoSliderView slides={bannerSlides} autoScrollInterval={4000} /> */}
         <PromoSliderView slides={bannerSlides || []} autoScrollInterval={4000} />
         <CategoriesSectionView categories={categories} />
