@@ -142,7 +142,7 @@ export const useHomeStore = create<HomeStore>((set) => ({
           process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN ||
           '1ee90a470dc1bfa3b8c69f27cda48e5c';
         const shopDomain = domain.replace(/^https?:\/\//, '').replace(/\/$/, '');
-        const endpoint = `https://${shopDomain}/api/2024-07/graphql`;
+        const endpoint = `https://${shopDomain}/api/2026-07/graphql`;
 
         const [pRes, cRes] = await Promise.all([
           fetch(endpoint, {
