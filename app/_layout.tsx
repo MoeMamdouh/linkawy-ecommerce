@@ -17,7 +17,7 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
-import { useAuthStore } from "@features/customer/store/useAuthStore";
+import { useAuthStore } from "@features/auth/store/useAuthStore";
 import "../global.css";
 import { ApolloProvider } from '@apollo/client/react';
 import { apolloClient } from '@shared/graphql/client';

@@ -1,4 +1,5 @@
-import { DocumentNode, gql } from "@apollo/client";
+import { DocumentNode } from "@apollo/client";
+import { getMainDefinition } from "@apollo/client/utilities";
 import { apolloClient } from "./client"; // Adjust path to your Apollo file
 
 interface RequestOptions {
@@ -28,7 +29,14 @@ export async function shopifyApi<
     finalVariables.customerAccessToken = token;
   }
 
-  const isMutation = query.toString().trim().startsWith("mutation");
+  const mainDefinition = getMainDefinition(query);
+  const isMutation =
+    mainDefinition.kind === "OperationDefinition" &&
+    mainDefinition.operation === "mutation";
+
+  if (mainDefinition.kind !== "OperationDefinition") {
+    throw new Error("Unsupported GraphQL document.");
+  }
 
   // Execute via Apollo Client
   if (isMutation) {
