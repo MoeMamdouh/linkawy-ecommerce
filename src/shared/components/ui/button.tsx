@@ -20,7 +20,7 @@ const buttonVariants = cva(
       size: {
         default: "h-12 w-full px-5 py-2.5 gap-2",
         sm: "h-9 rounded-md px-3 gap-1.5",
-        lg: "h-14 rounded-2xl px-7 gap-3",
+        lg: "h-16 rounded-2xl px-7 gap-3",
         icon: "h-12 w-12 rounded-lg p-0 items-center justify-center",
       },
     },
@@ -96,7 +96,7 @@ const Button = React.forwardRef<View, ButtonProps>(
         disabled={disabled}
         className={cn(
           buttonVariants({ variant, size }),
-          disabled && "opacity-50 pointer-events-none",
+          disabled && "opacity-50",
           className
         )}
         style={[getVariantStyle(variant, colors), userStyle]}
