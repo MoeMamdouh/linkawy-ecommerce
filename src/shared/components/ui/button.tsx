@@ -96,7 +96,7 @@ const Button = React.forwardRef<View, ButtonProps>(
         disabled={disabled}
         className={cn(
           buttonVariants({ variant, size }),
-          disabled && "opacity-50 pointer-events-none",
+          disabled && "opacity-50",
           className
         )}
         style={[getVariantStyle(variant, colors), userStyle]}
