@@ -25,7 +25,19 @@ const httpLink = new HttpLink({
 
 export const apolloClient = new ApolloClient({
   link: httpLink,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Cart: {
+        fields: {
+          discountCodes: {
+            merge(existing, incoming) {
+              return incoming;
+            },
+          },
+        },
+      },
+    },
+  }),
   defaultOptions: {
     watchQuery: {
       fetchPolicy: 'no-cache',
