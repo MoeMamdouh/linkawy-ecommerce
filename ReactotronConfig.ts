@@ -1,14 +1,6 @@
-/**
- * Reactotron — development-only debugging bridge.
- *
- * Loaded from app/_layout.tsx behind an `if (__DEV__)` require, so nothing here
- * runs in production builds.
- *
- * Usage: launch the Reactotron desktop app before `npm start`.
- * On an Android emulator also run `npm run reactotron:android` once per boot.
- */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
+import { NativeModules } from 'react-native'; // <-- Add NativeModules import
 import reactotronZustand from 'reactotron-plugin-zustand';
 import Reactotron from 'reactotron-react-native';
 import { QueryClientManager, reactotronReactQuery } from 'reactotron-react-query';
@@ -17,20 +9,38 @@ import { useHomeStore } from '@features/home/store/homeStore';
 import { queryClient } from '@shared/query/client';
 
 /**
- * The Reactotron desktop app listens on the dev machine. `hostUri` is the
- * address the device already uses to reach Metro, which is exactly the host we
- * need on physical devices over LAN. Tunnel URLs point at a relay instead of
- * the dev machine, so fall back to localhost there (Android emulators reach it
- * through `adb reverse`).
+ * Resolves the host IP address of the development machine running Reactotron.
+ * 
+ * Inspects `NativeModules.SourceCode.scriptURL` which dynamically contains
+ * the dev server IP address used by Metro to serve the bundle.
  */
-const resolveHost = (): string => {
-  const host = Constants.expoConfig?.hostUri?.split(':')[0];
-  if (!host || host.endsWith('exp.direct') || host.includes('ngrok')) {
-    return 'localhost';
-  }
-  return host;
-};
 
+const resolveHost = (): string => {
+  // 1. Check NativeModules scriptURL
+  const scriptURL = NativeModules.SourceCode?.scriptURL;
+  if (scriptURL) {
+    const host = scriptURL.split('://')[1]?.split('/')[0]?.split(':')[0];
+    if (host && host !== 'localhost' && host !== '127.0.0.1') {
+      return host;
+    }
+  }
+
+  // 2. Check Expo Manifest & Config fallbacks
+  const hostUri =
+    Constants.expoConfig?.hostUri ||
+    (Constants.manifest as any)?.debuggerHost ||
+    (Constants.manifest2 as any)?.extra?.expoGo?.developer?.tool;
+
+  if (hostUri) {
+    const host = hostUri.split(':')[0];
+    if (host && host !== 'localhost' && host !== '127.0.0.1') {
+      return host;
+    }
+  }
+
+  // 3. Fallback to localhost (for emulators/simulators)
+  return 'localhost';
+};
 const queryClientManager = new QueryClientManager({ queryClient });
 
 const reactotron = Reactotron.setAsyncStorageHandler(AsyncStorage)
@@ -42,7 +52,6 @@ const reactotron = Reactotron.setAsyncStorageHandler(AsyncStorage)
     },
   })
   .useReactNative({
-    // Apollo's HttpLink and plain fetch() calls both surface here.
     networking: { ignoreUrls: /symbolicate|\/logs|\/inspector/ },
   })
   .use(reactotronReactQuery(queryClientManager))
@@ -54,10 +63,8 @@ const reactotron = Reactotron.setAsyncStorageHandler(AsyncStorage)
   )
   .connect();
 
-// Drop logs from the previous session so each reload starts clean.
 reactotron.clear();
 
-// Available app-wide as `console.tron` (typed in src/shared/types/reactotron.d.ts).
 console.tron = reactotron;
 
 export default reactotron;
