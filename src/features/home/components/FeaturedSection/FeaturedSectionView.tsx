@@ -12,6 +12,8 @@ interface FeaturedSectionViewProps {
   onProductPress?: (product: Product) => void;
   onSeeAll?: () => void;
   onAddToCart?: (product: Product) => void;
+  isInWishlist: (productId: string) => boolean;
+  onToggleWishlist: (productId: string) => void;
 }
 
 const FeaturedSectionView: React.FC<FeaturedSectionViewProps> = ({
@@ -19,6 +21,8 @@ const FeaturedSectionView: React.FC<FeaturedSectionViewProps> = ({
   onProductPress,
   onSeeAll,
   onAddToCart,
+  isInWishlist,
+  onToggleWishlist,
 }) => {
   const { colors }  = useTheme();
   const styles = createFeaturedSectionStyles(colors);
@@ -40,7 +44,9 @@ const FeaturedSectionView: React.FC<FeaturedSectionViewProps> = ({
               <ProductCardView
                 key={item.id}
                 product={item}
+                isFavorite={isInWishlist(item.id)}
                 onPress={() => onProductPress?.(item)}
+                onToggleFavorite={() => onToggleWishlist(item.id)}
                 onAddToCart={() => onAddToCart?.(item)}
               />
             ))}
