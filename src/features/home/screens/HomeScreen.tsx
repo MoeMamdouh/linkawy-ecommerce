@@ -16,6 +16,8 @@ import { createHomeScreenStyles } from './homeScreen.styles';
 import { useTheme } from '@shared/hooks/use-theme';
 
 import { useCartStore } from '../../cart/store/cartStore';
+import { useWishlist } from '@features/wishlist/hooks/useWishlist';
+
 
 export default function HomeScreen() {
   const { colors } = useTheme();
@@ -23,6 +25,8 @@ export default function HomeScreen() {
   const router = useRouter();
   const addToCart = useCartStore((state) => state.addToCart);
   const openShop = useShopStore((state) => state.openShop);
+  const { toggleWishlist, isInWishlist } = useWishlist();
+
 
   const {
     bannerSlides,
@@ -115,11 +119,15 @@ export default function HomeScreen() {
           products={featuredProducts}
           onAddToCart={handleAddToCart}
           onProductPress={handleProductPress}
+          isInWishlist={isInWishlist}
+          onToggleWishlist={toggleWishlist}
         />
         <NewArrivalsSectionView
           products={newArrivals}
           onAddToCart={handleAddToCart}
           onProductPress={handleProductPress}
+          isInWishlist={isInWishlist}
+          onToggleWishlist={toggleWishlist}
         />
       </ScrollView>
     </SafeAreaView>

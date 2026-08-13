@@ -42,3 +42,22 @@ export const CUSTOMER_DELETE_TOKEN_MUTATION = gql`
     }
   }
 `;
+
+export const CUSTOMER_REGISTER_MUTATION = gql`
+   mutation customerCreate($input: CustomerCreateInput!) {
+    customerCreate(input: $input) {
+      customer {
+        id
+        firstName
+        lastName
+        email
+        phone
+      }
+      customerUserErrors {
+        field
+        message
+        code
+      }
+    }
+  }
+`;
