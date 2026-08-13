@@ -33,7 +33,7 @@ export default function RegisterForm() {
 
   const nameRegex = /^[a-zA-Z\s]+$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^\+?[1-9]\d{1,14}$/; // E.164 format
+  const phoneRegex = /^\+[1-9]\d{1,14}$/;
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // Minimum 8 characters, at least one letter and one number
 
   const [firstName, setFirstName] = useState("");
