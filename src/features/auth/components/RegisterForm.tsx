@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import { Lock, Mail, Phone, User } from "lucide-react-native";
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
 
 import { Button } from "@shared/components/ui/button";
 import { ErrorModal } from "@shared/components/ui/error-modal";
@@ -160,8 +160,8 @@ export default function RegisterForm() {
     resetError();
   };
 
-  return (
-    <View className="p-6">
+    return (
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} className="p-6" style={{ flex: 1, backgroundColor: colors.background }}>
       <Input
         containerClassName="pt-4"
         label="First Name"
@@ -271,6 +271,6 @@ export default function RegisterForm() {
           Sign In
         </Button>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

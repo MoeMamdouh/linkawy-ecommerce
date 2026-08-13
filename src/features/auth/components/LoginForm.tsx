@@ -1,7 +1,7 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { Lock, Mail } from "lucide-react-native";
 import { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, Text, View } from "react-native";
 
 import { useLogin } from "@features/auth/hooks/useAuth";
 import { Button } from "@shared/components/ui/button";
@@ -66,7 +66,7 @@ export default function LoginForm() {
   };
 
   return (
-    <View className="p-6">
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} className="p-6" style={{ flex: 1, backgroundColor: colors.background }}>
       <Input
         label="Email"
         leftIcon={<Mail size={15} />}
@@ -148,6 +148,6 @@ export default function LoginForm() {
           Sign Up
         </Button>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
