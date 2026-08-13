@@ -15,6 +15,8 @@ interface NewArrivalsSectionViewProps {
   onProductPress?: (product: Product) => void;
   onSeeAll?: () => void;
   onAddToCart?: (product: Product) => void;
+  isInWishlist: (productId: string) => boolean;
+  onToggleWishlist: (productId: string) => void;
 }
 
 const NewArrivalsSectionView: React.FC<NewArrivalsSectionViewProps> = ({
@@ -22,6 +24,8 @@ const NewArrivalsSectionView: React.FC<NewArrivalsSectionViewProps> = ({
   onProductPress,
   onSeeAll,
   onAddToCart,
+  isInWishlist,
+  onToggleWishlist,
 }) => {
   const { colors } = useTheme();
   const styles = createNewArrivalsSectionStyles(colors);
@@ -42,7 +46,9 @@ const NewArrivalsSectionView: React.FC<NewArrivalsSectionViewProps> = ({
               <ProductCardView
                 key={item.id}
                 product={item}
+                isFavorite={isInWishlist(item.id)}
                 onPress={() => onProductPress?.(item)}
+                onToggleFavorite={() => onToggleWishlist(item.id)}
                 onAddToCart={() => onAddToCart?.(item)}
               />
             ))}
