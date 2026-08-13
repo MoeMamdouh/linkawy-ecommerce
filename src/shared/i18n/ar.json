@@ -11,7 +11,11 @@
     "lightMode": "الوضع الفاتح",
     "english": "الإنجليزية",
   "arabic": "العربية",
-    "logout": "تسجيل الخروج"
+    "logout": "تسجيل الخروج",
+    "signIn": "تسجيل الدخول",
+    "sessionExpiredTitle": "انتهت جلستك",
+    "sessionExpiredMessage": "من فضلك سجل دخول تاني عشان تشوف بروفايلك.",
+    "signingOut": "جاري تسجيل الخروج..."
   },
   "header": {
     "welcome": "مرحباً بعودتك"

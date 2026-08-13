@@ -11,7 +11,14 @@
     "lightMode": "Light Mode",
     "english": "English",
     "arabic": "Arabic",
-    "logout": "Logout"
+    "logout": "Logout",
+    "signingOut": "Signing out...",
+    "signOutSuccess": "Signed out successfully",
+    "signInSuccess": "Signed in successfully",
+    "signIn": "Sign In",
+    "sessionExpiredTitle": "Session Expired",
+    "sessionExpiredMessage": "Please sign in again to view your profile."
+
     },
 
 
