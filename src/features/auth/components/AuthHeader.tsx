@@ -3,7 +3,11 @@ import { Text, View } from "react-native";
 import { ShoppingBag } from 'lucide-react-native';
 import { useTheme } from "@shared/hooks/use-theme";
 
-export default function LoginHeader() {
+type AuthHeaderProps = {
+  type: "login" | "register";
+};
+
+export default function AuthHeader({ type = "login" }: AuthHeaderProps) {
   const { colors } = useTheme();
 
   return (
@@ -15,10 +19,10 @@ export default function LoginHeader() {
         <Text style={{ color: colors.primaryForeground, fontFamily: FontFamily.black, fontSize: FontSize.xl }}>Linkawy</Text>
       </View>
       <Text className="pt-5" style={{ color: colors.primaryForeground, fontFamily: FontFamily.black, fontSize: FontSize.xxl }}>
-        Sign In
+        {type === "login" ? "Sign In" : "Sign Up"}
       </Text>
       <Text className="pt-1" style={{ color: colors.primaryForeground, opacity: 0.6, fontFamily: FontFamily.regular, fontSize: FontSize.sm }}>
-        Welcome back!
+        {type === "login" ? "Welcome back!" : "Create your account"}
       </Text>
     </View>
   );
