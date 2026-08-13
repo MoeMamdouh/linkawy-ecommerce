@@ -33,6 +33,7 @@ interface LoginInput{
 interface CustomerCreateResponse {
   customerCreate?: {
     customer?: {
+      id: string;
       firstName: string;
       lastName: string;
       email: string;
@@ -145,6 +146,12 @@ export const useRegister = () => {
         setRegisterError(message);
         throw new Error(message);
       }
+
+      if (!registerData.customerCreate?.customer) {
+      const message = "Registration failed.";
+      setRegisterError(message);
+      throw new Error(message);
+    }
 
       const loginData = await shopifyApi<CustomerLoginResponse>(
         CUSTOMER_LOGIN_MUTATION,

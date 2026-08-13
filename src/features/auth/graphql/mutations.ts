@@ -47,6 +47,7 @@ export const CUSTOMER_REGISTER_MUTATION = gql`
    mutation customerCreate($input: CustomerCreateInput!) {
     customerCreate(input: $input) {
       customer {
+        id
         firstName
         lastName
         email
