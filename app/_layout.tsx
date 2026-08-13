@@ -8,14 +8,14 @@ import {
   useFonts,
 } from '@expo-google-fonts/outfit';
 import { Colors } from '@shared/constants/theme';
-
 import apolloClient from '@shared/graphql/client';
 import { useColorScheme } from '@shared/hooks/use-color-scheme';
-import "@shared/i18n";
+import { initializeI18n } from "@shared/i18n";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
+import { useEffect, useState } from "react";
+
 import { ActivityIndicator, View } from 'react-native';
 import 'react-native-reanimated';
 import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
@@ -41,8 +41,10 @@ const queryClient = new QueryClient({
 });
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const [i18nReady, setI18nReady] = useState(false);
+const colorScheme = useColorScheme();
 
+  
   const [fontsLoaded, fontError] = useFonts({
     Outfit_400Regular,
     Outfit_500Medium,
@@ -50,6 +52,12 @@ export default function RootLayout() {
     Outfit_700Bold,
     Outfit_900Black,
   });
+useEffect(() => {
+  initializeI18n().then(() => {
+    setI18nReady(true);
+  });
+}, []);
+
 
   useEffect(() => {
     if (fontError) {
@@ -57,10 +65,20 @@ export default function RootLayout() {
     }
   }, [fontError]);
 
-  if (!fontsLoaded && !fontError) {
+  if (!i18nReady || (!fontsLoaded && !fontError)) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors[colorScheme ?? 'light'].background }}>
-        <ActivityIndicator size="large" color={Colors[colorScheme ?? 'light'].primary} />
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: Colors[colorScheme ?? 'light'].background,
+        }}
+      >
+        <ActivityIndicator
+          size="large"
+          color={Colors[colorScheme ?? 'light'].primary}
+        />
       </View>
     );
   }

@@ -1,9 +1,9 @@
-import { View, Text } from 'react-native';
 import { Palette } from '@shared/constants/theme';
+import { useTheme } from '@shared/hooks/use-theme';
+import { useTranslation } from "react-i18next";
+import { Text, View } from 'react-native';
 import { AppliedPromo } from '../hooks/useCart';
 import { styles } from '../styles/cart-screen.styles';
-import { useTheme } from '@shared/hooks/use-theme';
-
 interface CartPriceCardProps {
   subtotal: number;
   discountAmount?: number;
@@ -18,7 +18,7 @@ export function CartPriceCard({
   total,
 }: CartPriceCardProps) {
   const { colors } = useTheme();
-
+const { t } = useTranslation();
   return (
     <View
       style={[
@@ -31,7 +31,7 @@ export function CartPriceCard({
     >
       {/* Subtotal Row */}
       <View style={styles.summaryRow}>
-        <Text style={[styles.summaryLabel, { color: colors.mutedForeground }]}>Subtotal</Text>
+        <Text style={[styles.summaryLabel, { color: colors.mutedForeground }]}>{t('cart.subtotal')}</Text>
         <Text style={[styles.summaryValue, { color: colors.foreground }]}>
           ${subtotal.toFixed(2)}
         </Text>
@@ -41,7 +41,7 @@ export function CartPriceCard({
       {discountAmount > 0 ? (
         <View style={styles.summaryRow}>
           <Text style={[styles.summaryLabel, { color: Palette.green500 }]}>
-            Discount ({appliedPromo?.code ?? 'PROMO'})
+            {t('cart.discount')} ({appliedPromo?.code ?? 'PROMO'})
           </Text>
           <Text style={[styles.summaryValue, { color: Palette.green500 }]}>
             -${discountAmount.toFixed(2)}
@@ -51,8 +51,8 @@ export function CartPriceCard({
 
       {/* Shipping Row */}
       <View style={styles.summaryRow}>
-        <Text style={[styles.summaryLabel, { color: colors.mutedForeground }]}>Shipping</Text>
-        <Text style={[styles.shippingFreeText, { color: Palette.green500 }]}>Free</Text>
+        <Text style={[styles.summaryLabel, { color: colors.mutedForeground }]}>{t('cart.shipping')}</Text>
+        <Text style={[styles.shippingFreeText, { color: Palette.green500 }]}>{t('cart.shippingFree')}</Text>
       </View>
 
       {/* Divider */}
@@ -60,7 +60,7 @@ export function CartPriceCard({
 
       {/* Total Row */}
       <View style={styles.summaryRow}>
-        <Text style={[styles.totalLabel, { color: colors.foreground }]}>Total</Text>
+        <Text style={[styles.totalLabel, { color: colors.foreground }]}>{t('cart.total')}</Text>
         <Text style={[styles.totalValue, { color: colors.primary }]}>${total.toFixed(2)}</Text>
       </View>
     </View>

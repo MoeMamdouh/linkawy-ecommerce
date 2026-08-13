@@ -7,14 +7,15 @@ import {
   User,
 } from "lucide-react-native";
 
+import { useCartStore } from "@features/cart/store/cartStore";
 import { HapticTab } from "@shared/components/haptic-tab";
 import { FontFamily } from "@shared/constants/theme";
 import { useTheme } from "@shared/hooks/use-theme";
-import { useCartStore } from "@features/cart/store/cartStore";
 import React, { useEffect } from "react";
-
+import { useTranslation } from "react-i18next";
 export default function TabLayout() {
   const { colors } = useTheme();
+  const { t } = useTranslation();
 
   const cart = useCartStore((state) => state.cart);
   const initializeCart = useCartStore((state) => state.initializeCart);
@@ -55,19 +56,19 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: t("home.title"),
         }}
       />
       <Tabs.Screen
         name="shop"
         options={{
-          title: "Shop",
+          title: t("shop.title"),
         }}
       />
       <Tabs.Screen
         name="cart"
         options={{
-          title: "Cart",
+          title: t("cart.title"),
           tabBarBadge: totalCartItems > 0 ? totalCartItems : undefined,
           tabBarBadgeStyle: {
             backgroundColor: colors.destructive,
@@ -87,13 +88,13 @@ export default function TabLayout() {
       <Tabs.Screen
         name="wishlist"
         options={{
-          title: "Wishlist",
+          title: t("wishlist.title"),
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
+          title: t("profile.title"),
         }}
       />
       <Tabs.Screen

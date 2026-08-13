@@ -2,7 +2,8 @@ import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 
 const domain = process.env.EXPO_PUBLIC_SHOPIFY_DOMAIN || '';
 const publicAccessToken = process.env.EXPO_PUBLIC_SHOPIFY_STOREFRONT_TOKEN || '';
-
+console.log('DOMAIN:', domain);
+console.log('TOKEN EXISTS:', !!publicAccessToken);
 if (__DEV__) {
   if (!domain) {
     console.warn('Warning: EXPO_PUBLIC_SHOPIFY_DOMAIN is not defined.');
@@ -13,7 +14,7 @@ if (__DEV__) {
 }
 
 const shopDomain = domain.replace(/^https?:\/\//, '').replace(/\/$/, '');
-const graphqlUri = `https://${shopDomain}/api/2026-07/graphql`;
+const graphqlUri = `https://${shopDomain}/api/2026-07/graphql.json`;
 
 const httpLink = new HttpLink({
   uri: graphqlUri,

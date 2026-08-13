@@ -1,5 +1,6 @@
 {
   "profile": {
+    "title": "Profile",
     "orders": "Orders",
     "wishlist": "Wishlist",
     "reviews": "Reviews",
@@ -53,5 +54,27 @@
   "trendingNow": "TRENDING NOW",
   "techGadgets": "Tech Gadgets",
   "latestReleases": "Latest releases"
+},
+    "home": {
+        "title": "Home"
+    },
+    "shop": {
+        "title": "Shop"
+    },
+    "wishlist": {
+        "title": "Wishlist"
+    },
+    "cart": {
+  "title": "Cart",
+  "promoCode": "Promo code",
+  "applyPromo": "Apply",
+  "appliedPromoCode": "Promo code: {{code}}",
+  "appliedPromoDiscount": "{{discount}}% OFF Applied",
+  "subtotal": "Subtotal",
+  "discount": "Discount",
+  "shipping": "Shipping",
+  "shippingFree": "Free",
+  "total": "Total",
+  "items": "{{count}} items"
 }
 }

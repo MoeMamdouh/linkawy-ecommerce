@@ -1,5 +1,6 @@
 {
   "profile": {
+    "title": "الملف الشخصي",
     "orders": "طلبات",
     "wishlist": "مفضلة",
     "reviews": "تقييمات",
@@ -39,18 +40,36 @@
     "newArrivals": {
             "title": "وصل حديثاً"
         },
-    "promoSlider": {
-            "tag": "عرض محدود",
-            "title": "أحدث صيحات الجمال",
-            "subtitle": "اكتشف مجموعتنا الجديدة من مستحضرات التجميل",
-            "limitedOffer": "عرض محدود",
-            "beautyEssentials": "أساسيات الجمال",
-            "premiumBrands": "ماركات مميزة",
+    "promo": {
+  "limitedOffer": "عرض محدود",
+  "beautyEssentials": "أساسيات الجمال",
+  "premiumBrands": "ماركات مميزة",
   "newSeason": "موسم جديد",
   "summerCollection": "مجموعة الصيف",
   "upTo40Off": "خصم يصل إلى 40%",
   "trendingNow": "الأكثر رواجًا",
   "techGadgets": "أحدث الأجهزة التقنية",
   "latestReleases": "أحدث الإصدارات"
+},
+"tabs": {
+  "home": "الرئيسية",
+  "shop": "المتجر",
+  "cart": "السلة",
+  "wishlist": "المفضلة",
+  "profile": "الملف الشخصي"
+},
+"cart": {
+  "title": "السلة",
+  "promoCode": "كود الخصم",
+  "applyPromo": "تطبيق",
+  "appliedPromoCode": "كود الخصم: {{code}}",
+  "appliedPromoDiscount": "تم تطبيق خصم {{discount}}%",
+  "subtotal": "المجموع الفرعي",
+  "discount": "الخصم",
+  "shipping": "الشحن",
+  "shippingFree": "مجانًا",
+  "total": "الإجمالي",
+  "items": "{{count}} عنصر"
 }
-        }
+}
+        
