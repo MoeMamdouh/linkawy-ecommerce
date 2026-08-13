@@ -1,16 +1,18 @@
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Lock, Mail } from "lucide-react-native";
 import { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, Text, View } from "react-native";
 
 import { useLogin } from "@features/auth/hooks/useAuth";
 import { Button } from "@shared/components/ui/button";
 import { Input } from "@shared/components/ui/input";
 import { FontFamily, FontSize } from "@shared/constants/theme";
 import { useTheme } from "@shared/hooks/use-theme";
+import { ErrorModal } from "@shared/components/ui/error-modal";
 
 export default function LoginForm() {
   const { colors } = useTheme();
+  const { from } = useLocalSearchParams<{ from?: string }>();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,11 +39,15 @@ export default function LoginForm() {
 
     try {
       await login({ email, password });
-      if (router.canGoBack()) {
+
+      if (from === "register") {
+        router.dismissTo("/(tabs)");
+      } else if (router.canGoBack()) {
         router.back();
       } else {
         router.replace("/(tabs)");
       }
+
     } catch {
       // Error is captured and displayed automatically via apiError
     }
@@ -60,7 +66,7 @@ export default function LoginForm() {
   };
 
   return (
-    <View className="p-6">
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} className="p-6" style={{ flex: 1, backgroundColor: colors.background }}>
       <Input
         label="Email"
         leftIcon={<Mail size={15} />}
@@ -80,8 +86,15 @@ export default function LoginForm() {
         type="password"
         value={password}
         onChangeText={handlePasswordChange}
-        error={passwordError || apiError}
+        error={passwordError}
       />
+
+      <ErrorModal
+      visible={!!apiError}
+      message={apiError}
+      onClose={resetError}
+      title="Login failed"
+    />
 
       <View className="flex items-end mt-2">
         <Pressable>
@@ -96,21 +109,45 @@ export default function LoginForm() {
             Forgot Password?
           </Text>
         </Pressable>
+      </View>
 
+      <Button
+        variant="default"
+        size="lg"
+        className="w-full"
+        textStyle={{
+          fontFamily: FontFamily.black,
+          fontSize: FontSize.md,
+        }}
+        onPress={handleLogin}
+        disabled={loading}
+      >
+        {loading ? "Signing In..." : "Sign In"}
+      </Button>
+      <View className="flex-row items-center justify-center gap-2 mt-6">
+        <Text
+          style={{
+            color: colors.foreground,
+            fontFamily: FontFamily.regular,
+            fontSize: FontSize.sm,
+          }}
+        >
+          Don&apos;t have an account?
+        </Text>
         <Button
-          variant="default"
-          size="lg"
-          className="w-full"
+          variant="link"
+          size="sm"
+          className="p-0"
           textStyle={{
-            fontFamily: FontFamily.black,
+            color: colors.primary,
+            fontFamily: FontFamily.bold,
             fontSize: FontSize.md,
           }}
-          onPress={handleLogin}
-          disabled={loading}
+          onPress={() => router.push("/register")}
         >
-          {loading ? "Signing In..." : "Sign In"}
+          Sign Up
         </Button>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
