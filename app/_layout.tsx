@@ -1,4 +1,5 @@
 import "../ReactotronConfig";
+import "@shared/i18n";
 
 import {
   Outfit_400Regular,
@@ -26,6 +27,7 @@ import { useTheme } from '@shared/hooks/use-theme';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useTranslation } from "react-i18next";
+import { initializeI18n } from "@shared/i18n";
 import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
 
 configureReanimatedLogger({
@@ -46,6 +48,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     hydrateAuth();
+    initializeI18n();
   }, [hydrateAuth]);
 
   const [fontsLoaded, fontError] = useFonts({
@@ -91,10 +94,6 @@ export default function RootLayout() {
               <Stack.Screen
                 name="product/[id]"
                 options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="playgroundnav"
-                options={{ title: "Playground" }}
               />
               <Stack.Screen
                 name="theme"

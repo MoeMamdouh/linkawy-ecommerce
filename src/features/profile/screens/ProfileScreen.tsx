@@ -72,7 +72,7 @@ export default function ProfileScreen() {
           ))}
 
           {/* Destructive Logout Button */}
-          <ProfileMenuItemView {...logoutMenuItem} />
+          <ProfileMenuItemView key="logout-btn" label={logoutMenuItem.label} Icon={logoutMenuItem.Icon} isDestructive={logoutMenuItem.isDestructive} onPress={logoutMenuItem.onPress} />
         </View>
       </ScrollView>
     </SafeAreaView>
