@@ -54,36 +54,10 @@ const mapShopifyProduct = (edge: any, index: number): Product => {
   };
 };
 
-const categoryIconMap: Record<string, string> = {
-  fashion: 'Shirt',
-  clothing: 'Shirt',
-  electronics: 'Smartphone',
-  tech: 'Smartphone',
-  beauty: 'Sparkles',
-  cosmetics: 'Sparkles',
-  home: 'Sofa',
-  furniture: 'Sofa',
-  sports: 'Dumbbell',
-  fitness: 'Dumbbell',
-  board: 'Sparkles',
-  snowboard: 'Sparkles',
-  automated: 'Shirt',
-  hydrogen: 'Smartphone',
-};
-
-const mapCategoryIcon = (title: string): string => {
-  if (!title) return 'Shirt';
-  const lower = title.toLowerCase();
-  for (const [key, icon] of Object.entries(categoryIconMap)) {
-    if (lower.includes(key)) return icon;
-  }
-  return 'Shirt';
-};
-
 const mapShopifyCategory = (edge: any): Category => ({
   id: edge?.node?.id || '',
   name: edge?.node?.title || 'Category',
-  icon: mapCategoryIcon(edge?.node?.title || ''),
+  image: edge?.node?.image?.url || '',
 });
 
 export const useHomeStore = create<HomeStore>((set) => ({
