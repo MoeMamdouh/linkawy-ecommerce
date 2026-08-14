@@ -12,8 +12,8 @@ interface UseProfileMenuArgs {
 }
 
 export function useProfileMenu({
-  ordersCount = 3,
-  wishlistCount = 2,
+  ordersCount = 0,
+  wishlistCount = 0,
   reviewsCount = 12,
   onLogout,
 }: UseProfileMenuArgs = {}) {
@@ -43,14 +43,14 @@ export function useProfileMenu({
       label: t("profile.myOrders", { defaultValue: "My Orders" }),
       value: "",
       Icon: Package,
-      onPress: () => {},
+      onPress: () => router.push("/orders" as any),
     },
     {
       key: "edit",
       label: t("profile.editProfile", { defaultValue: "Edit Profile" }),
       value: "",
       Icon: Pencil,
-      onPress: () => {},
+      onPress: () => router.push("/edit-profile" as any),
     },
     {
       key: "appearance",

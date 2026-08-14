@@ -104,6 +104,14 @@ export default function RootLayout() {
                 name="language"
                 options={{ headerShown: false }}
               />
+              <Stack.Screen
+                name="orders"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="edit-profile"
+                options={{ headerShown: false }}
+              />
             </Stack>
             <StatusBar style="auto" />
           </ThemeProvider>

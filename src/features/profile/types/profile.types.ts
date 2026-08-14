@@ -4,6 +4,7 @@ export interface ProfileUser {
   firstName: string;
   lastName: string;
   email: string;
+  phone?: string;
 }
 
 export interface ProfileStat {
@@ -18,4 +19,21 @@ export interface ProfileMenuItem {
   Icon: ComponentType<{ size?: number; color?: string }>;
   onPress: () => void;
   isDestructive?: boolean;
+}
+
+export interface OrderLineItem {
+  title: string;
+  quantity: number;
+  image?: string;
+  price?: string;
+}
+
+export interface OrderItem {
+  id: string;
+  orderNumber: string;
+  date: string;
+  status: string;
+  total: string;
+  currencyCode: string;
+  items: OrderLineItem[];
 }

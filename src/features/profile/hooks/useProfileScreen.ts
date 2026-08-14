@@ -3,12 +3,14 @@ import { useAuthStore } from "@features/auth/store/useAuthStore";
 import { useCustomerProfile } from "@features/customer/hooks/useCustomer";
 import { useWishlistStore } from "@features/wishlist/store/useWishlistStore";
 import { useCallback, useEffect, useState } from "react";
+import { useCustomerOrders } from "./useCustomerOrders";
 
 export function useProfileScreen() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const isHydrated = useAuthStore((state) => state.isHydrated);
 
   const { data: profileData, loading, error } = useCustomerProfile();
+  const { ordersCount } = useCustomerOrders();
   const { logout } = useLogout();
 
   const wishlistCount = useWishlistStore((state) => state.items.length);
@@ -40,6 +42,7 @@ export function useProfileScreen() {
     error,
     customer,
     wishlistCount,
+    ordersCount,
     isLoggingOut,
     handleLogout,
   };

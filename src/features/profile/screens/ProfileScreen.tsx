@@ -24,11 +24,13 @@ export default function ProfileScreen() {
     error,
     customer,
     wishlistCount,
+    ordersCount,
     handleLogout,
   } = useProfileScreen();
 
   const { stats, menuItems, logoutMenuItem } = useProfileMenu({
     wishlistCount,
+    ordersCount,
     onLogout: handleLogout,
   });
 
