@@ -25,6 +25,7 @@ import { queryClient } from '@shared/query/client';
 import { useTheme } from '@shared/hooks/use-theme';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useTranslation } from "react-i18next";
 import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
 
 configureReanimatedLogger({
@@ -38,6 +39,7 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const { colors, isDark } = useTheme();
+  const { i18n } = useTranslation();
 
   const hydrateAuth = useAuthStore((state) => state.hydrateAuth);
   const isHydrated = useAuthStore((state) => state.isHydrated);
@@ -80,7 +82,7 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <SafeAreaProvider>
           <ThemeProvider value={isDark ? DarkTheme : DefaultTheme}>
-            <Stack>
+            <Stack key={i18n.language || "en"}>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen
                 name="(auth)"
@@ -93,6 +95,14 @@ export default function RootLayout() {
               <Stack.Screen
                 name="playgroundnav"
                 options={{ title: "Playground" }}
+              />
+              <Stack.Screen
+                name="theme"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="language"
+                options={{ headerShown: false }}
               />
             </Stack>
             <StatusBar style="auto" />
