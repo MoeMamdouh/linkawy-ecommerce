@@ -1,4 +1,11 @@
+import { useCartStore } from '@features/cart/store/cartStore';
+import { ProductCardView } from '@features/home/components/ProductCard';
+import { Product } from '@features/home/types/home.types';
+import { useTheme } from '@shared/hooks/use-theme';
+import { useRouter } from 'expo-router';
+import { Heart } from 'lucide-react-native';
 import React from 'react';
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   FlatList,
@@ -7,20 +14,13 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
-import { Heart } from 'lucide-react-native';
 import { useWishlist } from '../hooks/useWishlist';
-import { useTheme } from '@shared/hooks/use-theme';
-import { useCartStore } from '@features/cart/store/cartStore';
-import { ProductCardView } from '@features/home/components/ProductCard';
 import { createWishlistScreenStyles } from './wishlistScreen.styles';
-import { Product } from '@features/home/types/home.types';
-
 export default function WishlistScreen() {
   const router = useRouter();
   const { colors } = useTheme();
   const styles = createWishlistScreenStyles(colors);
-  
+  const { t } = useTranslation();
   const {
     wishlistProducts,
     isLoading,
@@ -59,7 +59,7 @@ export default function WishlistScreen() {
       <View style={styles.errorContainer}>
         <Text style={styles.errorText}>Error: {error}</Text>
         <TouchableOpacity style={[styles.emptyButton, { marginTop: 16 }]} onPress={refetch}>
-          <Text style={styles.emptyButtonText}>Retry</Text>
+          <Text style={styles.emptyButtonText}>{t('wishlist.retry')}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -67,7 +67,7 @@ export default function WishlistScreen() {
 
   const renderHeader = () => (
     <View style={styles.header}>
-      <Text style={styles.headerTitle}>My Wishlist</Text>
+      <Text style={styles.headerTitle}>{t('wishlist.title')}</Text>
       <Text style={styles.headerSubtitle}>
         {wishlistProducts.length} {wishlistProducts.length === 1 ? 'item' : 'items'}
       </Text>
@@ -79,16 +79,16 @@ export default function WishlistScreen() {
       <View style={styles.emptyIconCircle}>
         <Heart size={40} color={colors.mutedForeground} />
       </View>
-      <Text style={styles.emptyTitle}>Your Wishlist is Empty</Text>
+      <Text style={styles.emptyTitle}>{t('wishlist.emptyTitle')}</Text>
       <Text style={styles.emptySubtitle}>
-        Explore our collections and add products to your wishlist to buy them later.
+        {t('wishlist.emptySubtitle')}
       </Text>
       <TouchableOpacity
         style={styles.emptyButton}
         onPress={() => router.push('/(tabs)/shop')}
         activeOpacity={0.8}
       >
-        <Text style={styles.emptyButtonText}>Start Shopping</Text>
+        <Text style={styles.emptyButtonText}>{t('wishlist.startShopping')}</Text>
       </TouchableOpacity>
     </View>
   );

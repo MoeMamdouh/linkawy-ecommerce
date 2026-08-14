@@ -9,6 +9,7 @@
     "appearance": "Appearance",
     "language": "Language",
     "lightMode": "Light Mode",
+    "darkMode":"Dark Mode",
     "english": "English",
     "arabic": "Arabic",
     "logout": "Logout",
@@ -62,15 +63,17 @@
   "techGadgets": "Tech Gadgets",
   "latestReleases": "Latest releases"
 },
-    "home": {
-        "title": "Home"
-    },
-    "shop": {
-        "title": "Shop"
-    },
-    "wishlist": {
-        "title": "Wishlist"
-    },
+   
+
+"tabs": {
+  "home": "Home",
+  "shop": "Shop",
+  "cart": "Cart",
+  "wishlist": "Wishlist",
+  "profile": "Profile"
+},
+
+
     "cart": {
   "title": "Cart",
   "promoCode": "Promo code",
@@ -82,6 +85,45 @@
   "shipping": "Shipping",
   "shippingFree": "Free",
   "total": "Total",
-  "items": "{{count}} items"
-}
+  "items": "{{count}} items",
+  "Checkout": "Checkout"
+},
+
+"wishlist": {
+    "title": "My Wishlist",
+    "itemCount": "{{count}} item",
+    "itemCount_plural": "{{count}} items",
+    "emptyTitle": "Your Wishlist is Empty",
+    "emptySubtitle": "Explore our collections and add products to your wishlist to buy them later.",
+    "startShopping": "Start Shopping",
+    "errorPrefix": "Error: {{message}}",
+    "retry": "Retry"
+},
+"theme": { 
+    "appearance": "Appearance",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "lightModeDescription": "Bright and clear interface for well-lit environments.",
+    "darkModeDescription": "Dimmed interface for low-light environments, reducing eye strain."
+},
+"shop": {
+    "title": "Shop",
+"productsFound": "{{count}} product found",
+  "productsFound_plural": "{{count}} products found",
+  "all": "All",
+  "fashion": "Fashion",
+  "electronics": "Electronics",
+  "beauty": "Beauty",
+  "home": "Home",
+  "sports": "Sports"
+  },
+    "home": {
+    "title": "Home",
+    "welcomeMessage": "Welcome to our online store!",
+    "featuredProducts": "Featured Products",
+    "flashSale": "Flash Sale",
+    "newArrivals": "New Arrivals",
+    "categories": "Categories",
+    "shopNow": "Shop Now"}
+
 }

@@ -5,12 +5,12 @@ import { useColorScheme } from "@shared/hooks/use-color-scheme";
 import { ArrowLeft, Pencil } from "lucide-react-native";
 import * as React from "react";
 import {
-    KeyboardAvoidingView,
-    Platform,
-    Pressable,
-    ScrollView,
-    Text,
-    View,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
 } from "react-native";
 
 import { router } from "expo-router";
@@ -50,7 +50,7 @@ export default function EditProfileScreen() {
               color={colors.foreground}
             />
           </Pressable>
-          //avatar
+          {/* Profile Picture Section */}
           <View className="items-center mb-2">
             <View className="relative">
               <View

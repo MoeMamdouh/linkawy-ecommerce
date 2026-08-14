@@ -1,4 +1,5 @@
 import { ProfileMenuItem, ProfileStat } from "@features/profile/types/profile.types";
+import { useResolvedTheme } from "@shared/store/useThemeStore";
 import { useRouter } from "expo-router";
 import { Globe, Moon, Package, Pencil } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
@@ -15,7 +16,8 @@ export function useProfileMenu({
   reviewsCount = "12",
 }: UseProfileMenuArgs = {}) {
   const router = useRouter();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const themeMode = useResolvedTheme();
 
   const stats: ProfileStat[] = [
     { label: t("profile.orders"), value: ordersCount },
@@ -23,13 +25,19 @@ export function useProfileMenu({
     { label: t("profile.reviews"), value: reviewsCount },
   ];
 
+  const currentThemeLabel =
+    themeMode === "dark" ? t("profile.darkMode") : t("profile.lightMode");
+
+  const currentLanguageLabel =
+    i18n.language === "ar" ? t("profile.arabic") : t("profile.english");
+
   const menuItems: ProfileMenuItem[] = [
     {
       key: "orders",
       label: t("profile.myOrders"),
       value: "",
       Icon: Package,
-      onPress: () =>{}, //TODO: create a new page named orders and add the orders screen to it
+      onPress: () => {}, //TODO: create a new page named orders and add the orders screen to it
     },
     {
       key: "edit",
@@ -41,14 +49,14 @@ export function useProfileMenu({
     {
       key: "appearance",
       label: t("profile.appearance"),
-      value: t("profile.lightMode"),
+      value: currentThemeLabel,
       Icon: Moon,
-      onPress: () => {}, // TODO: wire up appearance screen
+      onPress: () => router.push("/theme"),
     },
     {
       key: "language",
       label: t("profile.language"),
-      value: t("profile.english"),
+      value: currentLanguageLabel,
       Icon: Globe,
       onPress: () => router.push("/language"),
     },

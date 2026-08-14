@@ -9,6 +9,7 @@
     "appearance": "المظهر",
     "language": "اللغة",
     "lightMode": "الوضع الفاتح",
+    "darkMode":"الوضع الداكن",
     "english": "الإنجليزية",
   "arabic": "العربية",
     "logout": "تسجيل الخروج",
@@ -73,7 +74,39 @@
   "shipping": "الشحن",
   "shippingFree": "مجانًا",
   "total": "الإجمالي",
-  "items": "{{count}} عنصر"
-}
+  "items": "{{count}} عنصر",
+  "Checkout": "الدفع"
+},
+    
+
+    "wishlist": {
+    "title": "قائمة الأمنيات",
+    "itemCount": "{{count}} منتج",
+    "itemCount_plural": "{{count}} منتجات",
+    "emptyTitle": "قائمة أمنياتك فارغة",
+    "emptySubtitle": "استكشف مجموعاتنا وضيف المنتجات لقائمة الأمنيات عشان تشتريها بعدين.",
+    "startShopping": "ابدأ التسوق",
+    "errorPrefix": "خطأ: {{message}}",
+    "retry": "إعادة المحاولة"
+},
+"theme":{
+    "appearance": "المظهر",
+"lightMode": "الوضع الفاتح",
+    "darkMode": "الوضع الداكن",
+    "lightModeDescription": "واجهة مضيئة وواضحة مناسبة للأماكن المضاءة جيدًا.",
+    "darkModeDescription": "واجهة معتمة مناسبة للأماكن ضعيفة الإضاءة، تقلل إجهاد العين."
+},
+"home": {
+    "title": "الرئيسية",
+    "welcomeMessage": "مرحبًا بك في متجرنا الإلكتروني!",
+    "featuredProducts": "منتجات مميزة",
+    "flashSale": "تخفيضات سريعة",
+    "newArrivals": "وصل حديثاً",
+    "categories": "الفئات",
+    "shopNow": "تسوق الآن"
+  }
+
+
+
 }
         

@@ -37,6 +37,11 @@ export default function TabLayout() {
           fontFamily: FontFamily.medium,
           fontSize: 10,
         },
+          tabBarStyle: {
+  backgroundColor: colors.card,
+  borderTopColor: colors.border,
+},
+        
         tabBarIcon: ({ color, size }) => {
           if (route.name === "index") {
             return <Home color={color} size={size} />;
@@ -59,6 +64,7 @@ export default function TabLayout() {
           title: t("home.title"),
         }}
       />
+      
       <Tabs.Screen
         name="shop"
         options={{
@@ -82,7 +88,8 @@ export default function TabLayout() {
             textAlign: 'center',
             textAlignVertical: 'center',
             padding: 0,
-          },
+          }
+          
         }}
       />
       <Tabs.Screen
@@ -97,12 +104,19 @@ export default function TabLayout() {
           title: t("profile.title"),
         }}
       />
+     
       <Tabs.Screen
         name="product/[id]"
         options={{
           href: null,
         }}
       />
+      <Tabs.Screen
+  name="playground"
+  options={{
+    href: null,
+  }}
+/>
     </Tabs>
   );
 }

@@ -24,7 +24,7 @@ import apolloClient from "@shared/graphql/client";
 import { useColorScheme } from "@shared/hooks/use-color-scheme";
 import { initializeI18n } from "@shared/i18n";
 import { queryClient } from "@shared/query/client";
-
+import { useTranslation } from "react-i18next";
 import {
   configureReanimatedLogger,
   ReanimatedLogLevel,
@@ -43,7 +43,7 @@ export default function RootLayout() {
   const [i18nReady, setI18nReady] = useState(false);
 
   const colorScheme = useColorScheme();
-
+  const {t}= useTranslation();
   const hydrateAuth = useAuthStore((state) => state.hydrateAuth);
   const isHydrated = useAuthStore((state) => state.isHydrated);
 
@@ -93,12 +93,35 @@ export default function RootLayout() {
     <ApolloProvider client={apolloClient}>
       <QueryClientProvider client={queryClient}>
         <SafeAreaProvider>
-          <Stack>
-            <Stack.Screen
+          <Stack
+          screenOptions={{
+              headerStyle: {
+                backgroundColor: Colors[colorScheme ?? "light"].card,
+              },
+              headerTintColor: Colors[colorScheme ?? "light"].foreground,
+              headerTitleStyle: {
+                color: Colors[colorScheme ?? "light"].foreground,
+              },
+              
+            }}>
+           <Stack.Screen
               name="(tabs)"
               options={{ headerShown: false }}
             />
-
+            <Stack.Screen
+  name="language"
+  options={{
+    title: t("profile.language"),
+    
+  }}
+/>
+            <Stack.Screen
+            name="theme"
+            options={{
+            title: t("theme.appearance"),
+            }
+  }
+/>
             <Stack.Screen
               name="(auth)"
               options={{
