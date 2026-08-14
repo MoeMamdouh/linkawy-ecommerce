@@ -1,5 +1,7 @@
 import "../ReactotronConfig";
+import "../global.css";
 
+import { ApolloProvider } from "@apollo/client/react";
 import {
   Outfit_400Regular,
   Outfit_500Medium,
@@ -8,24 +10,25 @@ import {
   Outfit_900Black,
   useFonts,
 } from "@expo-google-fonts/outfit";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "expo-router/react-navigation";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
+import "react-native-reanimated";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
 import { useAuthStore } from "@features/auth/store/useAuthStore";
-import "../global.css";
-import { ApolloProvider } from '@apollo/client/react';
-import { apolloClient } from '@shared/graphql/client';
-import { queryClient } from '@shared/query/client';
-import { useTheme } from '@shared/hooks/use-theme';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
+import { Colors } from "@shared/constants/theme";
+import apolloClient from "@shared/graphql/client";
+import { useColorScheme } from "@shared/hooks/use-color-scheme";
+import { initializeI18n } from "@shared/i18n";
+import { queryClient } from "@shared/query/client";
+import { useTranslation } from "react-i18next";
+import {
+  configureReanimatedLogger,
+  ReanimatedLogLevel,
+} from "react-native-reanimated";
 
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
@@ -37,8 +40,10 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
-  const { colors, isDark } = useTheme();
+  const [i18nReady, setI18nReady] = useState(false);
 
+  const colorScheme = useColorScheme();
+  const {t}= useTranslation();
   const hydrateAuth = useAuthStore((state) => state.hydrateAuth);
   const isHydrated = useAuthStore((state) => state.isHydrated);
 
@@ -55,22 +60,31 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
+    initializeI18n().then(() => {
+      setI18nReady(true);
+    });
+  }, []);
+
+  useEffect(() => {
     if (fontError) {
       console.error("Error loading fonts:", fontError);
     }
   }, [fontError]);
 
-  if ((!fontsLoaded && !fontError) || !isHydrated) {
+  if (!i18nReady || (!fontsLoaded && !fontError)) {
     return (
       <View
         style={{
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: colors.background,
+          backgroundColor: Colors[colorScheme ?? "light"].background,
         }}
       >
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator
+          size="large"
+          color={Colors[colorScheme ?? "light"].primary}
+        />
       </View>
     );
   }
@@ -79,24 +93,55 @@ export default function RootLayout() {
     <ApolloProvider client={apolloClient}>
       <QueryClientProvider client={queryClient}>
         <SafeAreaProvider>
-          <ThemeProvider value={isDark ? DarkTheme : DefaultTheme}>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen
-                name="(auth)"
-                options={{ headerShown: false, presentation: "modal" }}
-              />
-              <Stack.Screen
-                name="product/[id]"
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="playgroundnav"
-                options={{ title: "Playground" }}
-              />
-            </Stack>
-            <StatusBar style="auto" />
-          </ThemeProvider>
+          <Stack
+          screenOptions={{
+              headerStyle: {
+                backgroundColor: Colors[colorScheme ?? "light"].card,
+              },
+              headerTintColor: Colors[colorScheme ?? "light"].foreground,
+              headerTitleStyle: {
+                color: Colors[colorScheme ?? "light"].foreground,
+              },
+              
+            }}>
+           <Stack.Screen
+              name="(tabs)"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+  name="language"
+  options={{
+    title: t("profile.language"),
+    
+  }}
+/>
+            <Stack.Screen
+            name="theme"
+            options={{
+            title: t("theme.appearance"),
+            }
+  }
+/>
+            <Stack.Screen
+              name="(auth)"
+              options={{
+                headerShown: false,
+                presentation: "modal",
+              }}
+            />
+
+            <Stack.Screen
+              name="product/[id]"
+              options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+              name="playgroundnav"
+              options={{ title: "Playground" }}
+            />
+          </Stack>
+
+          <StatusBar style="auto" />
         </SafeAreaProvider>
       </QueryClientProvider>
     </ApolloProvider>

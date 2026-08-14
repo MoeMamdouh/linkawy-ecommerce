@@ -1,0 +1,129 @@
+{
+  "profile": {
+    "title": "Profile",
+    "orders": "Orders",
+    "wishlist": "Wishlist",
+    "reviews": "Reviews",
+    "myOrders": "My Orders",
+    "editProfile": "Edit Profile",
+    "appearance": "Appearance",
+    "language": "Language",
+    "lightMode": "Light Mode",
+    "darkMode":"Dark Mode",
+    "english": "English",
+    "arabic": "Arabic",
+    "logout": "Logout",
+    "signingOut": "Signing out...",
+    "signOutSuccess": "Signed out successfully",
+    "signInSuccess": "Signed in successfully",
+    "signIn": "Sign In",
+    "sessionExpiredTitle": "Session Expired",
+    "sessionExpiredMessage": "Please sign in again to view your profile."
+
+    },
+
+
+  "header": {
+  "welcome": "WELCOME BACK"
+  },
+
+  "search": {
+  "placeholder": "Search products..."
+},
+
+"categories": {
+  "title": "Categories",
+  "fashion": "Fashion",
+  "electronics": "Electronics",
+  "beauty": "Beauty",
+  "home": "Home",
+  "sports": "Sports"
+},
+"featured": {
+  "title": "Featured Products"
+},
+
+  "sectionHeader": {
+    "seeAll": "See All"
+  },
+  "flashSale": {
+    "title": "Flash Sale"
+  },
+    "newArrivals": {
+        "title": "New Arrivals"
+    },
+    "promo": {
+  "limitedOffer": "LIMITED OFFER",
+  "beautyEssentials": "Beauty Essentials",
+  "premiumBrands": "Premium brands",
+  "newSeason": "NEW SEASON",
+  "summerCollection": "Summer Collection",
+  "upTo40Off": "Up to 40% off",
+  "trendingNow": "TRENDING NOW",
+  "techGadgets": "Tech Gadgets",
+  "latestReleases": "Latest releases"
+},
+   
+
+"tabs": {
+  "home": "Home",
+  "shop": "Shop",
+  "cart": "Cart",
+  "wishlist": "Wishlist",
+  "profile": "Profile"
+},
+
+
+    "cart": {
+  "title": "Cart",
+  "promoCode": "Promo code",
+  "applyPromo": "Apply",
+  "appliedPromoCode": "Promo code: {{code}}",
+  "appliedPromoDiscount": "{{discount}}% OFF Applied",
+  "subtotal": "Subtotal",
+  "discount": "Discount",
+  "shipping": "Shipping",
+  "shippingFree": "Free",
+  "total": "Total",
+  "items": "{{count}} items",
+  "Checkout": "Checkout"
+},
+
+"wishlist": {
+    "title": "My Wishlist",
+    "itemCount": "{{count}} item",
+    "itemCount_plural": "{{count}} items",
+    "emptyTitle": "Your Wishlist is Empty",
+    "emptySubtitle": "Explore our collections and add products to your wishlist to buy them later.",
+    "startShopping": "Start Shopping",
+    "errorPrefix": "Error: {{message}}",
+    "retry": "Retry"
+},
+"theme": { 
+    "appearance": "Appearance",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "lightModeDescription": "Bright and clear interface for well-lit environments.",
+    "darkModeDescription": "Dimmed interface for low-light environments, reducing eye strain."
+},
+"shop": {
+    "title": "Shop",
+"productsFound": "{{count}} product found",
+  "productsFound_plural": "{{count}} products found",
+  "all": "All",
+  "fashion": "Fashion",
+  "electronics": "Electronics",
+  "beauty": "Beauty",
+  "home": "Home",
+  "sports": "Sports"
+  },
+    "home": {
+    "title": "Home",
+    "welcomeMessage": "Welcome to our online store!",
+    "featuredProducts": "Featured Products",
+    "flashSale": "Flash Sale",
+    "newArrivals": "New Arrivals",
+    "categories": "Categories",
+    "shopNow": "Shop Now"}
+
+}
