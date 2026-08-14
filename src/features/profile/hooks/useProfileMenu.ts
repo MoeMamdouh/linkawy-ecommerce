@@ -1,8 +1,9 @@
 import { ProfileMenuItem, ProfileStat } from "@features/profile/types/profile.types";
 import { useTheme } from "@shared/hooks/use-theme";
 import { useRouter } from "expo-router";
-import { Globe, LogOut, Moon, Package, Pencil } from "lucide-react-native";
+import { Globe, LogOut, MapPin, Moon, Package, Pencil } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
+import { useCustomerAddresses } from "./useCustomerAddresses";
 
 interface UseProfileMenuArgs {
   ordersCount?: string | number;
@@ -20,6 +21,7 @@ export function useProfileMenu({
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const { scheme } = useTheme();
+  const { addressCount } = useCustomerAddresses();
 
   const stats: ProfileStat[] = [
     { label: t("profile.orders", { defaultValue: "Orders" }), value: ordersCount },
@@ -37,6 +39,10 @@ export function useProfileMenu({
       ? t("profile.arabic", { defaultValue: "Arabic" })
       : t("profile.english", { defaultValue: "English" });
 
+  const addressCountLabel = addressCount
+    ? `${addressCount} ${addressCount === 1 ? "address" : "addresses"}`
+    : "";
+
   const menuItems: ProfileMenuItem[] = [
     {
       key: "orders",
@@ -44,6 +50,13 @@ export function useProfileMenu({
       value: "",
       Icon: Package,
       onPress: () => router.push("/orders" as any),
+    },
+    {
+      key: "addresses",
+      label: "Address List",
+      value: addressCountLabel,
+      Icon: MapPin,
+      onPress: () => router.push("/addresses" as any),
     },
     {
       key: "edit",

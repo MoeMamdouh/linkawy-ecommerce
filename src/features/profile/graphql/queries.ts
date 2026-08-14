@@ -42,3 +42,28 @@ export const GET_CUSTOMER_ORDERS_QUERY = gql`
     }
   }
 `;
+
+export const GET_CUSTOMER_ADDRESSES_QUERY = gql`
+  query getCustomerAddresses($customerAccessToken: String!, $first: Int = 10) {
+    customer(customerAccessToken: $customerAccessToken) {
+      id
+      defaultAddress {
+        id
+      }
+      addresses(first: $first) {
+        edges {
+          node {
+            id
+            address1
+            address2
+            city
+            province
+            zip
+            country
+            phone
+          }
+        }
+      }
+    }
+  }
+`;

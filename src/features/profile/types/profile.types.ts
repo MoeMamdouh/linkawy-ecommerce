@@ -37,3 +37,15 @@ export interface OrderItem {
   currencyCode: string;
   items: OrderLineItem[];
 }
+
+export interface UserAddress {
+  id: string;
+  address1: string;
+  address2?: string;
+  city: string;
+  province?: string;
+  zip?: string;
+  country: string;
+  phone?: string;
+  isDefault?: boolean;
+}

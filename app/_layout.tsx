@@ -112,6 +112,14 @@ export default function RootLayout() {
                 name="edit-profile"
                 options={{ headerShown: false }}
               />
+              <Stack.Screen
+                name="addresses"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="add-address"
+                options={{ headerShown: false }}
+              />
             </Stack>
             <StatusBar style="auto" />
           </ThemeProvider>
