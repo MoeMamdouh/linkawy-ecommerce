@@ -1,19 +1,19 @@
-import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
-import { ShoppingCart } from 'lucide-react-native';
-import { FontFamily, FontSize } from '@shared/constants/theme';
 import { Button } from '@shared/components/ui/button';
-import { useCart } from '../hooks/useCart';
-import { styles } from '../styles/cart-screen.styles';
+import { FontFamily, FontSize } from '@shared/constants/theme';
+import { useTheme } from '@shared/hooks/use-theme';
+import { ShoppingCart } from 'lucide-react-native';
+import React from 'react';
+import { useTranslation } from "react-i18next";
+import { ScrollView, Text, View } from 'react-native';
 import { CartHeader } from '../components/CartHeader';
 import { CartItemCard } from '../components/CartItemCard';
 import { CartPriceCard } from '../components/CartPriceCard';
 import { CartPromoInput } from '../components/CartPromoInput';
-import { useTheme } from '@shared/hooks/use-theme';
-
+import { useCart } from '../hooks/useCart';
+import { styles } from '../styles/cart-screen.styles';
 export default function CartScreen() {
   const { colors } = useTheme();
-
+const { t } = useTranslation();
 
   const {
     cartItems,
@@ -90,7 +90,7 @@ export default function CartScreen() {
                   fontSize: FontSize.md,
                 }}
               >
-                Checkout
+                {t("cart.Checkout")}
               </Button>
             </View>
           </ScrollView>

@@ -2,15 +2,15 @@
 // ProductCard — View (Reusable for grids)
 // ──────────────────────────────────────────────
 
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Palette } from '@shared/constants/theme';
+import { useTheme } from '@shared/hooks/use-theme';
 import { Image } from 'expo-image';
 import { Heart, Plus } from 'lucide-react-native';
-import { Palette } from '@shared/constants/theme';
+import React from 'react';
+import { useTranslation } from "react-i18next";
+import { Text, TouchableOpacity, View } from 'react-native';
 import { Product } from '../../types/home.types';
 import { createProductCardStyles } from './productCard.styles';
-import { useTheme } from '@shared/hooks/use-theme';
-
 interface ProductCardViewProps {
   product: Product;
   isFavorite?: boolean;
@@ -28,7 +28,7 @@ const ProductCardView: React.FC<ProductCardViewProps> = ({
 }) => {
   const { colors } = useTheme();
   const styles = createProductCardStyles(colors);
-
+const { t } = useTranslation();
 
 
   return (

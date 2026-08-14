@@ -1,12 +1,12 @@
-import { View, Text, Pressable } from 'react-native';
-import { Tag, Check, X } from 'lucide-react-native';
-import { Palette, FontFamily, FontSize } from '@shared/constants/theme';
 import { Button } from '@shared/components/ui/button';
 import { Input } from '@shared/components/ui/input';
+import { FontFamily, FontSize, Palette } from '@shared/constants/theme';
+import { useTheme } from '@shared/hooks/use-theme';
+import { Check, Tag, X } from 'lucide-react-native';
+import { useTranslation } from "react-i18next";
+import { Pressable, Text, View } from 'react-native';
 import { AppliedPromo } from '../hooks/useCart';
 import { styles } from '../styles/cart-screen.styles';
-import { useTheme } from '@shared/hooks/use-theme';
-
 interface CartPromoInputProps {
   promoCode: string;
   setPromoCode: (code: string) => void;
@@ -26,6 +26,7 @@ export function CartPromoInput({
 }: CartPromoInputProps) {
 
   const { colors } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <View style={styles.promoContainer}>
@@ -45,10 +46,10 @@ export function CartPromoInput({
             </View>
             <View>
               <Text style={[styles.appliedPromoCode, { color: colors.foreground }]}>
-                {appliedPromo.code}
+                {t("cart.appliedPromoCode", { code: appliedPromo.code })}
               </Text>
               <Text style={[styles.appliedPromoDiscount, { color: Palette.green500 }]}>
-                {appliedPromo.discountPercent}% OFF Applied
+                {t("cart.appliedPromoDiscount", { discount: appliedPromo.discountPercent })}
               </Text>
             </View>
           </View>
@@ -61,7 +62,7 @@ export function CartPromoInput({
           <View style={styles.promoRow}>
             <View style={{ flex: 1 }}>
               <Input
-                placeholder="Promo code"
+                placeholder={t("cart.promoCode")}
                 leftIcon={<Tag size={18} />}
                 value={promoCode}
                 className="h-[44px] py-0"
@@ -82,7 +83,7 @@ export function CartPromoInput({
               onPress={() => onApply(promoCode)}
               style={styles.applyBtn}
             >
-              Apply
+              {t("cart.applyPromo")}
             </Button>
           </View>
         </View>

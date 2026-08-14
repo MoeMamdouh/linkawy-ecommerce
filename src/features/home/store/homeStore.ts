@@ -88,6 +88,7 @@ const mapShopifyCategory = (edge: any): Category => ({
   id: edge?.node?.id || '',
   name: edge?.node?.title || 'Category',
   icon: mapCategoryIcon(edge?.node?.title || ''),
+  handle: edge?.node?.handle || '',
 });
 
 export const useHomeStore = create<HomeStore>((set) => ({
