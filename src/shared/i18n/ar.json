@@ -18,7 +18,22 @@
     "signInSuccess": "تم تسجيل الدخول بنجاح",
     "signIn": "تسجيل الدخول",
     "sessionExpiredTitle": "انتهت الجلسة",
-    "sessionExpiredMessage": "يرجى تسجيل الدخول مرة أخرى لعرض ملفك الشخصي."
+    "sessionExpiredMessage": "يرجى تسجيل الدخول مرة أخرى لعرض ملفك الشخصي.",
+    "addresses": "قائمة العناوين",
+    "addAddress": "إضافة عنوان جديد",
+    "noAddresses": "لا توجد عناوين",
+    "noAddressesSub": "اضغط على الزر أعلاه لإضافة عنوان الشحن الأول الخاص بك.",
+    "streetAddress": "العنوان",
+    "apartment": "الشقة، المجمع، الوحدة (اختياري)",
+    "city": "المدينة",
+    "state": "الولاية / المحافظة",
+    "zip": "الرمز البريدي",
+    "country": "الدولة",
+    "phoneOptional": "رقم الهاتف (اختياري)",
+    "saveAddress": "حفظ العنوان",
+    "default": "افتراضي",
+    "addressCount_one": "عنوان واحد",
+    "addressCount_other": "{{count}} عناوين"
   },
   "header": {
     "welcome": "مرحباً بك مجدداً"

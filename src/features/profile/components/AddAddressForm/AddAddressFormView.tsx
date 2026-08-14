@@ -10,7 +10,8 @@ export function AddAddressFormView() {
   const router = useRouter();
   const { colors } = useTheme();
   const styles = createAddAddressFormStyles(colors);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = (i18n.language || "en").startsWith("ar");
 
   const [address1, setAddress1] = useState("");
   const [address2, setAddress2] = useState("");
@@ -38,60 +39,72 @@ export function AddAddressFormView() {
     }
   };
 
+  const textAlignStyle = { textAlign: isRTL ? ("right" as const) : ("left" as const) };
+
   return (
     <View style={styles.container}>
       {!!errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>Street Address</Text>
+        <Text style={[styles.fieldLabel, textAlignStyle]}>
+          {t("profile.streetAddress", { defaultValue: "Street Address" })}
+        </Text>
         <TextInput
           value={address1}
           onChangeText={setAddress1}
-          style={styles.input}
+          style={[styles.input, textAlignStyle]}
           placeholder="123 Main St"
           placeholderTextColor={colors.mutedForeground}
         />
       </View>
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>Apartment, Suite, Unit (Optional)</Text>
+        <Text style={[styles.fieldLabel, textAlignStyle]}>
+          {t("profile.apartment", { defaultValue: "Apartment, Suite, Unit (Optional)" })}
+        </Text>
         <TextInput
           value={address2}
           onChangeText={setAddress2}
-          style={styles.input}
+          style={[styles.input, textAlignStyle]}
           placeholder="Apt 4B"
           placeholderTextColor={colors.mutedForeground}
         />
       </View>
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>City</Text>
+        <Text style={[styles.fieldLabel, textAlignStyle]}>
+          {t("profile.city", { defaultValue: "City" })}
+        </Text>
         <TextInput
           value={city}
           onChangeText={setCity}
-          style={styles.input}
+          style={[styles.input, textAlignStyle]}
           placeholder="New York"
           placeholderTextColor={colors.mutedForeground}
         />
       </View>
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>State / Province</Text>
+        <Text style={[styles.fieldLabel, textAlignStyle]}>
+          {t("profile.state", { defaultValue: "State / Province" })}
+        </Text>
         <TextInput
           value={province}
           onChangeText={setProvince}
-          style={styles.input}
+          style={[styles.input, textAlignStyle]}
           placeholder="NY"
           placeholderTextColor={colors.mutedForeground}
         />
       </View>
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>ZIP / Postal Code</Text>
+        <Text style={[styles.fieldLabel, textAlignStyle]}>
+          {t("profile.zip", { defaultValue: "ZIP / Postal Code" })}
+        </Text>
         <TextInput
           value={zip}
           onChangeText={setZip}
-          style={styles.input}
+          style={[styles.input, textAlignStyle]}
           placeholder="10001"
           keyboardType="numeric"
           placeholderTextColor={colors.mutedForeground}
@@ -99,22 +112,26 @@ export function AddAddressFormView() {
       </View>
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>Country</Text>
+        <Text style={[styles.fieldLabel, textAlignStyle]}>
+          {t("profile.country", { defaultValue: "Country" })}
+        </Text>
         <TextInput
           value={country}
           onChangeText={setCountry}
-          style={styles.input}
+          style={[styles.input, textAlignStyle]}
           placeholder="United States"
           placeholderTextColor={colors.mutedForeground}
         />
       </View>
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>Phone Number (Optional)</Text>
+        <Text style={[styles.fieldLabel, textAlignStyle]}>
+          {t("profile.phoneOptional", { defaultValue: "Phone Number (Optional)" })}
+        </Text>
         <TextInput
           value={phone}
           onChangeText={setPhone}
-          style={styles.input}
+          style={[styles.input, textAlignStyle]}
           placeholder="+1 555 123 4567"
           keyboardType="phone-pad"
           placeholderTextColor={colors.mutedForeground}
@@ -130,7 +147,9 @@ export function AddAddressFormView() {
         {loading ? (
           <ActivityIndicator color="#FFFFFF" />
         ) : (
-          <Text style={styles.submitButtonText}>Save Address</Text>
+          <Text style={styles.submitButtonText}>
+            {t("profile.saveAddress", { defaultValue: "Save Address" })}
+          </Text>
         )}
       </TouchableOpacity>
     </View>

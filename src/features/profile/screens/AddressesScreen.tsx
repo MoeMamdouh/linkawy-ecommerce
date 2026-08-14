@@ -21,10 +21,12 @@ export default function AddressesScreen() {
     router.push("/add-address" as any);
   };
 
+  const headerTitle = t("profile.addresses", { defaultValue: "Address List" });
+
   if (loading) {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.card }} edges={["top"]}>
-        <ScreenHeader title="Address List" />
+        <ScreenHeader title={headerTitle} />
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={colors.primary} />
         </View>
@@ -34,7 +36,7 @@ export default function AddressesScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.card }} edges={["top"]}>
-      <ScreenHeader title="Address List" />
+      <ScreenHeader title={headerTitle} />
 
       <View style={styles.container}>
         <TouchableOpacity
@@ -43,15 +45,21 @@ export default function AddressesScreen() {
           style={styles.addButton}
         >
           <Plus size={20} color="#FFFFFF" />
-          <Text style={styles.addButtonText}>Add New Address</Text>
+          <Text style={styles.addButtonText}>
+            {t("profile.addAddress", { defaultValue: "Add New Address" })}
+          </Text>
         </TouchableOpacity>
 
         {addresses.length === 0 ? (
           <View style={styles.emptyContainer}>
             <MapPin size={56} color={colors.mutedForeground} opacity={0.4} />
-            <Text style={styles.emptyTitle}>No Addresses Found</Text>
+            <Text style={styles.emptyTitle}>
+              {t("profile.noAddresses", { defaultValue: "No Addresses Found" })}
+            </Text>
             <Text style={styles.emptySubtitle}>
-              Tap the button above to add your first shipping address.
+              {t("profile.noAddressesSub", {
+                defaultValue: "Tap the button above to add your first shipping address.",
+              })}
             </Text>
           </View>
         ) : (

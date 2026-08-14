@@ -40,7 +40,10 @@ export function useProfileMenu({
       : t("profile.english", { defaultValue: "English" });
 
   const addressCountLabel = addressCount
-    ? `${addressCount} ${addressCount === 1 ? "address" : "addresses"}`
+    ? t("profile.addressCount", {
+        count: addressCount,
+        defaultValue: addressCount === 1 ? "1 address" : `${addressCount} addresses`,
+      })
     : "";
 
   const menuItems: ProfileMenuItem[] = [
@@ -53,7 +56,7 @@ export function useProfileMenu({
     },
     {
       key: "addresses",
-      label: "Address List",
+      label: t("profile.addresses", { defaultValue: "Address List" }),
       value: addressCountLabel,
       Icon: MapPin,
       onPress: () => router.push("/addresses" as any),
