@@ -2,14 +2,15 @@
 // FlashSaleSection — View
 // ──────────────────────────────────────────────
 
-import React, { useCallback } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { useTheme } from '@shared/hooks/use-theme';
 import { Image } from 'expo-image';
+import React, { useCallback } from 'react';
+import { useTranslation } from "react-i18next";
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { Product } from '../../types/home.types';
 import { SectionHeaderView } from '../SectionHeader';
-import { useFlashSaleTimer } from './useFlashSaleTimer';
 import { createFlashSaleSectionStyles } from './flashSaleSection.styles';
-import { useTheme } from '@shared/hooks/use-theme';
+import { useFlashSaleTimer } from './useFlashSaleTimer';
 
 interface FlashSaleSectionViewProps {
   products: Product[];
@@ -27,7 +28,7 @@ const FlashSaleSectionView: React.FC<FlashSaleSectionViewProps> = ({
   const { colors } = useTheme();
   const styles = createFlashSaleSectionStyles(colors);
   const timer = useFlashSaleTimer(endTime);
-
+const { t } = useTranslation();
   const TimerBadge = (
     <View style={styles.timerContainer}>
       <Text style={styles.timerText}>{timer.hours}</Text>
@@ -77,10 +78,10 @@ const FlashSaleSectionView: React.FC<FlashSaleSectionViewProps> = ({
   return (
     <View>
       <SectionHeaderView
-        title="Flash Sale"
-        rightElement={TimerBadge}
-        onSeeAll={onSeeAll}
-      />
+  title={t("flashSale.title")}
+  rightElement={TimerBadge}
+  onSeeAll={onSeeAll}
+/>
       <FlatList
         data={products}
         renderItem={renderProduct}

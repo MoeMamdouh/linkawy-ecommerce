@@ -2,13 +2,14 @@
 // NewArrivalsSection — View
 // ──────────────────────────────────────────────
 
+import { useTheme } from '@shared/hooks/use-theme';
 import React from 'react';
+import { useTranslation } from "react-i18next";
 import { View } from 'react-native';
 import { Product } from '../../types/home.types';
-import { SectionHeaderView } from '../SectionHeader';
 import { ProductCardView } from '../ProductCard';
+import { SectionHeaderView } from '../SectionHeader';
 import { createNewArrivalsSectionStyles } from './newArrivalsSection.styles';
-import { useTheme } from '@shared/hooks/use-theme';
 
 interface NewArrivalsSectionViewProps {
   products: Product[];
@@ -29,7 +30,7 @@ const NewArrivalsSectionView: React.FC<NewArrivalsSectionViewProps> = ({
 }) => {
   const { colors } = useTheme();
   const styles = createNewArrivalsSectionStyles(colors);
-
+const { t } = useTranslation();
   // Build pairs for 2-column grid (avoids VirtualizedList-inside-ScrollView warning)
   const rows: Product[][] = [];
   for (let i = 0; i < products.length; i += 2) {
@@ -38,7 +39,7 @@ const NewArrivalsSectionView: React.FC<NewArrivalsSectionViewProps> = ({
 
   return (
     <View>
-      <SectionHeaderView title="New Arrivals" onSeeAll={onSeeAll} />
+      <SectionHeaderView title={t("newArrivals.title")} onSeeAll={onSeeAll} />
       <View style={styles.gridContainer}>
         {rows.map((row, rowIndex) => (
           <View key={rowIndex} style={styles.columnWrapper}>

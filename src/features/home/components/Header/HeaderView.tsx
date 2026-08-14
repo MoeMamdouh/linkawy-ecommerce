@@ -2,13 +2,13 @@
 // Header — View
 // ──────────────────────────────────────────────
 
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
-import { Bell, ShoppingCart, Search } from 'lucide-react-native';
 import { useTheme } from '@shared/hooks/use-theme';
+import { useRouter } from 'expo-router';
+import { Bell, Search, ShoppingCart } from 'lucide-react-native';
+import React from 'react';
+import { useTranslation } from "react-i18next";
+import { Text, TouchableOpacity, View } from 'react-native';
 import { createHeaderStyles } from './header.styles';
-
 interface HeaderViewProps {
   userName?: string;
   avatarUrl?: string;
@@ -29,13 +29,14 @@ const HeaderView: React.FC<HeaderViewProps> = ({
   const { colors } = useTheme();
   const styles = createHeaderStyles(colors);
   const router = useRouter();
+  const { t } = useTranslation();
 
   return (
     <View style={styles.container}>
       {/* Left: Greeting */}
       <View style={styles.leftSection}>
         <View style={styles.greetingContainer}>
-          <Text style={styles.welcomeText}>WELCOME BACK,</Text>
+          <Text style={styles.welcomeText}>{t("header.welcome")}</Text>
           <Text style={styles.nameText}>{userName} 👋</Text>
         </View>
       </View>

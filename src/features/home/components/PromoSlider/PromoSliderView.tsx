@@ -1,10 +1,10 @@
+import { useTheme } from '@shared/hooks/use-theme';
 import { Image } from 'expo-image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from "react-i18next";
 import { FlatList, NativeScrollEvent, NativeSyntheticEvent, Text, View } from 'react-native';
 import { BannerSlide } from '../../types/home.types';
 import { createPromoSliderStyles, SLIDER_WIDTH } from './promoSlider.styles';
-import { useTheme } from '@shared/hooks/use-theme';
-
 interface PromoSliderViewProps {
   slides?: BannerSlide[]; // جعل الخاصية اختيارية
   autoScrollInterval?: number;
@@ -20,7 +20,7 @@ export const PromoSliderView: React.FC<PromoSliderViewProps> = ({
   const flatListRef = useRef<FlatList<BannerSlide>>(null);
   const autoScrollTimer = useRef<ReturnType<typeof setInterval> | null>(null);
   const activeIndexRef = useRef(0);
-
+const { t } = useTranslation();
   const slidesCount = slides?.length ?? 0;
 
   const handleScroll = useCallback(
@@ -61,10 +61,10 @@ export const PromoSliderView: React.FC<PromoSliderViewProps> = ({
       <View style={[styles.slide, { backgroundColor: item.backgroundColor }]}>
         <View style={styles.slideContent}>
           <View style={styles.tagBadge}>
-            <Text style={styles.tagText}>{item.tag}</Text>
+            <Text style={styles.tagText}>{t("promoSlider.tag")}</Text>
           </View>
-          <Text style={styles.titleText}>{item.title}</Text>
-          <Text style={styles.subtitleText}>{item.subtitle}</Text>
+          <Text style={styles.titleText}>{t("promoSlider.title")}</Text>
+          <Text style={styles.subtitleText}>{t("promoSlider.subtitle")}</Text>
         </View>
         <Image
           source={{ uri: item.image }}
