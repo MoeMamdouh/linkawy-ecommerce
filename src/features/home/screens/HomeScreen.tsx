@@ -112,7 +112,10 @@ export default function HomeScreen() {
         <SearchBarView editable={false} onPress={navigateToShop} />
         {/* <PromoSliderView slides={bannerSlides} autoScrollInterval={4000} /> */}
         <PromoSliderView slides={bannerSlides || []} autoScrollInterval={4000} />
-        <CategoriesSectionView categories={categories} />
+        <CategoriesSectionView
+          categories={categories}
+          onSeeAll={() => router.push('/(tabs)/shop')}
+        />
         <FlashSaleSectionView
           products={flashSaleProducts}
           endTime={flashSaleEndTime}
