@@ -1,6 +1,7 @@
 import "../ReactotronConfig";
 import "@shared/i18n";
 
+import { ApolloProvider } from "@apollo/client/react";
 import {
   Outfit_400Regular,
   Outfit_500Medium,
@@ -9,42 +10,49 @@ import {
   Outfit_900Black,
   useFonts,
 } from "@expo-google-fonts/outfit";
-import { Stack } from "expo-router";
+import { useAuthStore } from "@features/auth/store/useAuthStore";
+import { SplashScreenView } from "@shared/components/splash-screen-view";
+import { apolloClient } from "@shared/graphql/client";
+import { useTheme } from "@shared/hooks/use-theme";
+import { queryClient } from "@shared/query/client";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Stack, router } from "expo-router";
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider,
 } from "expo-router/react-navigation";
+import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
-import { ActivityIndicator, View } from "react-native";
-import { useAuthStore } from "@features/auth/store/useAuthStore";
+import { useEffect, useState } from "react";
+import {
+  configureReanimatedLogger,
+  ReanimatedLogLevel,
+} from "react-native-reanimated";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import "../global.css";
-import { ApolloProvider } from '@apollo/client/react';
-import { apolloClient } from '@shared/graphql/client';
-import { queryClient } from '@shared/query/client';
-import { useTheme } from '@shared/hooks/use-theme';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useTranslation } from "react-i18next";
 import { initializeI18n } from "@shared/i18n";
-import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
 
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
   strict: false,
 });
 
+SplashScreen.preventAutoHideAsync();
+
 export const unstable_settings = {
   anchor: "(tabs)",
 };
 
 export default function RootLayout() {
-  const { colors, isDark } = useTheme();
+  const { isDark } = useTheme();
   const { i18n } = useTranslation();
+  const [showCustomSplash, setShowCustomSplash] = useState(true);
 
   const hydrateAuth = useAuthStore((state) => state.hydrateAuth);
   const isHydrated = useAuthStore((state) => state.isHydrated);
+  const hasSeenOnboarding = useAuthStore((state) => state.hasSeenOnboarding);
 
   useEffect(() => {
     hydrateAuth();
@@ -65,19 +73,27 @@ export default function RootLayout() {
     }
   }, [fontError]);
 
-  if ((!fontsLoaded && !fontError) || !isHydrated) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: colors.background,
-        }}
-      >
-        <ActivityIndicator size="large" color={colors.primary} />
-      </View>
-    );
+  useEffect(() => {
+    const isReady = (fontsLoaded || fontError) && isHydrated;
+    if (!isReady) return;
+
+    SplashScreen.hideAsync();
+
+    const timer = setTimeout(() => {
+      setShowCustomSplash(false);
+
+      if (!hasSeenOnboarding) {
+        router.replace("/onboarding");
+      }
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [isHydrated, fontsLoaded, fontError, hasSeenOnboarding]);
+
+  const isAppReady = (fontsLoaded || fontError) && isHydrated;
+
+  if (!isAppReady || showCustomSplash) {
+    return <SplashScreenView appName="LINKAWY" tagline="Your Ultimate Store" />;
   }
 
   return (
@@ -85,7 +101,11 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <SafeAreaProvider>
           <ThemeProvider value={isDark ? DarkTheme : DefaultTheme}>
-            <Stack key={i18n.language || "en"}>
+              <Stack key={i18n.language || "en"}>
+              <Stack.Screen
+                name="onboarding"
+                options={{ headerShown: false }}
+              />
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen
                 name="(auth)"
