@@ -5,15 +5,18 @@ import { ShoppingCart } from 'lucide-react-native';
 import { FontFamily, FontSize } from '@shared/constants/theme';
 import { Button } from '@shared/components/ui/button';
 import { useCart } from '../hooks/useCart';
-import { styles } from '../styles/cart-screen.styles';
+import { createCartStyles } from '../styles/cart-screen.styles';
 import { CartHeader } from '../components/CartHeader';
 import { CartItemCard } from '../components/CartItemCard';
 import { CartPriceCard } from '../components/CartPriceCard';
 import { CartPromoInput } from '../components/CartPromoInput';
 import { useTheme } from '@shared/hooks/use-theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 export default function CartScreen() {
   const { colors } = useTheme();
+  const styles = createCartStyles(colors);
   const router = useRouter();
 
 
@@ -34,7 +37,7 @@ export default function CartScreen() {
   } = useCart();
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       {/* Header */}
       <CartHeader totalItemCount={totalItemCount} />
 
@@ -99,6 +102,6 @@ export default function CartScreen() {
           </ScrollView>
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 }

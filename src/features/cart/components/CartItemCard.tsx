@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { Minus, Plus, X } from 'lucide-react-native';
 import { CartItem } from '../hooks/useCart';
-import { styles } from '../styles/cart-screen.styles';
+import { createCartStyles } from '../styles/cart-screen.styles';
 import { useTheme } from '@shared/hooks/use-theme';
 
 interface CartItemCardProps {
@@ -21,6 +21,7 @@ export function CartItemCard({
   onRemoveItem,
 }: CartItemCardProps) {
   const { colors } = useTheme();
+      const styles = createCartStyles(colors);
 
   return (
     <View
