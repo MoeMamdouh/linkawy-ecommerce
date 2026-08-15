@@ -111,7 +111,7 @@ export default function HomeScreen() {
         <PromoSliderView slides={bannerSlides || []} autoScrollInterval={4000} />
         <CategoriesSectionView
           categories={categories}
-          onSeeAll={() => router.push('/(tabs)/shop')}
+          onSeeAll={() => router.push('/(tabs)/categories' as any)}
         />
         <FlashSaleSectionView
           products={flashSaleProducts}

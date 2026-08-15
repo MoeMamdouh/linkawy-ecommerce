@@ -13,9 +13,9 @@ export const createCategoryFiltersStyles = (
   StyleSheet.create({
     listContainer: {
       paddingHorizontal: embedded ? 0 : 20,
-      paddingTop: embedded ? 8 : 4,
-      paddingBottom: embedded ? 0 : 12,
-      gap: 8,
+      paddingTop: 12,
+      paddingBottom: 12,
+      gap: 12,
       backgroundColor: sectionBackground ?? colors.background,
     },
     pill: {
@@ -23,7 +23,6 @@ export const createCategoryFiltersStyles = (
       paddingVertical: 10,
       borderRadius: 999,
       backgroundColor: colors.input,
-      marginRight: 8,
     },
     pillActive: {
       backgroundColor: colors.primary,

@@ -2,8 +2,8 @@
 // CategoryFilters — View
 // ──────────────────────────────────────────────
 
-import React, { useCallback } from 'react';
-import { FlatList, Text, TouchableOpacity } from 'react-native';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { ALL_CATEGORY_ID } from '../../store/shopStore';
 import { ShopCategory } from '../../types/shop.types';
 import { createCategoryFiltersStyles } from './categoryFilters.styles';
@@ -32,10 +32,28 @@ const CategoryFiltersView: React.FC<CategoryFiltersViewProps> = ({
   const { colors } = useTheme();
   const styles = createCategoryFiltersStyles(colors, sectionBackground, embedded);
 
+  const flatListRef = useRef<FlatList>(null);
+
   const filterItems: CategoryFilterItem[] = [
     { id: ALL_CATEGORY_ID, name: 'All' },
     ...categories,
   ];
+
+  useEffect(() => {
+    if (filterItems.length > 0 && selectedCategoryId) {
+      const index = filterItems.findIndex((item) => item.id === selectedCategoryId);
+      if (index !== -1 && flatListRef.current) {
+        // Small delay ensures FlatList has laid out its items before scrolling
+        setTimeout(() => {
+          flatListRef.current?.scrollToIndex({
+            index,
+            animated: true,
+            viewPosition: 0.5,
+          });
+        }, 100);
+      }
+    }
+  }, [selectedCategoryId, filterItems.length]);
 
   const renderItem = useCallback(
     ({ item }: { item: CategoryFilterItem }) => {
@@ -56,14 +74,23 @@ const CategoryFiltersView: React.FC<CategoryFiltersViewProps> = ({
   );
 
   return (
-    <FlatList
-      data={filterItems}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.listContainer}
-    />
+    <View>
+      <FlatList
+        ref={flatListRef}
+        data={filterItems}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.listContainer}
+        onScrollToIndexFailed={(info) => {
+          const wait = new Promise(resolve => setTimeout(resolve, 500));
+          wait.then(() => {
+            flatListRef.current?.scrollToIndex({ index: info.index, animated: true, viewPosition: 0.5 });
+          });
+        }}
+      />
+    </View>
   );
 };
 
