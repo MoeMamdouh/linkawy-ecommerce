@@ -18,7 +18,7 @@ export function AddAddressFormView() {
   const [city, setCity] = useState("");
   const [province, setProvince] = useState("");
   const [zip, setZip] = useState("");
-  const [country, setCountry] = useState("United States");
+  const [country, setCountry] = useState("");
   const [phone, setPhone] = useState("");
 
   const { addAddress, loading, errorMessage } = useAddAddress();
@@ -47,7 +47,7 @@ export function AddAddressFormView() {
 
       <View style={styles.fieldGroup}>
         <Text style={[styles.fieldLabel, textAlignStyle]}>
-          {t("profile.streetAddress", { defaultValue: "Street Address" })}
+          {t("profile.streetAddress", { defaultValue: "Street Address *" })}
         </Text>
         <TextInput
           value={address1}
@@ -73,7 +73,7 @@ export function AddAddressFormView() {
 
       <View style={styles.fieldGroup}>
         <Text style={[styles.fieldLabel, textAlignStyle]}>
-          {t("profile.city", { defaultValue: "City" })}
+          {t("profile.city", { defaultValue: "City *" })}
         </Text>
         <TextInput
           value={city}
@@ -86,7 +86,7 @@ export function AddAddressFormView() {
 
       <View style={styles.fieldGroup}>
         <Text style={[styles.fieldLabel, textAlignStyle]}>
-          {t("profile.state", { defaultValue: "State / Province" })}
+          {t("profile.state", { defaultValue: "State / Province (Optional)" })}
         </Text>
         <TextInput
           value={province}
@@ -99,7 +99,7 @@ export function AddAddressFormView() {
 
       <View style={styles.fieldGroup}>
         <Text style={[styles.fieldLabel, textAlignStyle]}>
-          {t("profile.zip", { defaultValue: "ZIP / Postal Code" })}
+          {t("profile.zip", { defaultValue: "ZIP / Postal Code (Optional)" })}
         </Text>
         <TextInput
           value={zip}
@@ -113,7 +113,7 @@ export function AddAddressFormView() {
 
       <View style={styles.fieldGroup}>
         <Text style={[styles.fieldLabel, textAlignStyle]}>
-          {t("profile.country", { defaultValue: "Country" })}
+          {t("profile.country", { defaultValue: "Country *" })}
         </Text>
         <TextInput
           value={country}

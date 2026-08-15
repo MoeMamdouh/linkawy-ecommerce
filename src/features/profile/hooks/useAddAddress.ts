@@ -44,8 +44,8 @@ export function useAddAddress() {
       return false;
     }
 
-    if (!input.address1 || !input.city) {
-      setErrorMessage("Street Address and City are required.");
+    if (!input.address1?.trim() || !input.city?.trim() || !input.country?.trim()) {
+      setErrorMessage("Street Address, City, and Country are required.");
       return false;
     }
 
@@ -54,13 +54,13 @@ export function useAddAddress() {
         variables: {
           customerAccessToken: token,
           address: {
-            address1: input.address1,
-            address2: input.address2 || undefined,
-            city: input.city,
-            province: input.province || undefined,
-            zip: input.zip || undefined,
-            country: input.country || "US",
-            phone: input.phone || undefined,
+            address1: input.address1.trim(),
+            address2: input.address2?.trim() || undefined,
+            city: input.city.trim(),
+            province: input.province?.trim() || undefined,
+            zip: input.zip?.trim() || undefined,
+            country: input.country.trim(),
+            phone: input.phone?.trim() || undefined,
           },
         },
       });
