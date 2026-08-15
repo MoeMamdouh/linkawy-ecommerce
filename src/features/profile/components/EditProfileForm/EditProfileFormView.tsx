@@ -1,4 +1,5 @@
 import { useEditProfile } from "@features/profile/hooks/useEditProfile";
+import { ErrorModal } from "@shared/components/ui/error-modal";
 import { useTheme } from "@shared/hooks/use-theme";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -27,7 +28,7 @@ export function EditProfileFormView({
   const [email, setEmail] = useState(initialEmail);
   const [phone, setPhone] = useState(initialPhone);
 
-  const { updateProfile, loading, errorMessage, successMessage } = useEditProfile();
+  const { updateProfile, loading, errorMessage, successMessage, clearError } = useEditProfile();
 
   const handleSave = async () => {
     await updateProfile({
@@ -42,13 +43,19 @@ export function EditProfileFormView({
 
   return (
     <View style={styles.container}>
+      <ErrorModal
+        visible={!!errorMessage}
+        message={errorMessage}
+        onClose={clearError}
+        title={t("profile.updateProfileFailed", { defaultValue: "Failed to Update Profile" })}
+      />
+
       <View style={styles.avatarSection}>
         <View style={styles.avatarBox}>
           <Text style={styles.avatarText}>{initials}</Text>
         </View>
       </View>
 
-      {!!errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
       {successMessage && (
         <Text style={styles.successText}>Profile updated successfully!</Text>
       )}

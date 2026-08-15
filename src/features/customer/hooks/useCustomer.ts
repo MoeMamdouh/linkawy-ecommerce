@@ -22,6 +22,6 @@ export const useCustomerProfile = () => {
   return useQuery<CustomerQueryData>(GET_CUSTOMER_QUERY, {
     variables: { customerAccessToken: token ?? "" },
     skip: !isHydrated || !isAuthenticated || !token,
-    fetchPolicy: "network-only",
+    fetchPolicy: "cache-and-network",
   });
 };

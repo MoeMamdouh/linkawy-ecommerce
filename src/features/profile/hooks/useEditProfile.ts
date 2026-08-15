@@ -76,10 +76,13 @@ export function useEditProfile() {
     }
   };
 
+  const clearError = () => setErrorMessage(null);
+
   return {
     updateProfile,
     loading,
     errorMessage,
     successMessage,
+    clearError,
   };
 }
