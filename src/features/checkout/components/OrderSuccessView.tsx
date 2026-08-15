@@ -8,6 +8,7 @@ interface OrderSuccessViewProps {
   orderNumber: string;
   deliveryDate: string;
   total: number;
+  onTrackOrder: () => void;
   onContinueShopping: () => void;
 }
 
@@ -15,12 +16,15 @@ export function OrderSuccessView({
   orderNumber,
   deliveryDate,
   total,
+  onTrackOrder,
   onContinueShopping,
 }: OrderSuccessViewProps) {
   const { colors } = useTheme();
   const styles = createCheckoutStyles(colors);
 
-  const handleTrackOrder = () => { };
+  const handleTrackOrder = () => {
+    onTrackOrder();
+  };
 
   return (
     <View style={styles.successContainer}>

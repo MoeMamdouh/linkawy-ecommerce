@@ -168,6 +168,7 @@ export function useCheckout() {
 
         const latestCart = useCartStore.getState().cart;
         const checkoutUrlToOpen = latestCart?.checkoutUrl || cart.checkoutUrl;
+        const startTime = new Date();
 
         // Open the Shopify secure checkout in WebBrowser
         await WebBrowser.openBrowserAsync(checkoutUrlToOpen);
@@ -175,28 +176,56 @@ export function useCheckout() {
         // Verify if the order was completed on Shopify
         setIsVerifyingOrder(true);
 
-        const res = await apolloClient.query<any>({
-          query: GET_CART_QUERY,
-          variables: { id: cart.id },
-          fetchPolicy: 'network-only',
-        });
+        // Add a 2-second sleep to allow Shopify database write propagation
+        await new Promise((resolve) => setTimeout(resolve, 2000));
 
-        const shopifyCart = res.data?.cart;
-        const isCartCompleted =
-          !shopifyCart ||
-          !shopifyCart.lines?.edges ||
-          shopifyCart.lines.edges.length === 0;
+        let isOrderPlaced = false;
+        let actualOrderNum = '';
 
-        if (isCartCompleted) {
-          let actualOrderNum = '';
+        // 1. Check if the cart has been deleted or emptied by Shopify
+        try {
+          const res = await apolloClient.query<any>({
+            query: GET_CART_QUERY,
+            variables: { id: cart.id },
+            fetchPolicy: 'network-only',
+          });
+
+          const shopifyCart = res.data?.cart;
+          const isCartEmpty =
+            !shopifyCart ||
+            !shopifyCart.lines?.edges ||
+            shopifyCart.lines.edges.length === 0;
+
+          if (isCartEmpty) {
+            isOrderPlaced = true;
+          }
+        } catch (e: any) {
+          console.warn('Could not verify cart status:', e);
+          // If the cart is not found, it was deleted upon checkout completion
+          if (
+            e.message?.toLowerCase().includes('not found') ||
+            e.message?.toLowerCase().includes('invalid')
+          ) {
+            isOrderPlaced = true;
+          }
+        }
+
+        // 2. If the cart was emptied/deleted, fetch the matching order number
+        if (isOrderPlaced) {
           try {
             const ordersRes = await refetchOrders();
             const newestOrder = ordersRes.data?.customer?.orders?.edges?.[0]?.node;
-            if (newestOrder?.name || newestOrder?.orderNumber) {
-              actualOrderNum = newestOrder.name || `#${newestOrder.orderNumber}`;
+            if (newestOrder) {
+              const processedDate = new Date(newestOrder.processedAt);
+              const timeDiffMs = Math.abs(processedDate.getTime() - startTime.getTime());
+              
+              // Ensure we only use this order name if it was placed during this session
+              if (timeDiffMs <= 300000) {
+                actualOrderNum = newestOrder.name || `#${newestOrder.orderNumber}`;
+              }
             }
           } catch (e) {
-            console.log('Could not fetch latest order number:', e);
+            console.warn('Could not fetch real order number for display:', e);
           }
 
           generateOrderDetails(actualOrderNum);
@@ -224,6 +253,11 @@ export function useCheckout() {
     router.replace('/(tabs)');
   };
 
+  const handleTrackOrder = () => {
+    router.dismissAll();
+    router.replace('/orders');
+  };
+
   return {
     step,
     setStep,
@@ -246,6 +280,7 @@ export function useCheckout() {
     handleGoBack,
     handleCheckoutSubmit,
     handleContinueShopping,
+    handleTrackOrder,
     refetchAddresses,
     closeErrorModal,
   };

@@ -36,6 +36,7 @@ export default function CheckoutScreen() {
     handleGoBack,
     handleCheckoutSubmit,
     handleContinueShopping,
+    handleTrackOrder,
     closeErrorModal,
   } = useCheckout();
 
@@ -105,6 +106,7 @@ export default function CheckoutScreen() {
       orderNumber={orderNumber}
       deliveryDate={deliveryDate}
       total={total}
+      onTrackOrder={handleTrackOrder}
       onContinueShopping={handleContinueShopping}
     />
   );
