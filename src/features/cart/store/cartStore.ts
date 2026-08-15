@@ -59,7 +59,12 @@ interface CartActions {
   removeFromCart: (lineId: string) => Promise<void>;
   clearCart: () => Promise<void>;
   updateDiscountCodes: (codes: string[]) => Promise<FormattedCart | null>;
-  updateBuyerIdentity: (customerAccessToken: string, email?: string, address?: MailingAddressInput) => Promise<void>;
+  updateBuyerIdentity: (
+    customerAccessToken: string,
+    email?: string,
+    address?: MailingAddressInput,
+    addressId?: string
+  ) => Promise<void>;
 }
 
 export type CartStore = CartState & CartActions;
@@ -67,28 +72,36 @@ export type CartStore = CartState & CartActions;
 const mapShopifyCart = (shopifyCart: any): FormattedCart | null => {
   if (!shopifyCart) return null;
 
-  const lines = (shopifyCart.lines?.edges || []).map((edge: any) => {
-    const node = edge.node || {};
-    const merch = node.merchandise || {};
-    const prod = merch.product || {};
+  const rawLines = Array.isArray(shopifyCart.lines)
+    ? shopifyCart.lines
+    : (shopifyCart.lines?.edges || shopifyCart.lines?.nodes || []);
 
-    const sizeOpt = merch.selectedOptions?.find(
-      (opt: any) => opt.name.toLowerCase() === 'size'
+  const lines = rawLines.map((edgeOrNode: any) => {
+    const node = edgeOrNode?.node ? edgeOrNode.node : edgeOrNode;
+    const merch = node?.merchandise || {};
+    const prod = merch?.product || {};
+
+    const sizeOpt = merch?.selectedOptions?.find(
+      (opt: any) => opt.name?.toLowerCase() === 'size'
     )?.value || '';
 
-    const colorOpt = merch.selectedOptions?.find(
-      (opt: any) => opt.name.toLowerCase() === 'color'
+    const colorOpt = merch?.selectedOptions?.find(
+      (opt: any) => opt.name?.toLowerCase() === 'color'
     )?.value || '';
+
+    const rawQty = node?.quantity;
+    const parsedQty = typeof rawQty === 'number' ? rawQty : parseInt(rawQty || '1', 10);
+    const quantity = !isNaN(parsedQty) && parsedQty > 0 ? parsedQty : 1;
 
     return {
-      id: node.id,
+      id: node?.id || '',
       name: prod.title || merch.title || 'Product',
       size: sizeOpt,
       color: colorOpt,
       price: parseFloat(merch.price?.amount || '0'),
-      quantity: node.quantity || 0,
-      image: prod.featuredImage?.url || '',
-      variantId: merch.id,
+      quantity,
+      image: prod.featuredImage?.url || merch.image?.url || '',
+      variantId: merch.id || '',
     };
   });
 
@@ -97,11 +110,22 @@ const mapShopifyCart = (shopifyCart: any): FormattedCart | null => {
     applicable: dc.applicable,
   }));
 
+  const computedSubtotal = lines.reduce(
+    (acc: number, item: any) => acc + item.price * item.quantity,
+    0
+  );
+
+  const rawSubtotal = parseFloat(shopifyCart.cost?.subtotalAmount?.amount || '0');
+  const rawTotal = parseFloat(shopifyCart.cost?.totalAmount?.amount || '0');
+
+  const subtotal = rawSubtotal > 0 ? rawSubtotal : computedSubtotal;
+  const total = rawTotal > 0 ? rawTotal : subtotal;
+
   return {
     id: shopifyCart.id,
     checkoutUrl: shopifyCart.checkoutUrl || '',
-    subtotal: parseFloat(shopifyCart.cost?.subtotalAmount?.amount || '0'),
-    total: parseFloat(shopifyCart.cost?.totalAmount?.amount || '0'),
+    subtotal,
+    total,
     lines,
     discountCodes,
   };
@@ -118,22 +142,28 @@ export const useCartStore = create<CartStore>((set, get) => ({
     try {
       const savedId = await AsyncStorage.getItem(CART_ID_STORAGE_KEY);
       if (savedId) {
-        // Fetch cart details from Shopify
-        const res = await apolloClient.query<any>({
-          query: GET_CART_QUERY,
-          variables: { id: savedId },
-          fetchPolicy: 'no-cache',
-        });
-
-        const shopifyCart = res.data?.cart;
-        if (shopifyCart) {
-          set({
-            cartId: savedId,
-            cart: mapShopifyCart(shopifyCart),
-            isLoading: false,
+        try {
+          // Fetch cart details from Shopify
+          const res = await apolloClient.query<any>({
+            query: GET_CART_QUERY,
+            variables: { id: savedId },
+            fetchPolicy: 'no-cache',
           });
-        } else {
-          // If cart no longer exists in Shopify, clear local state
+
+          const shopifyCart = res.data?.cart;
+          if (shopifyCart) {
+            set({
+              cartId: savedId,
+              cart: mapShopifyCart(shopifyCart),
+              isLoading: false,
+            });
+          } else {
+            // If cart no longer exists in Shopify, clear local state
+            await AsyncStorage.removeItem(CART_ID_STORAGE_KEY);
+            set({ cartId: null, cart: null, isLoading: false });
+          }
+        } catch (queryErr) {
+          console.warn('Saved cart invalid or expired, resetting cartId:', queryErr);
           await AsyncStorage.removeItem(CART_ID_STORAGE_KEY);
           set({ cartId: null, cart: null, isLoading: false });
         }
@@ -148,6 +178,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
 
   addToCart: async (variantId: string, quantity: number) => {
     set({ isLoading: true, error: null });
+    const qty = quantity > 0 ? quantity : 1;
     const { cartId } = get();
 
     try {
@@ -157,10 +188,15 @@ export const useCartStore = create<CartStore>((set, get) => ({
           mutation: CREATE_CART_MUTATION,
           variables: {
             input: {
-              lines: [{ merchandiseId: variantId, quantity }],
+              lines: [{ merchandiseId: variantId, quantity: qty }],
             },
           },
         });
+
+        const userErrors = res.data?.cartCreate?.userErrors || [];
+        if (userErrors.length > 0) {
+          throw new Error(userErrors[0].message);
+        }
 
         const newCart = res.data?.cartCreate?.cart;
         if (newCart) {
@@ -178,9 +214,14 @@ export const useCartStore = create<CartStore>((set, get) => ({
             mutation: ADD_TO_CART_MUTATION,
             variables: {
               cartId,
-              lines: [{ merchandiseId: variantId, quantity }],
+              lines: [{ merchandiseId: variantId, quantity: qty }],
             },
           });
+
+          const userErrors = res.data?.cartLinesAdd?.userErrors || [];
+          if (userErrors.length > 0) {
+            throw new Error(userErrors[0].message);
+          }
 
           const updatedCart = res.data?.cartLinesAdd?.cart;
           if (updatedCart) {
@@ -190,15 +231,10 @@ export const useCartStore = create<CartStore>((set, get) => ({
             });
           }
         } catch (addError: any) {
-          // Fallback if existing cart expired/not found in Shopify
-          if (addError.message?.toLowerCase().includes('not found') || addError.message?.toLowerCase().includes('invalid')) {
-            console.log('Cart expired or invalid, creating a new one...');
-            await AsyncStorage.removeItem(CART_ID_STORAGE_KEY);
-            set({ cartId: null, cart: null });
-            // Recursively call addToCart to create the new cart
-            return get().addToCart(variantId, quantity);
-          }
-          throw addError;
+          console.warn('Cart expired or invalid, creating a new one...', addError);
+          await AsyncStorage.removeItem(CART_ID_STORAGE_KEY);
+          set({ cartId: null, cart: null });
+          return get().addToCart(variantId, qty);
         }
       }
     } catch (err: any) {
@@ -211,6 +247,10 @@ export const useCartStore = create<CartStore>((set, get) => ({
     const { cartId } = get();
     if (!cartId) return;
 
+    if (quantity <= 0) {
+      return get().removeFromCart(lineId);
+    }
+
     set({ isLoading: true, error: null });
     try {
       const res = await apolloClient.mutate<any>({
@@ -220,6 +260,11 @@ export const useCartStore = create<CartStore>((set, get) => ({
           lines: [{ id: lineId, quantity }],
         },
       });
+
+      const userErrors = res.data?.cartLinesUpdate?.userErrors || [];
+      if (userErrors.length > 0) {
+        throw new Error(userErrors[0].message);
+      }
 
       const updatedCart = res.data?.cartLinesUpdate?.cart;
       if (updatedCart) {
@@ -247,6 +292,11 @@ export const useCartStore = create<CartStore>((set, get) => ({
           lineIds: [lineId],
         },
       });
+
+      const userErrors = res.data?.cartLinesRemove?.userErrors || [];
+      if (userErrors.length > 0) {
+        throw new Error(userErrors[0].message);
+      }
 
       const updatedCart = res.data?.cartLinesRemove?.cart;
       if (updatedCart) {
@@ -304,7 +354,12 @@ export const useCartStore = create<CartStore>((set, get) => ({
     set({ cartId: null, cart: null, error: null });
   },
 
-  updateBuyerIdentity: async (customerAccessToken: string, email?: string, address?: MailingAddressInput) => {
+  updateBuyerIdentity: async (
+    customerAccessToken: string,
+    email?: string,
+    address?: MailingAddressInput,
+    addressId?: string
+  ) => {
     const { cartId } = get();
     if (!cartId) return;
 
@@ -315,11 +370,13 @@ export const useCartStore = create<CartStore>((set, get) => ({
         email,
       };
 
-      if (address) {
+      if (addressId) {
         buyerIdentityInput.deliveryAddressPreferences = [
-          {
-            deliveryAddress: address,
-          },
+          { customerAddressId: addressId },
+        ];
+      } else if (address) {
+        buyerIdentityInput.deliveryAddressPreferences = [
+          { deliveryAddress: address },
         ];
       }
 

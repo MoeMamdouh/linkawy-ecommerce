@@ -50,6 +50,10 @@ export const CREATE_CART_MUTATION = gql`
           }
         }
       }
+      userErrors {
+        field
+        message
+      }
     }
   }
 `;
@@ -59,6 +63,7 @@ export const ADD_TO_CART_MUTATION = gql`
     cartLinesAdd(cartId: $cartId, lines: $lines) {
       cart {
         id
+        checkoutUrl
         discountCodes {
           code
           applicable
@@ -102,6 +107,10 @@ export const ADD_TO_CART_MUTATION = gql`
             }
           }
         }
+      }
+      userErrors {
+        field
+        message
       }
     }
   }
@@ -112,6 +121,7 @@ export const UPDATE_CART_MUTATION = gql`
     cartLinesUpdate(cartId: $cartId, lines: $lines) {
       cart {
         id
+        checkoutUrl
         discountCodes {
           code
           applicable
@@ -156,6 +166,10 @@ export const UPDATE_CART_MUTATION = gql`
           }
         }
       }
+      userErrors {
+        field
+        message
+      }
     }
   }
 `;
@@ -165,6 +179,7 @@ export const REMOVE_FROM_CART_MUTATION = gql`
     cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
       cart {
         id
+        checkoutUrl
         discountCodes {
           code
           applicable
@@ -208,6 +223,10 @@ export const REMOVE_FROM_CART_MUTATION = gql`
             }
           }
         }
+      }
+      userErrors {
+        field
+        message
       }
     }
   }

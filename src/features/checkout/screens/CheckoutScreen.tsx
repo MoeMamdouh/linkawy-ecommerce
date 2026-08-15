@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { View, ScrollView, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 import { useTheme } from '@shared/hooks/use-theme';
 import { createCheckoutStyles } from '../styles/checkout.styles';
 import { useCheckout } from '../hooks/useCheckout';
@@ -23,6 +23,12 @@ export default function CheckoutScreen() {
     subtotal,
     total,
     items,
+    addresses,
+    selectedAddressId,
+    addressesLoading,
+    isVerifyingOrder,
+    handleSelectAddress,
+    handleAddAddress,
     handleGoBack,
     handleCheckoutSubmit,
     handleContinueShopping,
@@ -31,7 +37,7 @@ export default function CheckoutScreen() {
   if (step === 'checkout') {
     const customerName = customer
       ? `${customer.firstName || ''} ${customer.lastName || ''}`.trim()
-      : 'Sarah Connor';
+      : 'Customer';
 
     return (
       <View style={styles.container}>
@@ -42,7 +48,14 @@ export default function CheckoutScreen() {
           contentContainerStyle={styles.scrollContent}
         >
           {/* Delivery Address Section */}
-          <AddressSection customerName={customerName} />
+          <AddressSection
+            customerName={customerName}
+            addresses={addresses}
+            selectedAddressId={selectedAddressId}
+            onSelectAddress={handleSelectAddress}
+            onAddAddress={handleAddAddress}
+            loading={addressesLoading}
+          />
 
           {/* Payment Method Section */}
           <PaymentMethodSection />
@@ -57,11 +70,16 @@ export default function CheckoutScreen() {
           {/* Submit Button */}
           <View style={styles.ctaButtonContainer}>
             <TouchableOpacity
-              style={styles.ctaButton}
+              style={[styles.ctaButton, isVerifyingOrder && { opacity: 0.8 }]}
               activeOpacity={0.8}
               onPress={handleCheckoutSubmit}
+              disabled={isVerifyingOrder}
             >
-              <Text style={styles.ctaButtonText}>Place Order</Text>
+              {isVerifyingOrder ? (
+                <ActivityIndicator color="#FFFFFF" size="small" />
+              ) : (
+                <Text style={styles.ctaButtonText}>Place Order</Text>
+              )}
             </TouchableOpacity>
           </View>
         </ScrollView>
