@@ -20,6 +20,8 @@ import { createProductDetailsStyles } from '../styles/productDetails.styles';
 import { ProductDetails } from '../types/productDetails.types';
 import { useCartStore } from '../../cart/store/cartStore';
 import { useTheme } from '@shared/hooks/use-theme';
+import { useWishlist } from '@features/wishlist/hooks/useWishlist';
+
 
 
 export default function ProductDetailsScreen() {
@@ -31,9 +33,12 @@ export default function ProductDetailsScreen() {
   const [product, setProduct] = useState<ProductDetails | null>(null);
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [selectedColor, setSelectedColor] = useState<string>('');
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const { toggleWishlist, isInWishlist } = useWishlist();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const addToCart = useCartStore((state) => state.addToCart);
+
+  const isFavorite = product ? isInWishlist(product.id) : false;
+
   useEffect(() => {
     if (!params?.id) return;
     const productId = decodeURIComponent(params.id);
@@ -142,7 +147,7 @@ export default function ProductDetailsScreen() {
 
             <TouchableOpacity
               style={styles.circleIconButton}
-              onPress={() => setIsFavorite(!isFavorite)}
+              onPress={() => product && toggleWishlist(product.id)}
               activeOpacity={0.8}
             >
               <Heart
@@ -217,7 +222,7 @@ export default function ProductDetailsScreen() {
       {/* Floating Bottom Action Bar */}
       <BottomActionBar
         isFavorite={isFavorite}
-        onToggleFavorite={() => setIsFavorite(!isFavorite)}
+        onToggleFavorite={() => product && toggleWishlist(product.id)}
         onAddToCart={() => {
           if (!product || !product.variants || product.variants.length === 0) return;
 
