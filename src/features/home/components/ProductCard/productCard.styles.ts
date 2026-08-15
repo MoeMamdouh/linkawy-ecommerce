@@ -2,14 +2,17 @@
 // ProductCard — Styles
 // ──────────────────────────────────────────────
 
-import { StyleSheet, Dimensions } from 'react-native';
 import { Colors, FontFamily, Palette } from '@shared/constants/theme';
+import { Dimensions, StyleSheet } from 'react-native';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
-export const CARD_WIDTH = (SCREEN_WIDTH - 52) / 2; // 20px padding + 12px gap
+export const CARD_WIDTH = (SCREEN_WIDTH - 52) / 2;
 
-export const createProductCardStyles = (colors: typeof Colors.light | typeof Colors.dark) => {
-  return StyleSheet.create({
+export const createProductCardStyles = (
+  colors: typeof Colors.light | typeof Colors.dark,
+  isDark: boolean
+) =>
+  StyleSheet.create({
     card: {
       width: CARD_WIDTH,
       backgroundColor: colors.card,
@@ -17,15 +20,18 @@ export const createProductCardStyles = (colors: typeof Colors.light | typeof Col
       overflow: 'hidden',
       marginBottom: 14,
       shadowColor: Palette.black,
-      shadowOffset: { width: 0, height: 3 },
-      shadowOpacity: 0.08,
-      shadowRadius: 10,
-      elevation: 3,
+      shadowOffset: { width: 0, height: isDark ? 0 : 3 },
+      shadowOpacity: isDark ? 0 : 0.08,
+      shadowRadius: isDark ? 0 : 10,
+      elevation: isDark ? 0 : 3,
+      borderWidth: isDark ? 1 : 0,
+      borderColor: isDark ? colors.border : 'transparent',
     },
     imageContainer: {
       width: '100%',
       height: CARD_WIDTH * 0.85,
       position: 'relative',
+      backgroundColor: colors.muted,
     },
     image: {
       width: '100%',
@@ -37,8 +43,8 @@ export const createProductCardStyles = (colors: typeof Colors.light | typeof Col
       left: 10,
       backgroundColor: colors.destructive,
       paddingHorizontal: 8,
-      paddingVertical: 3,
-      borderRadius: 6,
+      paddingVertical: 4,
+      borderRadius: 999,
     },
     discountText: {
       fontFamily: FontFamily.bold,
@@ -52,19 +58,20 @@ export const createProductCardStyles = (colors: typeof Colors.light | typeof Col
       width: 30,
       height: 30,
       borderRadius: 15,
-      backgroundColor: 'rgba(255,255,255,0.85)',
+      backgroundColor: isDark ? 'rgba(15, 13, 28, 0.72)' : 'rgba(255, 255, 255, 0.92)',
       justifyContent: 'center',
       alignItems: 'center',
     },
     content: {
       padding: 12,
-      gap: 4,
+      gap: 3,
     },
     category: {
       fontFamily: FontFamily.medium,
       fontSize: 10,
       color: colors.mutedForeground,
-      textTransform: 'capitalize',
+      textTransform: 'uppercase',
+      letterSpacing: 0.6,
     },
     title: {
       fontFamily: FontFamily.semiBold,
@@ -77,10 +84,6 @@ export const createProductCardStyles = (colors: typeof Colors.light | typeof Col
       gap: 4,
       marginTop: 2,
     },
-    starsContainer: {
-      flexDirection: 'row',
-      gap: 1,
-    },
     ratingText: {
       fontFamily: FontFamily.medium,
       fontSize: 11,
@@ -90,17 +93,18 @@ export const createProductCardStyles = (colors: typeof Colors.light | typeof Col
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      marginTop: 4,
+      marginTop: 6,
     },
     priceGroup: {
       flexDirection: 'row',
       alignItems: 'center',
       gap: 6,
+      flex: 1,
     },
     currentPrice: {
       fontFamily: FontFamily.bold,
       fontSize: 15,
-      color: colors.foreground,
+      color: colors.primary,
     },
     comparePrice: {
       fontFamily: FontFamily.regular,
@@ -117,4 +121,3 @@ export const createProductCardStyles = (colors: typeof Colors.light | typeof Col
       alignItems: 'center',
     },
   });
-};

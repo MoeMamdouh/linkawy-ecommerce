@@ -1,7 +1,3 @@
-// ──────────────────────────────────────────────
-// Home Feature — Zustand Store (Shopify Direct)
-// ──────────────────────────────────────────────
-
 import { apolloClient } from '@shared/graphql/client';
 import { create } from 'zustand';
 import { mockBannerSlides } from '../data/mockData';
@@ -101,7 +97,6 @@ export const useHomeStore = create<HomeStore>((set) => ({
   isLoading: false,
   error: null,
 
-  // ── Actions ──
   setLoading: (loading) => set({ isLoading: loading }),
   setError: (error) => set({ error }),
 
@@ -111,116 +106,38 @@ export const useHomeStore = create<HomeStore>((set) => ({
       let rawProducts: any[] = [];
       let rawCollections: any[] = [];
 
-      try {
-        const [productsRes, collectionsRes] = await Promise.all([
-          apolloClient.query<any>({
-            query: PRODUCTS_QUERY,
-            variables: { first: 20 },
-            fetchPolicy: 'no-cache',
-          }),
-          apolloClient.query<any>({
-            query: COLLECTIONS_QUERY,
-            variables: { first: 10 },
-            fetchPolicy: 'no-cache',
-          }),
-        ]);
+      const [productsResult, collectionsResult] = await Promise.allSettled([
+        apolloClient.query<any>({
+          query: PRODUCTS_QUERY,
+          variables: { first: 20 },
+          fetchPolicy: 'no-cache',
+        }),
+        apolloClient.query<any>({
+          query: COLLECTIONS_QUERY,
+          variables: { first: 10 },
+          fetchPolicy: 'no-cache',
+        }),
+      ]);
 
-        rawProducts = productsRes.data?.products?.edges || [];
-        rawCollections = collectionsRes.data?.collections?.edges || [];
-      } catch (apolloErr) {
-        console.warn('Apollo Client failed, attempting direct fetch:', apolloErr);
+      if (productsResult.status === 'fulfilled') {
+        rawProducts = productsResult.value.data?.products?.edges || [];
+        console.log('Products fetched:', rawProducts.length);
+      } else {
+        console.warn('Apollo products query failed:', productsResult.reason?.message);
+        console.warn('Full products error:', JSON.stringify(productsResult.reason, null, 2));
       }
 
-      // If Apollo returned no items or threw error, fallback to direct fetch API
-      if (!rawProducts.length || !rawCollections.length) {
-        const domain =
-          process.env.EXPO_PUBLIC_SHOPIFY_DOMAIN ||
-          process.env.SHOPIFY_STORE_DOMAIN ||
-          'linkawy-3c3pluxk.myshopify.com';
-        const token =
-          process.env.EXPO_PUBLIC_SHOPIFY_STOREFRONT_TOKEN ||
-          process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN ||
-          '1ee90a470dc1bfa3b8c69f27cda48e5c';
-        const shopDomain = domain.replace(/^https?:\/\//, '').replace(/\/$/, '');
-        const endpoint = `https://${shopDomain}/api/2026-07/graphql`;
+      if (collectionsResult.status === 'fulfilled') {
+        rawCollections = collectionsResult.value.data?.collections?.edges || [];
+        console.log('Collections fetched:', rawCollections.length);
+      } else {
+        console.warn('Apollo collections query failed:', collectionsResult.reason?.message);
+        console.warn('Full collections error:', JSON.stringify(collectionsResult.reason, null, 2));
+      }
 
-        const [pRes, cRes] = await Promise.all([
-          fetch(endpoint, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-Shopify-Storefront-Access-Token': token,
-            },
-            body: JSON.stringify({
-              query: `
-                query HomeProducts($first: Int!) {
-                  products(first: $first, sortKey: CREATED_AT, reverse: true) {
-                    edges {
-                      node {
-                        id
-                        title
-                        handle
-                        productType
-                        tags
-                        featuredImage { url altText }
-                        priceRange { minVariantPrice { amount currencyCode } }
-                        compareAtPriceRange { maxVariantPrice { amount currencyCode } }
-                        options {
-                          name
-                          values
-                        }
-                        variants(first: 100) {
-                          edges {
-                            node {
-                              id
-                              selectedOptions {
-                                name
-                                value
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              `,
-              variables: { first: 20 },
-            }),
-          }).then((r) => r.json()),
-          fetch(endpoint, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-Shopify-Storefront-Access-Token': token,
-            },
-            body: JSON.stringify({
-              query: `
-                query GetCollections($first: Int!) {
-                  collections(first: $first) {
-                    edges {
-                      node {
-                        id
-                        title
-                        handle
-                        description
-                        image { url altText }
-                      }
-                    }
-                  }
-                }
-              `,
-              variables: { first: 10 },
-            }),
-          }).then((r) => r.json()),
-        ]);
-
-        if (pRes.data?.products?.edges) {
-          rawProducts = pRes.data.products.edges;
-        }
-        if (cRes.data?.collections?.edges) {
-          rawCollections = cRes.data.collections.edges;
-        }
+      // If both failed, surface an error instead of silently continuing
+      if (productsResult.status === 'rejected' && collectionsResult.status === 'rejected') {
+        throw new Error('Failed to load products and collections from Shopify');
       }
 
       // Map to Product and Category models
