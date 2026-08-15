@@ -4,6 +4,8 @@ import {
   CustomerSession,
   getSession,
   saveSession,
+  getOnboardingComplete,
+  setOnboardingComplete
 } from "@shared/utils/secureStore";
 import { create } from "zustand";
 import {
@@ -17,12 +19,14 @@ interface AuthState {
   isHydrated: boolean;
   isLoading: boolean;
   error: string | null;
+  hasSeenOnboarding: boolean;
 }
 
 interface AuthActions {
   hydrateAuth: () => Promise<void>;
   loginSession: (session: CustomerSession) => Promise<void>;
   logout: () => Promise<void>;
+  completeOnboarding: () => Promise<void>;
 }
 
 export type AuthStore = AuthState & AuthActions;
@@ -33,6 +37,12 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   isHydrated: false,
   isLoading: false,
   error: null,
+  hasSeenOnboarding: false,
+
+  completeOnboarding: async () => {
+    await setOnboardingComplete();
+    set({ hasSeenOnboarding: true });
+  },
 
   loginSession: async (session: CustomerSession) => {
     set({ isLoading: true, error: null });
@@ -96,6 +106,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     set({ isLoading: true, error: null });
 
     try {
+      const hasSeenOnboarding = await getOnboardingComplete();
       const session = await getSession();
 
       if (!session) {
@@ -105,6 +116,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
           isHydrated: true,
           isLoading: false,
           error: null,
+          hasSeenOnboarding: hasSeenOnboarding,
         });
         return;
       }
@@ -120,6 +132,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
           isHydrated: true,
           isLoading: false,
           error: null,
+          hasSeenOnboarding: hasSeenOnboarding,
         });
         return;
       }
@@ -143,6 +156,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
           isHydrated: true,
           isLoading: false,
           error: null,
+          hasSeenOnboarding: hasSeenOnboarding,
         });
         return;
       }
@@ -154,6 +168,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         isHydrated: true,
         isLoading: false,
         error: null,
+        hasSeenOnboarding: hasSeenOnboarding,
       });
     } catch (error: any) {
       console.error("Failed to hydrate auth:", error);
@@ -164,6 +179,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         isHydrated: true,
         isLoading: false,
         error: error?.message || "Failed to hydrate auth",
+        hasSeenOnboarding: false,
       });
     }
   },
