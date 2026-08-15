@@ -1,6 +1,6 @@
-import { useMutation } from "@apollo/client/react";
+import { useApolloClient, useMutation } from "@apollo/client/react";
 import { useAuthStore } from "@features/auth/store/useAuthStore";
-import { useCustomerProfile } from "@features/customer/hooks/useCustomer";
+import { GET_CUSTOMER_QUERY } from "@features/customer/graphql";
 import { useState } from "react";
 import { UPDATE_CUSTOMER_MUTATION } from "../graphql";
 
@@ -30,7 +30,7 @@ type CustomerUpdateMutationData = {
 
 export function useEditProfile() {
   const token = useAuthStore((state) => state.token);
-  const { refetch: refetchProfile } = useCustomerProfile();
+  const client = useApolloClient();
 
   const [updateCustomer, { loading }] = useMutation<CustomerUpdateMutationData>(
     UPDATE_CUSTOMER_MUTATION
@@ -67,8 +67,18 @@ export function useEditProfile() {
         return false;
       }
 
+      const updatedCustomer = response.data?.customerUpdate?.customer;
+      if (updatedCustomer) {
+        client.writeQuery({
+          query: GET_CUSTOMER_QUERY,
+          variables: { customerAccessToken: token },
+          data: {
+            customer: updatedCustomer,
+          },
+        });
+      }
+
       setSuccessMessage(true);
-      await refetchProfile();
       return true;
     } catch (e: any) {
       setErrorMessage(e?.message || "Failed to update profile.");
