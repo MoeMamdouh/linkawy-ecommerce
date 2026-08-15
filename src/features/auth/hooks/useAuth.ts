@@ -4,6 +4,8 @@ import { useState } from "react";
 import {
   CUSTOMER_LOGIN_MUTATION,
   CUSTOMER_REGISTER_MUTATION,
+  CUSTOMER_RECOVER_MUTATION,
+  CUSTOMER_RESET_BY_URL_MUTATION
 } from "../graphql";
 import { useAuthStore } from "../store/useAuthStore";
 
@@ -44,6 +46,23 @@ interface CustomerCreateResponse {
 }
 interface CustomerLoginResponse {
   customerAccessTokenCreate?: {
+    customerAccessToken?: CustomerAccessToken;
+    customerUserErrors?: CustomerUserError[];
+  };
+}
+
+interface CustomerRecoverResponse {
+  customerRecover?: {
+    customerUserErrors?: CustomerUserError[];
+  };
+}
+
+interface CustomerResetByUrlResponse {
+  customerResetByUrl?: {
+    customer?: {
+      id: string;
+      email: string;
+    };
     customerAccessToken?: CustomerAccessToken;
     customerUserErrors?: CustomerUserError[];
   };
@@ -195,6 +214,92 @@ export const useRegister = () => {
     loading: isRegistering,
     error: registerError,
     resetError: () => setRegisterError(undefined),
+  };
+};
+
+export const useForgotPassword = () => {
+  const [isRecovering, setIsRecovering] = useState(false);
+  const [recoverError, setRecoverError] = useState<string | undefined>();
+
+  const executeRecover = async (email: string) => {
+    setIsRecovering(true);
+    setRecoverError(undefined);
+
+    try {
+      const response = await shopifyApi<CustomerRecoverResponse>(CUSTOMER_RECOVER_MUTATION, { email });
+
+      const userErrors = response.customerRecover?.customerUserErrors;
+      if (userErrors && userErrors.length > 0) {
+        const message = userErrors[0].message || "Password recovery failed.";
+        setRecoverError(message);
+        throw new Error(message);
+      }
+
+      return true;
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Password recovery failed.";
+      setRecoverError(message);
+      throw error;
+    } finally {
+      setIsRecovering(false);
+    }
+  };
+
+  return {
+    recoverPassword: executeRecover,
+    loading: isRecovering,
+    error: recoverError,
+    resetError: () => setRecoverError(undefined),
+  };
+};
+
+export const useResetPasswordByUrl = () => {
+  const loginSession = useAuthStore((state) => state.loginSession);
+  const [isResetting, setIsResetting] = useState(false);
+  const [resetError, setResetError] = useState<string | undefined>();
+
+  const executeReset = async (resetUrl: string, newPassword: string) => {
+    setIsResetting(true);
+    setResetError(undefined);
+
+    try {
+      const response = await shopifyApi<CustomerResetByUrlResponse>(
+        CUSTOMER_RESET_BY_URL_MUTATION,
+        {
+          resetUrl,
+          password: newPassword,
+        }
+      );
+
+      const userErrors = response.customerResetByUrl?.customerUserErrors;
+      if (userErrors && userErrors.length > 0) {
+        const message = userErrors[0].message || "Password reset failed.";
+        setResetError(message);
+        throw new Error(message);
+      }
+
+      const session = response.customerResetByUrl?.customerAccessToken;
+      if (session) {
+        await loginSession(session);
+      }
+
+      return response.customerResetByUrl;
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Password reset failed.";
+      setResetError(message);
+      throw error;
+    } finally {
+      setIsResetting(false);
+    }
+  };
+
+  return {
+    resetPassword: executeReset,
+    loading: isResetting,
+    error: resetError,
+    resetError: () => setResetError(undefined),
   };
 };
 

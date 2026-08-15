@@ -61,3 +61,35 @@ export const CUSTOMER_REGISTER_MUTATION = gql`
     }
   }
 `;
+
+export const CUSTOMER_RECOVER_MUTATION = gql`
+  mutation customerRecover($email: String!) {
+    customerRecover(email: $email) {
+      customerUserErrors {
+        field
+        message
+        code
+      }
+    }
+  }
+`;
+
+export const CUSTOMER_RESET_BY_URL_MUTATION = gql`
+  mutation customerResetByUrl($resetUrl: URL!, $password: String!) {
+    customerResetByUrl(resetUrl: $resetUrl, password: $password) {
+      customer {
+        id
+        email
+      }
+      customerAccessToken {
+        accessToken
+        expiresAt
+      }
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;
