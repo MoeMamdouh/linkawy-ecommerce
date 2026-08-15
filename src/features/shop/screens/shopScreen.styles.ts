@@ -12,12 +12,12 @@ export const createShopScreenStyles = (
     },
     headerSection: {
       width: '100%',
-      backgroundColor: isDark ? colors.background : colors.card,
+      backgroundColor: colors.card,
       paddingBottom: isDark ? 0 : 4,
     },
     headerContent: {
       paddingHorizontal: 20,
-      paddingTop: 4,
+      paddingTop: 16,
       paddingBottom: 10,
     },
     titleRow: {
@@ -27,8 +27,8 @@ export const createShopScreenStyles = (
       marginBottom: 10,
     },
     title: {
-      fontFamily: FontFamily.bold,
-      fontSize: FontSize.xxl,
+      fontFamily: FontFamily.black,
+      fontSize: FontSize.xl,
       color: colors.foreground,
     },
     searchRow: {
@@ -38,6 +38,7 @@ export const createShopScreenStyles = (
     },
     searchBarContainer: {
       flex: 1,
+      backgroundColor: colors.card,
     },
     filterButton: {
       height: 48,
