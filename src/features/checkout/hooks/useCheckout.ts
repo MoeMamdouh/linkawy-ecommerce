@@ -123,15 +123,20 @@ export function useCheckout() {
   // Generated Order Details (upon placement)
   const [orderNumber, setOrderNumber] = useState('');
   const [deliveryDate, setDeliveryDate] = useState('');
+  const [orderTotal, setOrderTotal] = useState(0);
 
   // Order Summary Calculation
   const subtotal = cart?.subtotal || 0;
-  const total = cart?.total || 0;
+  const total = step === 'success' ? orderTotal : (cart?.total || 0);
   const items = cart?.lines || [];
 
   // Step Navigations / Actions
   const handleGoBack = () => {
-    router.back();
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace('/(tabs)');
+    }
   };
 
   const generateOrderDetails = (existingOrderNum?: string) => {
@@ -228,6 +233,7 @@ export function useCheckout() {
             console.warn('Could not fetch real order number for display:', e);
           }
 
+          setOrderTotal(cart?.total || 0);
           generateOrderDetails(actualOrderNum);
           await clearCart();
           setStep('success');
