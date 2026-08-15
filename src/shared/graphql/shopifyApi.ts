@@ -21,8 +21,6 @@ export async function shopifyApi<
   if (options.requiresAuth) {
     const token = options.customerAccessToken;
 
-    console.log("🔑 [shopifyApi] Using Token:", token);
-
     if (!token) {
       throw new Error("User is not authenticated.");
     }

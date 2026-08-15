@@ -7,10 +7,10 @@ import {
   User,
 } from "lucide-react-native";
 
+import { useCartStore } from "@features/cart/store/cartStore";
 import { HapticTab } from "@shared/components/haptic-tab";
 import { FontFamily } from "@shared/constants/theme";
 import { useTheme } from "@shared/hooks/use-theme";
-import { useCartStore } from "@features/cart/store/cartStore";
 import React, { useEffect } from "react";
 
 export default function TabLayout() {
@@ -27,6 +27,7 @@ export default function TabLayout() {
 
   return (
     <Tabs
+      backBehavior="history"
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarActiveTintColor: colors.tabIconSelected,
@@ -101,6 +102,12 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: "Profile",
+        }}
+      />
+      <Tabs.Screen
+        name="categories"
+        options={{
+          href: null,
         }}
       />
       <Tabs.Screen

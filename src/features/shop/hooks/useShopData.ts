@@ -2,22 +2,24 @@
 // Shop Feature — Data Fetching Hook
 // ──────────────────────────────────────────────
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useShopStore } from '../store/shopStore';
 
-const SEARCH_DEBOUNCE_MS = 400;
+const SEARCH_DEBOUNCE_MS = 150;
 
 export const useShopData = () => {
   const {
     searchQuery,
     selectedCategoryId,
     categories,
-    products,
+    products: serverProducts,
     favoriteIds,
     isLoading,
     error,
+    sortOption,
     setSearchQuery,
     setSelectedCategory,
+    setSortOption,
     toggleFavorite,
     loadCategories,
     fetchProducts,
@@ -55,16 +57,46 @@ export const useShopData = () => {
     };
   }, [searchQuery, selectedCategoryId, fetchProducts]);
 
+  const displayedProducts = useMemo(() => {
+    let filtered = [...serverProducts];
+
+    // Instant client-side search filter for immediate feedback while network request is debounced
+    const q = searchQuery.toLowerCase().trim();
+    if (q) {
+      filtered = filtered.filter(p => p.title.toLowerCase().includes(q));
+    }
+
+    // Instant client-side sort
+    switch (sortOption) {
+      case 'price-asc':
+        filtered.sort((a, b) => a.price - b.price);
+        break;
+      case 'price-desc':
+        filtered.sort((a, b) => b.price - a.price);
+        break;
+      case 'title-asc':
+        filtered.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case 'title-desc':
+        filtered.sort((a, b) => b.title.localeCompare(a.title));
+        break;
+    }
+
+    return filtered;
+  }, [serverProducts, searchQuery, sortOption]);
+
   return {
     searchQuery,
     selectedCategoryId,
     categories,
-    products,
+    products: displayedProducts,
     favoriteIds,
     isLoading,
     error,
+    sortOption,
     setSearchQuery,
     setSelectedCategory,
+    setSortOption,
     toggleFavorite,
     refresh: fetchProducts,
   };

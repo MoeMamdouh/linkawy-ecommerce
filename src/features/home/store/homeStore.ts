@@ -58,6 +58,7 @@ const mapShopifyCategory = (edge: any): Category => ({
   id: edge?.node?.id || '',
   name: edge?.node?.title || 'Category',
   image: edge?.node?.image?.url || '',
+  description: edge?.node?.description || '',
 });
 
 export const useHomeStore = create<HomeStore>((set) => ({
@@ -95,7 +96,6 @@ export const useHomeStore = create<HomeStore>((set) => ({
 
       if (productsResult.status === 'fulfilled') {
         rawProducts = productsResult.value.data?.products?.edges || [];
-        console.log('Products fetched:', rawProducts.length);
       } else {
         console.warn('Apollo products query failed:', productsResult.reason?.message);
         console.warn('Full products error:', JSON.stringify(productsResult.reason, null, 2));
@@ -103,7 +103,6 @@ export const useHomeStore = create<HomeStore>((set) => ({
 
       if (collectionsResult.status === 'fulfilled') {
         rawCollections = collectionsResult.value.data?.collections?.edges || [];
-        console.log('Collections fetched:', rawCollections.length);
       } else {
         console.warn('Apollo collections query failed:', collectionsResult.reason?.message);
         console.warn('Full collections error:', JSON.stringify(collectionsResult.reason, null, 2));

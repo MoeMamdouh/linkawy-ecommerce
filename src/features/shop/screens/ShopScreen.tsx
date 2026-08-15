@@ -1,15 +1,17 @@
+import { useCartStore } from '@features/cart/store/cartStore';
 import { SearchBarView } from '@features/home/components/SearchBar';
 import { Product } from '@features/home/types/home.types';
-import { useCartStore } from '@features/cart/store/cartStore';
 import { useTheme } from '@shared/hooks/use-theme';
-import { useRouter, useFocusEffect } from 'expo-router';
-import React, { useCallback, useMemo, useRef } from 'react';
-import { ActivityIndicator, Text, TextInput, View } from 'react-native';
+import { useFocusEffect, useRouter } from 'expo-router';
+import { Check, ChevronLeft, SlidersHorizontal, X } from 'lucide-react-native';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { ActivityIndicator, Modal, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { CategoryFiltersView } from '../components/CategoryFilters';
 import { ProductGridView } from '../components/ProductGrid';
 import { useShopData } from '../hooks/useShopData';
 import { useShopStore } from '../store/shopStore';
+import { SortOption } from '../types/shop.types';
 import { createShopScreenStyles } from './shopScreen.styles';
 
 export default function ShopScreen() {
@@ -29,10 +31,21 @@ export default function ShopScreen() {
     favoriteIds,
     isLoading,
     error,
+    sortOption,
     setSearchQuery,
     setSelectedCategory,
+    setSortOption,
     toggleFavorite,
   } = useShopData();
+
+  const [isSortModalVisible, setIsSortModalVisible] = useState(false);
+
+  const sortOptionsList: { value: SortOption; label: string }[] = [
+    { value: 'price-asc', label: 'Price: Low to High' },
+    { value: 'price-desc', label: 'Price: High to Low' },
+    { value: 'title-asc', label: 'A to Z' },
+    { value: 'title-desc', label: 'Z to A' },
+  ];
 
   useFocusEffect(
     useCallback(() => {
@@ -70,13 +83,6 @@ export default function ShopScreen() {
     [styles.resultsCount, products.length]
   );
 
-  if (isLoading && products.length === 0 && categories.length === 0) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={colors.primary} />
-      </View>
-    );
-  }
 
   if (error && products.length === 0) {
     return (
@@ -90,15 +96,30 @@ export default function ShopScreen() {
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <View style={styles.headerSection}>
         <View style={styles.headerContent}>
-          <Text style={styles.title}>Shop</Text>
-          <SearchBarView
-            ref={searchInputRef}
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            placeholder="Search products..."
-            containerBackground={headerBackground}
-            embedded
-          />
+          <View style={styles.titleRow}>
+            <TouchableOpacity onPress={() => router.back()} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+              <ChevronLeft color={colors.foreground} size={28} />
+            </TouchableOpacity>
+            <Text style={styles.title}>Shop</Text>
+          </View>
+          <View style={styles.searchRow}>
+            <View style={styles.searchBarContainer}>
+              <SearchBarView
+                ref={searchInputRef}
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                placeholder="Search products..."
+                containerBackground={headerBackground}
+                embedded
+              />
+            </View>
+            <TouchableOpacity
+              style={styles.filterButton}
+              onPress={() => setIsSortModalVisible(true)}
+            >
+              <SlidersHorizontal color={colors.foreground} size={20} />
+            </TouchableOpacity>
+          </View>
           <CategoryFiltersView
             categories={categories}
             selectedCategoryId={selectedCategoryId}
@@ -118,6 +139,48 @@ export default function ShopScreen() {
         ListHeaderComponent={resultsHeader}
         showRating
       />
+
+      {isLoading && (
+        <View style={styles.loadingOverlay} pointerEvents="none">
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      )}
+
+      <Modal
+        visible={isSortModalVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setIsSortModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Sort By</Text>
+              <TouchableOpacity onPress={() => setIsSortModalVisible(false)}>
+                <X color={colors.foreground} size={24} />
+              </TouchableOpacity>
+            </View>
+            {sortOptionsList.map((option) => {
+              const isSelected = sortOption === option.value;
+              return (
+                <TouchableOpacity
+                  key={option.value}
+                  style={styles.sortOptionRow}
+                  onPress={() => {
+                    setSortOption(option.value);
+                    setIsSortModalVisible(false);
+                  }}
+                >
+                  <Text style={[styles.sortOptionText, isSelected && styles.sortOptionSelectedText]}>
+                    {option.label}
+                  </Text>
+                  {isSelected && <Check color={colors.primary} size={20} />}
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }

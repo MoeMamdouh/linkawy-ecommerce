@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { Heart } from 'lucide-react-native';
+import { Heart, ChevronLeft } from 'lucide-react-native';
 import { useWishlist } from '../hooks/useWishlist';
 import { useTheme } from '@shared/hooks/use-theme';
 import { useCartStore } from '@features/cart/store/cartStore';
@@ -67,7 +67,12 @@ export default function WishlistScreen() {
 
   const renderHeader = () => (
     <View style={styles.header}>
-      <Text style={styles.headerTitle}>My Wishlist</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+        <TouchableOpacity onPress={() => router.back()} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+          <ChevronLeft color={colors.foreground} size={28} />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>My Wishlist</Text>
+      </View>
       <Text style={styles.headerSubtitle}>
         {wishlistProducts.length} {wishlistProducts.length === 1 ? 'item' : 'items'}
       </Text>
