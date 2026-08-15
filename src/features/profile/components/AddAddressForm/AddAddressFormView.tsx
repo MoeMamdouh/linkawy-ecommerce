@@ -1,4 +1,5 @@
 import { useAddAddress } from "@features/profile/hooks/useAddAddress";
+import { ErrorModal } from "@shared/components/ui/error-modal";
 import { useTheme } from "@shared/hooks/use-theme";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -21,7 +22,7 @@ export function AddAddressFormView() {
   const [country, setCountry] = useState("");
   const [phone, setPhone] = useState("");
 
-  const { addAddress, loading, errorMessage } = useAddAddress();
+  const { addAddress, loading, errorMessage, clearError } = useAddAddress();
 
   const handleSubmit = async () => {
     const success = await addAddress({
@@ -43,7 +44,12 @@ export function AddAddressFormView() {
 
   return (
     <View style={styles.container}>
-      {!!errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
+      <ErrorModal
+        visible={!!errorMessage}
+        message={errorMessage}
+        onClose={clearError}
+        title={t("profile.addAddressFailed", { defaultValue: "Failed to Add Address" })}
+      />
 
       <View style={styles.fieldGroup}>
         <Text style={[styles.fieldLabel, textAlignStyle]}>

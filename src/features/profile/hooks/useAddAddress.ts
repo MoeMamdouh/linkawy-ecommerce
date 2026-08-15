@@ -80,9 +80,12 @@ export function useAddAddress() {
     }
   };
 
+  const clearError = () => setErrorMessage(null);
+
   return {
     addAddress,
     loading,
     errorMessage,
+    clearError,
   };
 }
