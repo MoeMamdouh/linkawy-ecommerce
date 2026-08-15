@@ -12,8 +12,7 @@ import { router, useLocalSearchParams } from "expo-router";
 export default function ResetPasswordForm() {
   const { colors } = useTheme();
 
-    //   const { resetUrl } = useLocalSearchParams<{ resetUrl: string }>();
-    const resetUrl = 
+  const { resetUrl } = useLocalSearchParams<{ resetUrl: string }>();
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
