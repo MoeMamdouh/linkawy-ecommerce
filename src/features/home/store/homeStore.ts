@@ -54,36 +54,11 @@ const mapShopifyProduct = (edge: any, index: number): Product => {
   };
 };
 
-const categoryIconMap: Record<string, string> = {
-  fashion: 'Shirt',
-  clothing: 'Shirt',
-  electronics: 'Smartphone',
-  tech: 'Smartphone',
-  beauty: 'Sparkles',
-  cosmetics: 'Sparkles',
-  home: 'Sofa',
-  furniture: 'Sofa',
-  sports: 'Dumbbell',
-  fitness: 'Dumbbell',
-  board: 'Sparkles',
-  snowboard: 'Sparkles',
-  automated: 'Shirt',
-  hydrogen: 'Smartphone',
-};
-
-const mapCategoryIcon = (title: string): string => {
-  if (!title) return 'Shirt';
-  const lower = title.toLowerCase();
-  for (const [key, icon] of Object.entries(categoryIconMap)) {
-    if (lower.includes(key)) return icon;
-  }
-  return 'Shirt';
-};
-
 const mapShopifyCategory = (edge: any): Category => ({
   id: edge?.node?.id || '',
   name: edge?.node?.title || 'Category',
-  icon: mapCategoryIcon(edge?.node?.title || ''),
+  image: edge?.node?.image?.url || '',
+  description: edge?.node?.description || '',
 });
 
 export const useHomeStore = create<HomeStore>((set) => ({
@@ -121,7 +96,6 @@ export const useHomeStore = create<HomeStore>((set) => ({
 
       if (productsResult.status === 'fulfilled') {
         rawProducts = productsResult.value.data?.products?.edges || [];
-        console.log('Products fetched:', rawProducts.length);
       } else {
         console.warn('Apollo products query failed:', productsResult.reason?.message);
         console.warn('Full products error:', JSON.stringify(productsResult.reason, null, 2));
@@ -129,7 +103,6 @@ export const useHomeStore = create<HomeStore>((set) => ({
 
       if (collectionsResult.status === 'fulfilled') {
         rawCollections = collectionsResult.value.data?.collections?.edges || [];
-        console.log('Collections fetched:', rawCollections.length);
       } else {
         console.warn('Apollo collections query failed:', collectionsResult.reason?.message);
         console.warn('Full collections error:', JSON.stringify(collectionsResult.reason, null, 2));

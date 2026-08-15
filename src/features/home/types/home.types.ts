@@ -18,7 +18,8 @@ export interface Product {
 export interface Category {
   id: string;
   name: string;
-  icon: string; // lucide icon name
+  image: string;
+  description?: string;
 }
 
 export interface BannerSlide {

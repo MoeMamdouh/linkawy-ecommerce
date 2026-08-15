@@ -6,9 +6,9 @@ import { Product } from '@features/home/types/home.types';
 import { apolloClient } from '@shared/graphql/client';
 import { create } from 'zustand';
 import {
-    SHOP_COLLECTIONS_QUERY,
-    SHOP_COLLECTION_PRODUCTS_QUERY,
-    SHOP_PRODUCTS_QUERY,
+  SHOP_COLLECTIONS_QUERY,
+  SHOP_COLLECTION_PRODUCTS_QUERY,
+  SHOP_PRODUCTS_QUERY,
 } from '../graphql/shopQueries';
 import { ShopCategory, ShopStore } from '../types/shop.types';
 
@@ -64,27 +64,7 @@ const mapShopifyProduct = (edge: { node?: Record<string, unknown> }, index: numb
   };
 };
 
-const buildProductSearchQuery = (
-  searchQuery: string,
-  selectedCategoryId: string,
-  categories: ShopCategory[]
-): string | undefined => {
-  const trimmed = searchQuery.trim();
-  const parts: string[] = [];
 
-  if (selectedCategoryId !== ALL_CATEGORY_ID) {
-    const category = categories.find((c) => c.id === selectedCategoryId);
-    if (category?.handle) {
-      parts.push(`collection:${category.handle}`);
-    }
-  }
-
-  if (trimmed) {
-    parts.push(trimmed);
-  }
-
-  return parts.length > 0 ? parts.join(' AND ') : undefined;
-};
 
 export const useShopStore = create<ShopStore>((set, get) => ({
   searchQuery: '',
@@ -95,8 +75,14 @@ export const useShopStore = create<ShopStore>((set, get) => ({
   isLoading: false,
   error: null,
   focusSearchOnOpen: false,
+  sortOption: 'price-asc',
 
   setSearchQuery: (query) => set({ searchQuery: query }),
+
+  setSortOption: (option) => {
+    set({ sortOption: option });
+    get().fetchProducts();
+  },
 
   setSelectedCategory: (categoryId) => set({ selectedCategoryId: categoryId }),
 
@@ -149,19 +135,50 @@ export const useShopStore = create<ShopStore>((set, get) => ({
   },
 
   fetchProducts: async () => {
-    const { searchQuery, selectedCategoryId, categories } = get();
+    const { searchQuery, selectedCategoryId, categories, sortOption } = get();
     set({ isLoading: true, error: null });
 
     try {
       let rawProducts: { node?: Record<string, unknown> }[] = [];
-      const shopifyQuery = buildProductSearchQuery(searchQuery, selectedCategoryId, categories);
 
-      if (selectedCategoryId !== ALL_CATEGORY_ID && !searchQuery.trim()) {
+      let sortKey = 'BEST_SELLING';
+      let collectionSortKey = 'BEST_SELLING';
+      let reverse = false;
+
+      switch (sortOption) {
+        case 'price-asc':
+          sortKey = 'PRICE';
+          collectionSortKey = 'PRICE';
+          reverse = false;
+          break;
+        case 'price-desc':
+          sortKey = 'PRICE';
+          collectionSortKey = 'PRICE';
+          reverse = true;
+          break;
+        case 'title-asc':
+          sortKey = 'TITLE';
+          collectionSortKey = 'TITLE';
+          reverse = false;
+          break;
+        case 'title-desc':
+          sortKey = 'TITLE';
+          collectionSortKey = 'TITLE';
+          reverse = true;
+          break;
+      }
+
+      if (selectedCategoryId !== ALL_CATEGORY_ID) {
         const category = categories.find((c) => c.id === selectedCategoryId);
         if (category?.handle) {
           const res = await apolloClient.query<{ collectionByHandle?: { products?: { edges?: typeof rawProducts } } }>({
             query: SHOP_COLLECTION_PRODUCTS_QUERY,
-            variables: { handle: category.handle, first: PRODUCTS_PAGE_SIZE },
+            variables: {
+              handle: category.handle,
+              first: PRODUCTS_PAGE_SIZE,
+              sortKey: collectionSortKey,
+              reverse
+            },
             fetchPolicy: 'no-cache',
           });
           rawProducts = res.data?.collectionByHandle?.products?.edges || [];
@@ -171,7 +188,8 @@ export const useShopStore = create<ShopStore>((set, get) => ({
           query: SHOP_PRODUCTS_QUERY,
           variables: {
             first: PRODUCTS_PAGE_SIZE,
-            query: shopifyQuery,
+            sortKey,
+            reverse
           },
           fetchPolicy: 'no-cache',
         });

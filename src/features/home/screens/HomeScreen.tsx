@@ -1,8 +1,9 @@
+import { useShopStore } from '@features/shop/store/shopStore';
+import { useTheme } from '@shared/hooks/use-theme';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useRef, useState } from 'react';
-import { ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent, ScrollView, View, Text } from 'react-native';
+import { ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useShopStore } from '@features/shop/store/shopStore';
 import { CategoriesSectionView } from '../components/CategoriesSection';
 import { FeaturedSectionView } from '../components/FeaturedSection';
 import { FlashSaleSectionView } from '../components/FlashSaleSection';
@@ -13,10 +14,9 @@ import { SearchBarView } from '../components/SearchBar';
 import { useHomeData } from '../hooks/useHomeData';
 import { Product } from '../types/home.types';
 import { createHomeScreenStyles } from './homeScreen.styles';
-import { useTheme } from '@shared/hooks/use-theme';
 
-import { useCartStore } from '../../cart/store/cartStore';
 import { useWishlist } from '@features/wishlist/hooks/useWishlist';
+import { useCartStore } from '../../cart/store/cartStore';
 
 
 export default function HomeScreen() {
@@ -26,7 +26,6 @@ export default function HomeScreen() {
   const addToCart = useCartStore((state) => state.addToCart);
   const openShop = useShopStore((state) => state.openShop);
   const { toggleWishlist, isInWishlist } = useWishlist();
-
 
   const {
     bannerSlides,
@@ -109,7 +108,14 @@ export default function HomeScreen() {
         <SearchBarView editable={false} onPress={navigateToShop} />
         {/* <PromoSliderView slides={bannerSlides} autoScrollInterval={4000} /> */}
         <PromoSliderView slides={bannerSlides || []} autoScrollInterval={4000} />
-        <CategoriesSectionView categories={categories} />
+        <CategoriesSectionView
+          categories={categories}
+          onSeeAll={() => router.push('/(tabs)/categories' as any)}
+          onCategoryPress={(category) => {
+            openShop({ categoryId: category.id });
+            router.push('/(tabs)/shop');
+          }}
+        />
         <FlashSaleSectionView
           products={flashSaleProducts}
           endTime={flashSaleEndTime}

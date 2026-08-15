@@ -10,6 +10,8 @@ export interface ShopCategory {
   handle: string;
 }
 
+export type SortOption = 'price-asc' | 'price-desc' | 'title-asc' | 'title-desc';
+
 export interface ShopState {
   searchQuery: string;
   selectedCategoryId: string;
@@ -19,11 +21,13 @@ export interface ShopState {
   isLoading: boolean;
   error: string | null;
   focusSearchOnOpen: boolean;
+  sortOption: SortOption;
 }
 
 export interface ShopActions {
   setSearchQuery: (query: string) => void;
   setSelectedCategory: (categoryId: string) => void;
+  setSortOption: (option: SortOption) => void;
   toggleFavorite: (productId: string) => void;
   loadCategories: () => Promise<void>;
   fetchProducts: () => Promise<void>;
