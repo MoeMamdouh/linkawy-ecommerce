@@ -4,7 +4,7 @@ import { Palette, FontFamily, FontSize } from '@shared/constants/theme';
 import { Button } from '@shared/components/ui/button';
 import { Input } from '@shared/components/ui/input';
 import { AppliedPromo } from '../hooks/useCart';
-import { styles } from '../styles/cart-screen.styles';
+import { createCartStyles } from '../styles/cart-screen.styles';
 import { useTheme } from '@shared/hooks/use-theme';
 
 interface CartPromoInputProps {
@@ -26,6 +26,7 @@ export function CartPromoInput({
 }: CartPromoInputProps) {
 
   const { colors } = useTheme();
+  const styles = createCartStyles(colors);
 
   return (
     <View style={styles.promoContainer}>

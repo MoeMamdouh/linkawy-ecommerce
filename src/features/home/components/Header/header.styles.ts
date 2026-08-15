@@ -2,7 +2,7 @@
 // Header — Styles
 // ──────────────────────────────────────────────
 
-import { Colors, FontFamily, Palette } from '@shared/constants/theme';
+import { Colors, FontFamily, FontSize, Palette } from '@shared/constants/theme';
 import { StyleSheet } from 'react-native';
 
 export const createHeaderStyles = (colors: typeof Colors.light | typeof Colors.dark) => {
@@ -28,14 +28,14 @@ export const createHeaderStyles = (colors: typeof Colors.light | typeof Colors.d
     },
     welcomeText: {
       fontFamily: FontFamily.regular,
-      fontSize: 12,
+      fontSize: FontSize.sm,
       color: colors.mutedForeground,
       textTransform: 'uppercase',
       letterSpacing: 0.5,
     },
     nameText: {
       fontFamily: FontFamily.black,
-      fontSize: 18,
+      fontSize: FontSize.xl,
       color: colors.foreground,
     },
     rightSection: {

@@ -17,7 +17,7 @@ import { createShopScreenStyles } from './shopScreen.styles';
 
 export default function ShopScreen() {
   const { colors, isDark } = useTheme();
-  const headerBackground = isDark ? colors.background : colors.card;
+  const headerBackground = colors.card;
   const styles = createShopScreenStyles(colors, isDark);
   const router = useRouter();
   const addToCart = useCartStore((state) => state.addToCart);

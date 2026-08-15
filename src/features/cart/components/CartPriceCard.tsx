@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native';
 import { Palette } from '@shared/constants/theme';
 import { AppliedPromo } from '../hooks/useCart';
-import { styles } from '../styles/cart-screen.styles';
+import { createCartStyles } from '../styles/cart-screen.styles';
 import { useTheme } from '@shared/hooks/use-theme';
 
 interface CartPriceCardProps {
@@ -18,6 +18,7 @@ export function CartPriceCard({
   total,
 }: CartPriceCardProps) {
   const { colors } = useTheme();
+  const styles = createCartStyles(colors);
 
   return (
     <View

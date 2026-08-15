@@ -2,16 +2,16 @@
 // Header — View
 // ──────────────────────────────────────────────
 
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
-import { Bell, ShoppingCart, Search } from 'lucide-react-native';
-import { useTheme } from '@shared/hooks/use-theme';
-import { createHeaderStyles } from './header.styles';
+import { useTheme } from "@shared/hooks/use-theme";
+import { useRouter } from "expo-router";
+import { Bell, Search, ShoppingCart } from "lucide-react-native";
+import React from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import { createHeaderStyles } from "./header.styles";
 
 interface HeaderViewProps {
-  userName?: string;
-  avatarUrl?: string;
+  displayName?: string;
+  isCustomer?: boolean;
   notificationCount?: number;
   cartCount?: number;
   showSearchIcon?: boolean;
@@ -19,8 +19,8 @@ interface HeaderViewProps {
 }
 
 const HeaderView: React.FC<HeaderViewProps> = ({
-  userName = 'Sarah',
-  avatarUrl = 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face',
+  displayName,
+  isCustomer = false,
   notificationCount = 0,
   cartCount = 0,
   showSearchIcon = false,
@@ -35,8 +35,10 @@ const HeaderView: React.FC<HeaderViewProps> = ({
       {/* Left: Greeting */}
       <View style={styles.leftSection}>
         <View style={styles.greetingContainer}>
-          <Text style={styles.welcomeText}>WELCOME BACK,</Text>
-          <Text style={styles.nameText}>{userName} 👋</Text>
+          <Text style={styles.welcomeText}>
+            {isCustomer ? "WELCOME BACK," : "WELCOME"}
+          </Text>
+          <Text style={styles.nameText}>{displayName || "Our Customer"}</Text>
         </View>
       </View>
 
@@ -62,7 +64,7 @@ const HeaderView: React.FC<HeaderViewProps> = ({
         <TouchableOpacity
           style={styles.iconButton}
           activeOpacity={0.7}
-          onPress={() => router.push('/cart')}
+          onPress={() => router.push("/cart")}
         >
           <ShoppingCart size={20} color={colors.foreground} />
           {cartCount > 0 && (
