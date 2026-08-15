@@ -97,7 +97,7 @@ export default function LoginForm() {
     />
 
       <View className="flex items-end mt-2">
-        <Pressable>
+        <Pressable onPress={() => router.push("/forgot-password")}>
           <Text
             className="text-right my-4"
             style={{

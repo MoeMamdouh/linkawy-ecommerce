@@ -1,0 +1,104 @@
+{
+  "profile": {
+    "title": "Profile",
+    "orders": "Orders",
+    "wishlist": "Wishlist",
+    "reviews": "Reviews",
+    "myOrders": "My Orders",
+    "editProfile": "Edit Profile",
+    "appearance": "Appearance",
+    "language": "Language",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "english": "English",
+    "arabic": "Arabic",
+    "logout": "Logout",
+    "signingOut": "Signing out...",
+    "signOutSuccess": "Signed out successfully",
+    "signInSuccess": "Signed in successfully",
+    "signIn": "Sign In",
+    "sessionExpiredTitle": "Guest Mode",
+    "sessionExpiredMessage": "Please sign in again to view your profile.",
+    "addresses": "Address List",
+    "addAddress": "Add New Address",
+    "noAddresses": "No Addresses Found",
+    "noAddressesSub": "Tap the button above to add your first shipping address.",
+    "streetAddress": "Street Address *",
+    "apartment": "Apartment, Suite, Unit (Optional)",
+    "city": "City *",
+    "state": "State / Province (Optional)",
+    "zip": "ZIP / Postal Code (Optional)",
+    "country": "Country *",
+    "phoneOptional": "Phone Number (Optional)",
+    "saveAddress": "Save Address",
+    "default": "Default",
+    "addressCount_one": "1 address",
+    "addressCount_other": "{{count}} addresses",
+    "deleteAddress": "Delete Address",
+    "deleteAddressConfirm": "Are you sure you want to delete this address?",
+    "delete": "Delete",
+    "cancel": "Cancel"
+  },
+  "header": {
+    "welcome": "WELCOME BACK"
+  },
+  "search": {
+    "placeholder": "Search products..."
+  },
+  "categories": {
+    "title": "Categories",
+    "fashion": "Fashion",
+    "electronics": "Electronics",
+    "beauty": "Beauty",
+    "home": "Home",
+    "sports": "Sports"
+  },
+  "featured": {
+    "title": "Featured Products"
+  },
+  "sectionHeader": {
+    "seeAll": "See All"
+  },
+  "flashSale": {
+    "title": "Flash Sale"
+  },
+  "newArrivals": {
+    "title": "New Arrivals"
+  },
+  "tabs": {
+    "home": "Home",
+    "shop": "Shop",
+    "cart": "Cart",
+    "wishlist": "Wishlist",
+    "profile": "Profile"
+  },
+  "cart": {
+    "title": "Cart",
+    "promoCode": "Promo code",
+    "applyPromo": "Apply",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "shipping": "Shipping",
+    "shippingFree": "Free",
+    "total": "Total",
+    "Checkout": "Checkout"
+  },
+  "wishlist": {
+    "title": "My Wishlist",
+    "emptyTitle": "Your Wishlist is Empty",
+    "emptySubtitle": "Explore our collections and add products to your wishlist to buy them later.",
+    "startShopping": "Start Shopping",
+    "retry": "Retry"
+  },
+  "theme": {
+    "appearance": "Appearance",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "lightModeDescription": "Bright and clear interface for well-lit environments.",
+    "darkModeDescription": "Dimmed interface for low-light environments, reducing eye strain."
+  },
+  "shop": {
+    "title": "Shop",
+    "all": "All"
+  }
+}

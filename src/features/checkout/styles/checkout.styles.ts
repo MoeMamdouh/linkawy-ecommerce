@@ -1,0 +1,513 @@
+import { StyleSheet } from 'react-native';
+import { FontFamily, FontSize, Palette } from '@shared/constants/theme';
+
+export const createCheckoutStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 20,
+      paddingBottom: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    backButton: {
+      padding: 8,
+      marginRight: 16,
+      borderRadius: 12,
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    headerTitle: {
+      fontSize: FontSize.lg,
+      fontFamily: FontFamily.bold,
+      color: colors.foreground,
+    },
+    scrollContent: {
+      paddingHorizontal: 20,
+      paddingTop: 16,
+      paddingBottom: 32,
+      gap: 24,
+    },
+    section: {
+      gap: 12,
+    },
+    sectionHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+    },
+    sectionTitle: {
+      fontSize: FontSize.md,
+      fontFamily: FontFamily.bold,
+      color: colors.foreground,
+    },
+    // Address Section Styles
+    sectionHeaderRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    sectionHeaderTitleGroup: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+    },
+    headerAddButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 4,
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+    },
+    headerAddButtonText: {
+      fontSize: FontSize.xs,
+      fontFamily: FontFamily.bold,
+      color: colors.primary,
+    },
+    loadingContainer: {
+      padding: 24,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    noAddressesContainer: {
+      padding: 20,
+      borderRadius: 16,
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      alignItems: 'center',
+      gap: 16,
+    },
+    noAddressesText: {
+      fontSize: FontSize.sm,
+      fontFamily: FontFamily.regular,
+      color: colors.mutedForeground,
+      textAlign: 'center',
+    },
+    addressList: {
+      gap: 12,
+    },
+    addressCard: {
+      borderRadius: 16,
+      padding: 16,
+      backgroundColor: colors.card,
+      borderWidth: 1.5,
+      borderColor: colors.border,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    addressCardActive: {
+      borderColor: colors.primary,
+      backgroundColor: colors.primary + '0A',
+    },
+    addressRadioGroup: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      flex: 1,
+      gap: 12,
+    },
+    radioCircle: {
+      width: 20,
+      height: 20,
+      borderRadius: 10,
+      borderWidth: 2,
+      borderColor: colors.mutedForeground + '60',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 2,
+    },
+    radioCircleActive: {
+      borderColor: colors.primary,
+    },
+    radioDot: {
+      width: 10,
+      height: 10,
+      borderRadius: 5,
+      backgroundColor: colors.primary,
+    },
+    addressInfo: {
+      flex: 1,
+    },
+    addressTitleRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+      marginBottom: 4,
+    },
+    addressName: {
+      fontSize: FontSize.sm,
+      fontFamily: FontFamily.bold,
+      color: colors.foreground,
+    },
+    defaultBadge: {
+      backgroundColor: colors.primary + '1F',
+      paddingHorizontal: 8,
+      paddingVertical: 2,
+      borderRadius: 6,
+    },
+    defaultBadgeText: {
+      fontSize: 10,
+      fontFamily: FontFamily.bold,
+      color: colors.primary,
+    },
+    addressText: {
+      fontSize: FontSize.xs,
+      fontFamily: FontFamily.regular,
+      color: colors.mutedForeground,
+      lineHeight: 18,
+    },
+    addressPhoneText: {
+      fontSize: FontSize.xs,
+      fontFamily: FontFamily.regular,
+      color: colors.mutedForeground,
+      marginTop: 2,
+    },
+    selectedCheckBadge: {
+      marginLeft: 8,
+    },
+    addAddressButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 8,
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      borderRadius: 14,
+      borderWidth: 1,
+      borderStyle: 'dashed',
+      borderColor: colors.primary,
+      backgroundColor: colors.primary + '0A',
+      width: '100%',
+    },
+    addAddressButtonText: {
+      fontSize: FontSize.sm,
+      fontFamily: FontFamily.bold,
+      color: colors.primary,
+    },
+    // Payment Methods
+    paymentMethodsList: {
+      gap: 12,
+    },
+    paymentMethodCard: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 16,
+      borderRadius: 16,
+      borderWidth: 2,
+      backgroundColor: colors.card,
+      borderColor: colors.border,
+      transitionProperty: 'all',
+      transitionDuration: '150ms',
+    },
+    paymentMethodCardActive: {
+      borderColor: colors.primary,
+      backgroundColor: colors.primary + '0A', // 4% opacity tint
+    },
+    paymentMethodEmoji: {
+      fontSize: 24,
+      marginRight: 12,
+    },
+    paymentMethodText: {
+      fontSize: FontSize.sm,
+      fontFamily: FontFamily.bold,
+      color: colors.foreground,
+      flex: 1,
+      textAlign: 'left',
+    },
+    paymentMethodTextActive: {
+      color: colors.primary,
+    },
+    // Order Summary
+    summaryCard: {
+      borderRadius: 20,
+      padding: 16,
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      gap: 12,
+    },
+    summaryItemRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    summaryItemName: {
+      fontSize: FontSize.sm,
+      fontFamily: FontFamily.regular,
+      color: colors.mutedForeground,
+      flex: 1,
+      marginRight: 12,
+    },
+    summaryItemPrice: {
+      fontSize: FontSize.sm,
+      fontFamily: FontFamily.medium,
+      color: colors.foreground,
+    },
+    divider: {
+      height: 1,
+      backgroundColor: colors.border,
+    },
+    totalRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    totalLabel: {
+      fontSize: FontSize.md,
+      fontFamily: FontFamily.bold,
+      color: colors.foreground,
+    },
+    totalValue: {
+      fontSize: FontSize.lg,
+      fontFamily: FontFamily.black,
+      color: colors.primary,
+    },
+    // Visual Credit Card
+    creditCardWrapper: {
+      borderRadius: 24,
+      padding: 20,
+      height: 180,
+      backgroundColor: '#5B21B6', // Violet 800 background
+      justifyContent: 'space-between',
+      position: 'relative',
+      overflow: 'hidden',
+      shadowColor: '#5B21B6',
+      shadowOffset: { width: 0, height: 8 },
+      shadowOpacity: 0.3,
+      shadowRadius: 16,
+      elevation: 6,
+    },
+    // Decorative card circles
+    cardCircle1: {
+      position: 'absolute',
+      width: 140,
+      height: 140,
+      borderRadius: 70,
+      backgroundColor: 'rgba(255, 255, 255, 0.04)',
+      top: -30,
+      right: -30,
+    },
+    cardCircle2: {
+      position: 'absolute',
+      width: 100,
+      height: 100,
+      borderRadius: 50,
+      backgroundColor: 'rgba(255, 255, 255, 0.03)',
+      bottom: -20,
+      left: -20,
+    },
+    cardHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    cardBrandText: {
+      color: Palette.white,
+      fontSize: FontSize.lg,
+      fontFamily: FontFamily.black,
+      letterSpacing: 2,
+    },
+    cardLogoContainer: {
+      flexDirection: 'row',
+    },
+    cardLogoCircle1: {
+      width: 24,
+      height: 24,
+      borderRadius: 12,
+      backgroundColor: Palette.red500,
+      opacity: 0.9,
+    },
+    cardLogoCircle2: {
+      width: 24,
+      height: 24,
+      borderRadius: 12,
+      backgroundColor: '#F59E0B', // Amber 500
+      opacity: 0.8,
+      marginLeft: -10,
+    },
+    cardNumberText: {
+      color: Palette.white,
+      fontFamily: 'monospace',
+      fontSize: FontSize.md,
+      letterSpacing: 2,
+      marginVertical: 16,
+    },
+    cardFooter: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'flex-end',
+    },
+    cardLabelValueGroup: {
+      gap: 2,
+    },
+    cardFieldLabel: {
+      color: 'rgba(255, 255, 255, 0.6)',
+      fontSize: 10,
+      fontFamily: FontFamily.medium,
+      textTransform: 'uppercase',
+    },
+    cardFieldValue: {
+      color: Palette.white,
+      fontSize: FontSize.sm,
+      fontFamily: FontFamily.semiBold,
+    },
+    // Form Inputs
+    formGroup: {
+      gap: 6,
+    },
+    inputLabel: {
+      fontSize: FontSize.xs,
+      fontFamily: FontFamily.bold,
+      color: colors.mutedForeground,
+      textTransform: 'uppercase',
+      letterSpacing: 1,
+    },
+    inputWrapper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderRadius: 16,
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      paddingHorizontal: 16,
+      height: 48,
+    },
+    input: {
+      flex: 1,
+      fontSize: FontSize.sm,
+      fontFamily: FontFamily.medium,
+      color: colors.foreground,
+      paddingVertical: 0,
+    },
+    // Row Inputs (Expiry & CVV)
+    rowInputs: {
+      flexDirection: 'row',
+      gap: 16,
+    },
+    // Secured Badge
+    securedBadge: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+      padding: 12,
+      borderRadius: 16,
+      backgroundColor: colors.primary + '0C', // 5% opacity tint
+      borderWidth: 1,
+      borderColor: colors.primary + '20',
+      marginTop: 8,
+    },
+    securedText: {
+      fontSize: FontSize.xs,
+      fontFamily: FontFamily.medium,
+      color: colors.primary,
+      flex: 1,
+    },
+    // CTA Button
+    ctaButtonContainer: {
+      marginTop: 8,
+    },
+    ctaButton: {
+      borderRadius: 16,
+      backgroundColor: colors.primary,
+      height: 52,
+      alignItems: 'center',
+      justifyContent: 'center',
+      shadowColor: colors.primary,
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.2,
+      shadowRadius: 8,
+      elevation: 4,
+    },
+    ctaButtonText: {
+      fontSize: FontSize.md,
+      fontFamily: FontFamily.black,
+      color: Palette.white,
+    },
+    // Success Screen
+    successContainer: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: 24,
+      backgroundColor: colors.background,
+    },
+    successIconCircle: {
+      width: 100,
+      height: 100,
+      borderRadius: 50,
+      backgroundColor: '#D1FAE5', // Emerald 100
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 24,
+      shadowColor: '#10B981',
+      shadowOffset: { width: 0, height: 6 },
+      shadowOpacity: 0.15,
+      shadowRadius: 12,
+      elevation: 4,
+    },
+    successTitle: {
+      fontSize: FontSize.xxl,
+      fontFamily: FontFamily.black,
+      color: colors.foreground,
+      textAlign: 'center',
+      marginBottom: 8,
+    },
+    successMessage: {
+      fontSize: FontSize.sm,
+      fontFamily: FontFamily.regular,
+      color: colors.mutedForeground,
+      textAlign: 'center',
+      lineHeight: 22,
+      marginBottom: 32,
+      paddingHorizontal: 16,
+    },
+    successDetailsCard: {
+      width: '100%',
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 20,
+      padding: 16,
+      gap: 12,
+      marginBottom: 40,
+    },
+    successDetailsRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    successDetailsLabel: {
+      fontSize: FontSize.sm,
+      fontFamily: FontFamily.regular,
+      color: colors.mutedForeground,
+    },
+    successDetailsValue: {
+      fontSize: FontSize.sm,
+      fontFamily: FontFamily.bold,
+      color: colors.foreground,
+    },
+    successActions: {
+      width: '100%',
+      gap: 12,
+    },
+    outlineButton: {
+      borderWidth: 2,
+      borderColor: colors.border,
+      borderRadius: 16,
+      height: 48,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    outlineButtonText: {
+      fontSize: FontSize.sm,
+      fontFamily: FontFamily.bold,
+      color: colors.foreground,
+    },
+  });

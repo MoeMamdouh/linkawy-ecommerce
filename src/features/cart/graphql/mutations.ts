@@ -8,6 +8,10 @@ export const CREATE_CART_MUTATION = gql`
       cart {
         ...CartFields
       }
+      userErrors {
+        field
+        message
+      }
     }
   }
 `;
@@ -18,6 +22,10 @@ export const ADD_TO_CART_MUTATION = gql`
     cartLinesAdd(cartId: $cartId, lines: $lines) {
       cart {
         ...CartFields
+      }
+      userErrors {
+        field
+        message
       }
     }
   }
@@ -30,6 +38,10 @@ export const UPDATE_CART_MUTATION = gql`
       cart {
         ...CartFields
       }
+      userErrors {
+        field
+        message
+      }
     }
   }
 `;
@@ -41,6 +53,10 @@ export const REMOVE_FROM_CART_MUTATION = gql`
       cart {
         ...CartFields
       }
+      userErrors {
+        field
+        message
+      }
     }
   }
 `;
@@ -51,6 +67,21 @@ export const UPDATE_DISCOUNT_CODES_MUTATION = gql`
     cartDiscountCodesUpdate(cartId: $cartId, discountCodes: $discountCodes) {
       cart {
         ...CartFields
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const CART_BUYER_IDENTITY_UPDATE_MUTATION = gql`
+  mutation CartBuyerIdentityUpdate($cartId: ID!, $buyerIdentity: CartBuyerIdentityInput!) {
+    cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {
+      cart {
+        id
+        checkoutUrl
       }
       userErrors {
         field
