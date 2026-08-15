@@ -33,7 +33,11 @@
     "saveAddress": "حفظ العنوان",
     "default": "افتراضي",
     "addressCount_one": "عنوان واحد",
-    "addressCount_other": "{{count}} عناوين"
+    "addressCount_other": "{{count}} عناوين",
+    "deleteAddress": "حذف العنوان",
+    "deleteAddressConfirm": "هل أنت متاكد من رغبتك في حذف هذا العنوان؟",
+    "delete": "حذف",
+    "cancel": "إلغاء"
   },
   "header": {
     "welcome": "مرحباً بك مجدداً"

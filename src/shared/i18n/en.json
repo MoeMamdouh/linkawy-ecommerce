@@ -33,7 +33,11 @@
     "saveAddress": "Save Address",
     "default": "Default",
     "addressCount_one": "1 address",
-    "addressCount_other": "{{count}} addresses"
+    "addressCount_other": "{{count}} addresses",
+    "deleteAddress": "Delete Address",
+    "deleteAddressConfirm": "Are you sure you want to delete this address?",
+    "delete": "Delete",
+    "cancel": "Cancel"
   },
   "header": {
     "welcome": "WELCOME BACK"

@@ -1,6 +1,5 @@
 import { useEditProfile } from "@features/profile/hooks/useEditProfile";
 import { useTheme } from "@shared/hooks/use-theme";
-import { Pencil } from "lucide-react-native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -46,9 +45,6 @@ export function EditProfileFormView({
       <View style={styles.avatarSection}>
         <View style={styles.avatarBox}>
           <Text style={styles.avatarText}>{initials}</Text>
-          <View style={styles.editBadge}>
-            <Pencil size={12} color="#FFFFFF" />
-          </View>
         </View>
       </View>
 

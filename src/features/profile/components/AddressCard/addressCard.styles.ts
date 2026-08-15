@@ -34,6 +34,21 @@ export const createAddressCardStyles = (colors: ThemeColors) =>
       fontSize: 16,
       fontWeight: "700",
       color: colors.foreground,
+      flex: 1,
+      marginRight: 8,
+    },
+    actionsContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 8,
+    },
+    deleteButton: {
+      width: 32,
+      height: 32,
+      borderRadius: 10,
+      backgroundColor: "rgba(239, 68, 68, 0.1)",
+      alignItems: "center",
+      justifyContent: "center",
     },
     defaultBadge: {
       backgroundColor: "rgba(107, 70, 193, 0.15)",

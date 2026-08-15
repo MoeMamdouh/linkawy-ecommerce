@@ -1,7 +1,7 @@
 import { ProfileMenuItem, ProfileStat } from "@features/profile/types/profile.types";
 import { useTheme } from "@shared/hooks/use-theme";
 import { useRouter } from "expo-router";
-import { Globe, LogOut, MapPin, Moon, Package, Pencil } from "lucide-react-native";
+import { Globe, LogOut, MapPin, Moon, Package, User } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { useCustomerAddresses } from "./useCustomerAddresses";
 
@@ -65,7 +65,7 @@ export function useProfileMenu({
       key: "edit",
       label: t("profile.editProfile", { defaultValue: "Edit Profile" }),
       value: "",
-      Icon: Pencil,
+      Icon: User,
       onPress: () => router.push("/edit-profile" as any),
     },
     {

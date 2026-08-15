@@ -24,14 +24,6 @@ export const createEditProfileFormStyles = (colors: ThemeColors) =>
       fontWeight: "900",
       color: colors.primary,
     },
-    editBadge: {
-      position: "absolute",
-      bottom: -4,
-      right: -4,
-      backgroundColor: colors.primary,
-      borderRadius: 10,
-      padding: 6,
-    },
     avatarHint: {
       fontSize: 12,
       color: colors.mutedForeground,

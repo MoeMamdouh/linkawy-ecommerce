@@ -52,3 +52,23 @@ export const CREATE_CUSTOMER_ADDRESS_MUTATION = gql`
     }
   }
 `;
+
+export const DELETE_CUSTOMER_ADDRESS_MUTATION = gql`
+  mutation customerAddressDelete(
+    $id: ID!
+    $customerAccessToken: String!
+  ) {
+    customerAddressDelete(
+      id: $id
+      customerAccessToken: $customerAccessToken
+    ) {
+      deletedCustomerAddressId
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;
+
