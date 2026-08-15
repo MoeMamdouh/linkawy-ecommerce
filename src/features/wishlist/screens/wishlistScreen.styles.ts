@@ -17,7 +17,7 @@ export const createWishlistScreenStyles = (colors: typeof Colors.light | typeof 
     },
     headerTitle: {
       fontFamily: FontFamily.black,
-      fontSize: FontSize.xxl,
+      fontSize: FontSize.xl,
       color: colors.foreground,
     },
     headerSubtitle: {
