@@ -1,4 +1,5 @@
 import "../ReactotronConfig";
+import "@shared/i18n";
 
 import { ApolloProvider } from "@apollo/client/react";
 import {
@@ -30,6 +31,8 @@ import {
 } from "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import "../global.css";
+import { useTranslation } from "react-i18next";
+import { initializeI18n } from "@shared/i18n";
 
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
@@ -44,11 +47,17 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const { isDark } = useTheme();
+  const { i18n } = useTranslation();
   const [showCustomSplash, setShowCustomSplash] = useState(true);
 
   const hydrateAuth = useAuthStore((state) => state.hydrateAuth);
   const isHydrated = useAuthStore((state) => state.isHydrated);
   const hasSeenOnboarding = useAuthStore((state) => state.hasSeenOnboarding);
+
+  useEffect(() => {
+    hydrateAuth();
+    initializeI18n();
+  }, [hydrateAuth]);
 
   const [fontsLoaded, fontError] = useFonts({
     Outfit_400Regular,
@@ -57,10 +66,6 @@ export default function RootLayout() {
     Outfit_700Bold,
     Outfit_900Black,
   });
-
-  useEffect(() => {
-    hydrateAuth();
-  }, [hydrateAuth]);
 
   useEffect(() => {
     if (fontError) {
@@ -96,7 +101,7 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <SafeAreaProvider>
           <ThemeProvider value={isDark ? DarkTheme : DefaultTheme}>
-            <Stack>
+              <Stack key={i18n.language || "en"}>
               <Stack.Screen
                 name="onboarding"
                 options={{ headerShown: false }}
@@ -111,8 +116,28 @@ export default function RootLayout() {
                 options={{ headerShown: false }}
               />
               <Stack.Screen
-                name="playgroundnav"
-                options={{ title: "Playground" }}
+                name="theme"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="language"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="orders"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="edit-profile"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="addresses"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="add-address"
+                options={{ headerShown: false }}
               />
             </Stack>
             <StatusBar style="auto" />
