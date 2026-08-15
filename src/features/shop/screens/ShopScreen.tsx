@@ -4,15 +4,16 @@ import { Product } from '@features/home/types/home.types';
 import { useTheme } from '@shared/hooks/use-theme';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { Check, ChevronLeft, SlidersHorizontal, X } from 'lucide-react-native';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Modal, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { CategoryFiltersView } from '../components/CategoryFilters';
 import { ProductGridView } from '../components/ProductGrid';
 import { useShopData } from '../hooks/useShopData';
-import { useShopStore } from '../store/shopStore';
+import { ALL_CATEGORY_ID, useShopStore } from '../store/shopStore';
 import { SortOption } from '../types/shop.types';
 import { createShopScreenStyles } from './shopScreen.styles';
+import { useWishlist } from '@features/wishlist/hooks/useWishlist';
 
 export default function ShopScreen() {
   const { colors, isDark } = useTheme();
@@ -28,15 +29,37 @@ export default function ShopScreen() {
     selectedCategoryId,
     categories,
     products,
-    favoriteIds,
     isLoading,
     error,
     sortOption,
     setSearchQuery,
     setSelectedCategory,
     setSortOption,
-    toggleFavorite,
   } = useShopData();
+
+  const { items: favoriteIds, toggleWishlist: toggleFavorite } = useWishlist();
+
+  const filteredCategories = useMemo(() => {
+    if (!searchQuery) return categories;
+    const lowerQuery = searchQuery.toLowerCase();
+    return categories.filter(c => c.name.toLowerCase().includes(lowerQuery));
+  }, [categories, searchQuery]);
+
+  useEffect(() => {
+    if (searchQuery) {
+      if (filteredCategories.length > 0) {
+        // If current selection is not in the filtered results, auto-select the first matching category
+        const isSelectedStillValid = filteredCategories.some(c => c.id === selectedCategoryId);
+        if (!isSelectedStillValid) {
+          setSelectedCategory(filteredCategories[0].id);
+        }
+      } else {
+        if (selectedCategoryId !== ALL_CATEGORY_ID) {
+          setSelectedCategory(ALL_CATEGORY_ID);
+        }
+      }
+    }
+  }, [searchQuery, filteredCategories, selectedCategoryId, setSelectedCategory]);
 
   const [isSortModalVisible, setIsSortModalVisible] = useState(false);
 
@@ -121,7 +144,7 @@ export default function ShopScreen() {
             </TouchableOpacity>
           </View>
           <CategoryFiltersView
-            categories={categories}
+            categories={filteredCategories}
             selectedCategoryId={selectedCategoryId}
             onSelectCategory={setSelectedCategory}
             sectionBackground={headerBackground}
@@ -130,20 +153,20 @@ export default function ShopScreen() {
         </View>
       </View>
 
-      <ProductGridView
-        products={products}
-        favoriteIds={favoriteIds}
-        onProductPress={handleProductPress}
-        onToggleFavorite={toggleFavorite}
-        onAddToCart={handleAddToCart}
-        ListHeaderComponent={resultsHeader}
-        showRating
-      />
-
-      {isLoading && (
-        <View style={styles.loadingOverlay} pointerEvents="none">
+      {isLoading ? (
+        <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={colors.primary} />
         </View>
+      ) : (
+        <ProductGridView
+          products={products}
+          favoriteIds={favoriteIds}
+          onProductPress={handleProductPress}
+          onToggleFavorite={toggleFavorite}
+          onAddToCart={handleAddToCart}
+          ListHeaderComponent={resultsHeader}
+          showRating
+        />
       )}
 
       <Modal

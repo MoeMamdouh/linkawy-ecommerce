@@ -111,6 +111,10 @@ export default function HomeScreen() {
         <CategoriesSectionView
           categories={categories}
           onSeeAll={() => router.push('/(tabs)/categories' as any)}
+          onCategoryPress={(category) => {
+            openShop({ categoryId: category.id });
+            router.push('/(tabs)/shop');
+          }}
         />
         <FlashSaleSectionView
           products={flashSaleProducts}
