@@ -35,9 +35,9 @@ export function useCart() {
   const activeDiscountCode = cart?.discountCodes?.find((dc) => dc.applicable);
   const appliedPromo = activeDiscountCode
     ? {
-        code: activeDiscountCode.code,
-        discountPercent: subtotal > 0 ? Math.round((discountAmount / subtotal) * 100) : 0,
-      }
+      code: activeDiscountCode.code,
+      discountPercent: subtotal > 0 ? Math.round((discountAmount / subtotal) * 100) : 0,
+    }
     : null;
 
   const handleUpdateQuantity = (id: string, delta: number) => {
