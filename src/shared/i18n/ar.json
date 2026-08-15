@@ -1,0 +1,104 @@
+{
+  "profile": {
+    "title": "الملف الشخصي",
+    "orders": "الطلبات",
+    "wishlist": "المفضلة",
+    "reviews": "التقييمات",
+    "myOrders": "طلباتي",
+    "editProfile": "تعديل الملف الشخصي",
+    "appearance": "المظهر",
+    "language": "اللغة",
+    "lightMode": "الوضع الفاتح",
+    "darkMode": "الوضع الداكن",
+    "english": "English",
+    "arabic": "العربية",
+    "logout": "تسجيل الخروج",
+    "signingOut": "جاري تسجيل الخروج...",
+    "signOutSuccess": "تم تسجيل الخروج بنجاح",
+    "signInSuccess": "تم تسجيل الدخول بنجاح",
+    "signIn": "تسجيل الدخول",
+    "sessionExpiredTitle": "انتهت الجلسة",
+    "sessionExpiredMessage": "يرجى تسجيل الدخول مرة أخرى لعرض ملفك الشخصي.",
+    "addresses": "قائمة العناوين",
+    "addAddress": "إضافة عنوان جديد",
+    "noAddresses": "لا توجد عناوين",
+    "noAddressesSub": "اضغط على الزر أعلاه لإضافة عنوان الشحن الأول الخاص بك.",
+    "streetAddress": "العنوان *",
+    "apartment": "الشقة، المجمع، الوحدة (اختياري)",
+    "city": "المدينة *",
+    "state": "الولاية / المحافظة (اختياري)",
+    "zip": "الرمز البريدي (اختياري)",
+    "country": "الدولة *",
+    "phoneOptional": "رقم الهاتف (اختياري)",
+    "saveAddress": "حفظ العنوان",
+    "default": "افتراضي",
+    "addressCount_one": "عنوان واحد",
+    "addressCount_other": "{{count}} عناوين",
+    "deleteAddress": "حذف العنوان",
+    "deleteAddressConfirm": "هل أنت متاكد من رغبتك في حذف هذا العنوان؟",
+    "delete": "حذف",
+    "cancel": "إلغاء"
+  },
+  "header": {
+    "welcome": "مرحباً بك مجدداً"
+  },
+  "search": {
+    "placeholder": "البحث عن المنتجات..."
+  },
+  "categories": {
+    "title": "الفئات",
+    "fashion": "الأزياء",
+    "electronics": "الإلكترونيات",
+    "beauty": "الجمال",
+    "home": "المنزل",
+    "sports": "الرياضة"
+  },
+  "featured": {
+    "title": "المنتجات المميزة"
+  },
+  "sectionHeader": {
+    "seeAll": "عرض الكل"
+  },
+  "flashSale": {
+    "title": "عروض سريعة"
+  },
+  "newArrivals": {
+    "title": "وصل حديثاً"
+  },
+  "tabs": {
+    "home": "الرئيسية",
+    "shop": "المتجر",
+    "cart": "السلة",
+    "wishlist": "المفضلة",
+    "profile": "الملف الشخصي"
+  },
+  "cart": {
+    "title": "السلة",
+    "promoCode": "رمز التخفيض",
+    "applyPromo": "تطبيق",
+    "subtotal": "المجموع الفرعي",
+    "discount": "الخصم",
+    "shipping": "الشحن",
+    "shippingFree": "مجاني",
+    "total": "الإجمالي",
+    "Checkout": "إتمام الشراء"
+  },
+  "wishlist": {
+    "title": "قائمة رغباتي",
+    "emptyTitle": "قائمة رغباتك فارغة",
+    "emptySubtitle": "استكشف مجموعاتنا وأضف المنتجات إلى قائمة رغباتك لشرائها لاحقاً.",
+    "startShopping": "ابدأ التسوق",
+    "retry": "إعادة المحاولة"
+  },
+  "theme": {
+    "appearance": "المظهر",
+    "lightMode": "الوضع الفاتح",
+    "darkMode": "الوضع الداكن",
+    "lightModeDescription": "واجهة مريحة وساطعة للإضاءة العادية.",
+    "darkModeDescription": "واجهة داكنة مريحة للعين في الإضاءة المنخفضة."
+  },
+  "shop": {
+    "title": "المتجر",
+    "all": "الكل"
+  }
+}

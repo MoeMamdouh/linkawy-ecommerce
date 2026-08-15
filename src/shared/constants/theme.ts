@@ -206,6 +206,7 @@ export const FontSize = {
   xl: 20,    // Extra large (headers, total prices)
   xxl: 24,   // Screen titles
   title: 32, // Primary splash / hero titles
+  splashAppName: 48, // App name on splash screen
 } as const;
 
 export type FontSizeToken = keyof typeof FontSize;

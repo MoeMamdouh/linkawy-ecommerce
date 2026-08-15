@@ -4,7 +4,7 @@ import { ShoppingBag } from 'lucide-react-native';
 import { useTheme } from "@shared/hooks/use-theme";
 
 type AuthHeaderProps = {
-  type: "login" | "register";
+  type: "login" | "register" | "forgot-password" | "reset-password";
 };
 
 export default function AuthHeader({ type = "login" }: AuthHeaderProps) {
@@ -19,10 +19,10 @@ export default function AuthHeader({ type = "login" }: AuthHeaderProps) {
         <Text style={{ color: colors.primaryForeground, fontFamily: FontFamily.black, fontSize: FontSize.xl }}>Linkawy</Text>
       </View>
       <Text className="pt-5" style={{ color: colors.primaryForeground, fontFamily: FontFamily.black, fontSize: FontSize.xxl }}>
-        {type === "login" ? "Sign In" : "Sign Up"}
+        {type === "login" ? "Sign In" : type === "register" ? "Sign Up" : type === "forgot-password" ? "Forgot Password" : "Reset Password"}
       </Text>
       <Text className="pt-1" style={{ color: colors.primaryForeground, opacity: 0.6, fontFamily: FontFamily.regular, fontSize: FontSize.sm }}>
-        {type === "login" ? "Welcome back!" : "Create your account"}
+        {type === "login" ? "Welcome back!" : type === "register" ? "Create your account" : type === "forgot-password" ? "Enter your email to reset your password" : "Enter your new password"}
       </Text>
     </View>
   );
