@@ -1,6 +1,7 @@
 import { useCartStore } from '@features/cart/store/cartStore';
 import { SearchBarView } from '@features/home/components/SearchBar';
 import { Product } from '@features/home/types/home.types';
+import { useWishlist } from '@features/wishlist/hooks/useWishlist';
 import { useTheme } from '@shared/hooks/use-theme';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { Check, ChevronLeft, SlidersHorizontal, X } from 'lucide-react-native';
@@ -13,7 +14,6 @@ import { useShopData } from '../hooks/useShopData';
 import { ALL_CATEGORY_ID, useShopStore } from '../store/shopStore';
 import { SortOption } from '../types/shop.types';
 import { createShopScreenStyles } from './shopScreen.styles';
-import { useWishlist } from '@features/wishlist/hooks/useWishlist';
 
 export default function ShopScreen() {
   const { colors, isDark } = useTheme();
@@ -39,27 +39,7 @@ export default function ShopScreen() {
 
   const { items: favoriteIds, toggleWishlist: toggleFavorite } = useWishlist();
 
-  const filteredCategories = useMemo(() => {
-    if (!searchQuery) return categories;
-    const lowerQuery = searchQuery.toLowerCase();
-    return categories.filter(c => c.name.toLowerCase().includes(lowerQuery));
-  }, [categories, searchQuery]);
 
-  useEffect(() => {
-    if (searchQuery) {
-      if (filteredCategories.length > 0) {
-        // If current selection is not in the filtered results, auto-select the first matching category
-        const isSelectedStillValid = filteredCategories.some(c => c.id === selectedCategoryId);
-        if (!isSelectedStillValid) {
-          setSelectedCategory(filteredCategories[0].id);
-        }
-      } else {
-        if (selectedCategoryId !== ALL_CATEGORY_ID) {
-          setSelectedCategory(ALL_CATEGORY_ID);
-        }
-      }
-    }
-  }, [searchQuery, filteredCategories, selectedCategoryId, setSelectedCategory]);
 
   const [isSortModalVisible, setIsSortModalVisible] = useState(false);
 
@@ -144,7 +124,7 @@ export default function ShopScreen() {
             </TouchableOpacity>
           </View>
           <CategoryFiltersView
-            categories={filteredCategories}
+            categories={categories}
             selectedCategoryId={selectedCategoryId}
             onSelectCategory={setSelectedCategory}
             sectionBackground={headerBackground}

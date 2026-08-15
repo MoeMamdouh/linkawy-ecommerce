@@ -64,28 +64,7 @@ const mapShopifyProduct = (edge: { node?: Record<string, unknown> }, index: numb
   };
 };
 
-const buildProductSearchQuery = (
-  searchQuery: string,
-  selectedCategoryId: string,
-  categories: ShopCategory[]
-): string | undefined => {
-  const trimmed = searchQuery.trim();
-  const parts: string[] = [];
 
-  if (selectedCategoryId !== ALL_CATEGORY_ID) {
-    const category = categories.find((c) => c.id === selectedCategoryId);
-    if (category?.handle) {
-      parts.push(`collection:${category.handle}`);
-    }
-  }
-
-  if (trimmed) {
-    // Append wildcard for partial matches
-    parts.push(`title:*${trimmed}*`);
-  }
-
-  return parts.length > 0 ? parts.join(' AND ') : undefined;
-};
 
 export const useShopStore = create<ShopStore>((set, get) => ({
   searchQuery: '',
@@ -161,7 +140,6 @@ export const useShopStore = create<ShopStore>((set, get) => ({
 
     try {
       let rawProducts: { node?: Record<string, unknown> }[] = [];
-      const shopifyQuery = buildProductSearchQuery(searchQuery, selectedCategoryId, categories);
 
       let sortKey = 'BEST_SELLING';
       let collectionSortKey = 'BEST_SELLING';
@@ -190,7 +168,7 @@ export const useShopStore = create<ShopStore>((set, get) => ({
           break;
       }
 
-      if (selectedCategoryId !== ALL_CATEGORY_ID && !searchQuery.trim()) {
+      if (selectedCategoryId !== ALL_CATEGORY_ID) {
         const category = categories.find((c) => c.id === selectedCategoryId);
         if (category?.handle) {
           const res = await apolloClient.query<{ collectionByHandle?: { products?: { edges?: typeof rawProducts } } }>({
@@ -210,7 +188,6 @@ export const useShopStore = create<ShopStore>((set, get) => ({
           query: SHOP_PRODUCTS_QUERY,
           variables: {
             first: PRODUCTS_PAGE_SIZE,
-            query: shopifyQuery,
             sortKey,
             reverse
           },
