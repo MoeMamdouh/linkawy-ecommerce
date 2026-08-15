@@ -3,6 +3,7 @@ import { View, ScrollView, TouchableOpacity, Text, ActivityIndicator } from 'rea
 import { useTheme } from '@shared/hooks/use-theme';
 import { createCheckoutStyles } from '../styles/checkout.styles';
 import { useCheckout } from '../hooks/useCheckout';
+import { ErrorModal } from '@shared/components/ui/error-modal';
 import {
   CheckoutHeader,
   AddressSection,
@@ -27,11 +28,15 @@ export default function CheckoutScreen() {
     selectedAddressId,
     addressesLoading,
     isVerifyingOrder,
+    errorModalVisible,
+    errorModalTitle,
+    errorModalMessage,
     handleSelectAddress,
     handleAddAddress,
     handleGoBack,
     handleCheckoutSubmit,
     handleContinueShopping,
+    closeErrorModal,
   } = useCheckout();
 
   if (step === 'checkout') {
@@ -83,6 +88,13 @@ export default function CheckoutScreen() {
             </TouchableOpacity>
           </View>
         </ScrollView>
+
+        <ErrorModal
+          visible={errorModalVisible}
+          title={errorModalTitle}
+          message={errorModalMessage}
+          onClose={closeErrorModal}
+        />
       </View>
     );
   }

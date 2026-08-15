@@ -41,6 +41,22 @@ export function useCheckout() {
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
   const [isVerifyingOrder, setIsVerifyingOrder] = useState(false);
 
+  // Error Modal State
+  const [errorModalVisible, setErrorModalVisible] = useState(false);
+  const [errorModalTitle, setErrorModalTitle] = useState('Something went wrong');
+  const [errorModalMessage, setErrorModalMessage] = useState<string | null>(null);
+
+  const showError = (title: string, message: string) => {
+    setErrorModalTitle(title);
+    setErrorModalMessage(message);
+    setErrorModalVisible(true);
+  };
+
+  const closeErrorModal = () => {
+    setErrorModalVisible(false);
+    setErrorModalMessage(null);
+  };
+
   // Protect route: redirect to login if guest
   useEffect(() => {
     if (!isAuthenticated) {
@@ -187,19 +203,19 @@ export function useCheckout() {
           await clearCart();
           setStep('success');
         } else {
-          Alert.alert(
+          showError(
             'Checkout Incomplete',
             'Your order was not completed. Your items are still saved in your cart.'
           );
         }
       } catch (e: any) {
         console.error('Checkout submit error:', e);
-        Alert.alert('Checkout Error', e?.message || 'Could not open the checkout page. Please try again.');
+        showError('Checkout Error', e?.message || 'Could not open the checkout page. Please try again.');
       } finally {
         setIsVerifyingOrder(false);
       }
     } else {
-      Alert.alert('Checkout Error', 'Cart checkout URL is not available.');
+      showError('Checkout Error', 'Cart checkout URL is not available.');
     }
   };
 
@@ -222,11 +238,15 @@ export function useCheckout() {
     selectedAddressId,
     addressesLoading,
     isVerifyingOrder,
+    errorModalVisible,
+    errorModalTitle,
+    errorModalMessage,
     handleSelectAddress,
     handleAddAddress,
     handleGoBack,
     handleCheckoutSubmit,
     handleContinueShopping,
     refetchAddresses,
+    closeErrorModal,
   };
 }
